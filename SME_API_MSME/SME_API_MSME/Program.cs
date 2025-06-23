@@ -29,7 +29,7 @@ try
     builder.Services.AddOpenApiDocument(config =>
     {
         config.DocumentName = "API_SME_MSME_v1";
-        config.Title = "API SME MSME V1.0001";
+        config.Title = "API SME MSME V1.0002";
         config.Version = "v1";
         config.Description = "API documentation using Swagger 2.0";
         config.SchemaType = NJsonSchema.SchemaType.Swagger2; // This makes it Swagger 2.0
