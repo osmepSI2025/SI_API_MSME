@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DTRK84np/SQ=",
+  "dgSpecHash": "TrepGQd6Kp0=",
   "success": true,
-  "projectFilePath": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME.csproj",
+  "projectFilePath": "D:\\Git_project\\SI_GIT_PROJECT\\SI_API_MSME\\SI_API_MSME\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

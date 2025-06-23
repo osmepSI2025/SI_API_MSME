@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SME_API_MSME")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b3ffe90ff0019ad5c0bf6fab47f4dcf934f18950")]
 [assembly: System.Reflection.AssemblyProductAttribute("SME_API_MSME")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SME_API_MSME")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
