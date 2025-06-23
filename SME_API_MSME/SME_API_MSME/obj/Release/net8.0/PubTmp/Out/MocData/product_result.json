@@ -1,0 +1,52 @@
+{
+  "result": [
+    {
+      "projectCode": 67010010,
+      "projectName": "งานบรณาการขบเคลอนมาตรการ/แผนงาน",
+      "items": [
+        {
+          "orderIndex": 1,
+          "outputOutComeName": "1. ข้อเสนอแนะ",
+          "yieldTypeName": "ข้อเสนอแนะเชิงนโยบาย",
+          "target": 4,
+          "UnitName": "หน่วยงาน",
+          "productResult": [
+
+            {
+              "monthName": "ตุ.ค.",
+              "year": 2567,
+              "resultOfYear": 1.00,
+              "resultOffEffect": 1.00,
+              "detail": "",
+              "problem": "",
+              "solution": ""
+            },
+            {
+              "monthName": "พ.ย.",
+              "year": 2567,
+              "resultOfYear": 1.00,
+              "resultOffEffect": 1.00,
+              "detail": "",
+              "problem": "",
+              "solution": ""
+            },
+            {
+              "monthName": "ธ.ค.",
+              "year": 2567,
+              "resultOfYear": 1.00,
+              "resultOffEffect": 1.00,
+              "detail": "",
+              "problem": "",
+              "solution": ""
+            }
+           
+          ]
+        }
+
+      ]
+
+    }
+  ],
+  "responseCode": 200,
+  "responseMsg": "success"
+}

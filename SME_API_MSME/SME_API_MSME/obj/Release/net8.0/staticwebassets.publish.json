@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "AMHWqYL9l5QvsUnYfuCUEFMKT/Sw1PxtM+MYSiJc3IU=",
+  "Source": "SME_API_MSME",
+  "BasePath": "_content/SME_API_MSME",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

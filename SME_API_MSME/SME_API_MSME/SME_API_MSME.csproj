@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>ce6e5edb-effd-4627-a71a-91a4af376f3d</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Services\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Entities\TEconomicValue1.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Services\BudgetPlanService.cs" />
+    <Compile Include="Services\CallAPIService.cs" />
+    <Compile Include="Services\DisbursementResultService.cs" />
+    <Compile Include="Services\EconomicValueService.cs" />
+    <Compile Include="Services\ExpectedOutcomeResultService.cs" />
+    <Compile Include="Services\ExpectedOutcomeService.cs" />
+    <Compile Include="Services\ICallAPIService.cs" />
+    <Compile Include="Services\OutcomeResultService.cs" />
+    <Compile Include="Services\PerformanceResultService.cs" />
+    <Compile Include="Services\ProductResultService.cs" />
+    <Compile Include="Services\ProjectActivityService.cs" />
+    <Compile Include="Services\ProjectAreaService.cs" />
+    <Compile Include="Services\ProjectOutcomeService.cs" />
+    <Compile Include="Services\ProjectProductService.cs" />
+    <Compile Include="Services\ProjectService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.20">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.20" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.20.0" />
+    <PackageReference Include="NSwag.Core" Version="13.20.0" />
+    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="7.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,46 @@
+{
+  "result": [
+    {
+      "projectCode": 67010010,
+      "projectName": "งานบรณาการขบเคลอนมาตรการ/แผนงาน",
+      "items": [
+        {
+          "provinceId": 1,
+          "provinceName": "กรุงเทพมหานคร"
+        },
+        {
+          "provinceId": 2,
+          "provinceName": "กระบี่"
+        },
+        {
+          "provinceId": 3,
+          "provinceName": "กาญจนบุรี"
+        },
+        {
+          "provinceId": 4,
+          "provinceName": "กาฬสินธุ์"
+        },
+        {
+          "provinceId": 5,
+          "provinceName": "กำแพงเพชร"
+        },
+        {
+          "provinceId": 6,
+          "provinceName": "ขอนแก่น"
+        },
+        {
+          "provinceId": 8,
+          "provinceName": "จันทบุรี"
+        },
+        {
+          "provinceId": 9,
+          "provinceName": "ฉะเชิงเทรา"
+        }
+
+      ]
+
+    }
+  ],
+  "responseCode": 200,
+  "responseMsg": "success"
+}

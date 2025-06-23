@@ -1,0 +1,508 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\repository\\projectrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\repository\\projectrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\services\\projectservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\services\\projectservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\controllers\\projectcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\controllers\\projectcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\logs\\log-20250621.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\logs\\log-20250621.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\sme_api_msme.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\sme_api_msme.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\sme_api_msme.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\sme_api_msme.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\controllers\\projectactivitycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\controllers\\projectactivitycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\repository\\projectoutcomerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\repository\\projectoutcomerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\services\\projectoutcomeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\services\\projectoutcomeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\repository\\projectarearepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\repository\\projectarearepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\controllers\\projectproductcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\controllers\\projectproductcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\controllers\\projectoutcomecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\controllers\\projectoutcomecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\services\\projectproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\services\\projectproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\repository\\projectproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\repository\\projectproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\services\\projectareaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\services\\projectareaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\controllers\\projectareacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\controllers\\projectareacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\repository\\projectactivityrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\repository\\projectactivityrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\services\\projectactivityservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\services\\projectactivityservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\repository\\productresultrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\repository\\productresultrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\services\\outcomeresultservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\services\\outcomeresultservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\services\\productresultservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\services\\productresultservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\controllers\\productresultcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\controllers\\productresultcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\controllers\\outcomeresultcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\controllers\\outcomeresultcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\repository\\expectedoutcomeresultrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\repository\\expectedoutcomeresultrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\services\\expectedoutcomeresultservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\services\\expectedoutcomeresultservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\controllers\\expectedoutcomeresultcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\controllers\\expectedoutcomeresultcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\repository\\expectedoutcomerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\repository\\expectedoutcomerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\services\\expectedoutcomeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\services\\expectedoutcomeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|d:\\git_project\\sme_apimanagement\\sme_api_msme\\sme_api_msme\\sme_api_msme\\controllers\\expectedoutcomecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F44404C-E696-4730-A778-B17C20E06047}|SME_API_MSME\\SME_API_MSME.csproj|solutionrelative:sme_api_msme\\controllers\\expectedoutcomecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProjectRepository.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ProjectRepository.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Repository\\ProjectRepository.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ProjectRepository.cs",
+              "RelativeToolTip": "SME_API_MSME\\Repository\\ProjectRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:52:17.121Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ProjectActivityController.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ProjectActivityController.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Controllers\\ProjectActivityController.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ProjectActivityController.cs",
+              "RelativeToolTip": "SME_API_MSME\\Controllers\\ProjectActivityController.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAA4AAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:34:02.029Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Program.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Program.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Program.cs",
+              "RelativeToolTip": "SME_API_MSME\\Program.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAAAFMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:56:26.179Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SME_API_MSME",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME.csproj",
+              "RelativeDocumentMoniker": "SME_API_MSME\\SME_API_MSME.csproj",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME.csproj",
+              "RelativeToolTip": "SME_API_MSME\\SME_API_MSME.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-06-21T14:01:02.484Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProjectService.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ProjectService.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Services\\ProjectService.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ProjectService.cs",
+              "RelativeToolTip": "SME_API_MSME\\Services\\ProjectService.cs",
+              "ViewState": "AgIAAKEAAAAAAAAAAAAkwKIAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:49:57.487Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProjectController.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ProjectController.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Controllers\\ProjectController.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ProjectController.cs",
+              "RelativeToolTip": "SME_API_MSME\\Controllers\\ProjectController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:41:17.107Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ProjectAreaRepository.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ProjectAreaRepository.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Repository\\ProjectAreaRepository.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ProjectAreaRepository.cs",
+              "RelativeToolTip": "SME_API_MSME\\Repository\\ProjectAreaRepository.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAkwCEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:40:36.541Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "log-20250621.txt",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Logs\\log-20250621.txt",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Logs\\log-20250621.txt",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Logs\\log-20250621.txt",
+              "RelativeToolTip": "SME_API_MSME\\Logs\\log-20250621.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAADoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-06-21T14:02:52.873Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SME_API_MSME.csproj",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME.csproj",
+              "RelativeDocumentMoniker": "SME_API_MSME\\SME_API_MSME.csproj",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME.csproj",
+              "RelativeToolTip": "SME_API_MSME\\SME_API_MSME.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-06-21T13:57:33.073Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ProjectProductController.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ProjectProductController.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Controllers\\ProjectProductController.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ProjectProductController.cs",
+              "RelativeToolTip": "SME_API_MSME\\Controllers\\ProjectProductController.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAYwBcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:46:48.669Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ProjectOutcomeService.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ProjectOutcomeService.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Services\\ProjectOutcomeService.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ProjectOutcomeService.cs",
+              "RelativeToolTip": "SME_API_MSME\\Services\\ProjectOutcomeService.cs",
+              "ViewState": "AgIAAPAAAAAAAAAAAAAiwAQBAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:41:39.358Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ProjectOutcomeRepository.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ProjectOutcomeRepository.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Repository\\ProjectOutcomeRepository.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ProjectOutcomeRepository.cs",
+              "RelativeToolTip": "SME_API_MSME\\Repository\\ProjectOutcomeRepository.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAowCcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:45:54.777Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ProjectProductService.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ProjectProductService.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Services\\ProjectProductService.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ProjectProductService.cs",
+              "RelativeToolTip": "SME_API_MSME\\Services\\ProjectProductService.cs",
+              "ViewState": "AgIAALEAAAAAAAAAAIBJwLwAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:47:03.587Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ProjectOutcomeController.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ProjectOutcomeController.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Controllers\\ProjectOutcomeController.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ProjectOutcomeController.cs",
+              "RelativeToolTip": "SME_API_MSME\\Controllers\\ProjectOutcomeController.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAYwB0AAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:41:20.687Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ProjectProductRepository.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ProjectProductRepository.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Repository\\ProjectProductRepository.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ProjectProductRepository.cs",
+              "RelativeToolTip": "SME_API_MSME\\Repository\\ProjectProductRepository.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAxwB4AAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:48:58.348Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "ProjectAreaService.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ProjectAreaService.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Services\\ProjectAreaService.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ProjectAreaService.cs",
+              "RelativeToolTip": "SME_API_MSME\\Services\\ProjectAreaService.cs",
+              "ViewState": "AgIAALgAAAAAAAAAAAASwJMAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:38:48.529Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ProjectAreaController.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ProjectAreaController.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Controllers\\ProjectAreaController.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ProjectAreaController.cs",
+              "RelativeToolTip": "SME_API_MSME\\Controllers\\ProjectAreaController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:38:33.098Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ProjectActivityRepository.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ProjectActivityRepository.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Repository\\ProjectActivityRepository.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ProjectActivityRepository.cs",
+              "RelativeToolTip": "SME_API_MSME\\Repository\\ProjectActivityRepository.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAawDUAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:37:40.684Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ProjectActivityService.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ProjectActivityService.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Services\\ProjectActivityService.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ProjectActivityService.cs",
+              "RelativeToolTip": "SME_API_MSME\\Services\\ProjectActivityService.cs",
+              "ViewState": "AgIAAPgAAAAAAAAAAAAuwA8BAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:34:18.935Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ProductResultRepository.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ProductResultRepository.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Repository\\ProductResultRepository.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ProductResultRepository.cs",
+              "RelativeToolTip": "SME_API_MSME\\Repository\\ProductResultRepository.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAQwC8AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:30:55.417Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ProductResultService.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ProductResultService.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Services\\ProductResultService.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ProductResultService.cs",
+              "RelativeToolTip": "SME_API_MSME\\Services\\ProductResultService.cs",
+              "ViewState": "AgIAAMEAAAAAAAAAAAApwNkAAABVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:26:38.327Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "ProductResultController.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ProductResultController.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Controllers\\ProductResultController.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ProductResultController.cs",
+              "RelativeToolTip": "SME_API_MSME\\Controllers\\ProductResultController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:26:17.387Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "OutcomeResultService.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\OutcomeResultService.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Services\\OutcomeResultService.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\OutcomeResultService.cs",
+              "RelativeToolTip": "SME_API_MSME\\Services\\OutcomeResultService.cs",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAjwFkAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:15:00.59Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "OutcomeResultController.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\OutcomeResultController.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Controllers\\OutcomeResultController.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\OutcomeResultController.cs",
+              "RelativeToolTip": "SME_API_MSME\\Controllers\\OutcomeResultController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:14:41.866Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "ExpectedOutcomeResultRepository.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ExpectedOutcomeResultRepository.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Repository\\ExpectedOutcomeResultRepository.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ExpectedOutcomeResultRepository.cs",
+              "RelativeToolTip": "SME_API_MSME\\Repository\\ExpectedOutcomeResultRepository.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAawBgAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:10:50.889Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "ExpectedOutcomeResultService.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ExpectedOutcomeResultService.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Services\\ExpectedOutcomeResultService.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ExpectedOutcomeResultService.cs",
+              "RelativeToolTip": "SME_API_MSME\\Services\\ExpectedOutcomeResultService.cs",
+              "ViewState": "AgIAAOIAAAAAAAAAAAAvwP0AAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T10:02:39.412Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "ExpectedOutcomeRepository.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ExpectedOutcomeRepository.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Repository\\ExpectedOutcomeRepository.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Repository\\ExpectedOutcomeRepository.cs",
+              "RelativeToolTip": "SME_API_MSME\\Repository\\ExpectedOutcomeRepository.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAASwCUAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T09:52:25.641Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "ExpectedOutcomeResultController.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ExpectedOutcomeResultController.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Controllers\\ExpectedOutcomeResultController.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ExpectedOutcomeResultController.cs",
+              "RelativeToolTip": "SME_API_MSME\\Controllers\\ExpectedOutcomeResultController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T09:51:53.084Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "ExpectedOutcomeService.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ExpectedOutcomeService.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Services\\ExpectedOutcomeService.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Services\\ExpectedOutcomeService.cs",
+              "RelativeToolTip": "SME_API_MSME\\Services\\ExpectedOutcomeService.cs",
+              "ViewState": "AgIAAOsAAAAAAAAAAAAvwAEBAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T09:45:25.846Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "ExpectedOutcomeController.cs",
+              "DocumentMoniker": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ExpectedOutcomeController.cs",
+              "RelativeDocumentMoniker": "SME_API_MSME\\Controllers\\ExpectedOutcomeController.cs",
+              "ToolTip": "D:\\Git_project\\SME_APIManagement\\SME_API_MSME\\SME_API_MSME\\SME_API_MSME\\Controllers\\ExpectedOutcomeController.cs",
+              "RelativeToolTip": "SME_API_MSME\\Controllers\\ExpectedOutcomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T09:45:03.511Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

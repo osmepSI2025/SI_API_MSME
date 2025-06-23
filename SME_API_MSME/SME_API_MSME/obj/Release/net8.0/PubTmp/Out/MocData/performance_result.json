@@ -1,0 +1,72 @@
+
+
+{
+  "result": [
+    {
+      "projectCode": 67010010,
+      "projectName": "งานบรณาการขบเคลอนมาตรการ/แผนงาน",
+      "items": [
+        {
+          "orderIndex": 1,
+          "itemActivityDetail": "1. ข้อเสนอแนะ",
+          "expenseTypeName": "งบดำเนินงาน",
+          "activityWeight": 0.00,
+          "target": 4,
+          "unitName": "เรื่อง",
+          "sumEffectValue": 1.00,
+          "actionResultDetail": [
+            {
+              "monthName": "ตุ.ค.",
+              "year": 2567,
+              "effectValue": 0.00,
+              "tempValue": 1
+            },
+            {
+              "monthName": "พ.ย.",
+              "year": 2567,
+              "effectValue": 0.00,
+              "tempValue": 2
+            },
+            {
+              "monthName": "ธ.ค.",
+              "year": 2567,
+              "effectValue": 0.00,
+              "tempValue": 3
+            }
+          ]
+        },
+        {
+          "orderIndex": 2,
+          "itemActivityDetail": "1. ข้อเสนอแนะxxxxxxxxxxx",
+          "expenseTypeName": "งบดำเนินงานxxxx",
+          "ActivityWeight": 0.00,
+          "target": 10,
+          "unitName": "หน่วย",
+          "sumEffectValue": 1.00,
+          "actionResultDetail": [
+            {
+              "monthName": "ม.ค.",
+              "year": 2567,
+              "effectValue": 0.00,
+              "tempValue": 5
+            },
+            {
+              "monthName": "ก.พ.",
+              "year": 2567,
+              "effectValue": 0.00,
+              "tempValue": 28
+            },
+            {
+              "monthName": "มี.ค.",
+              "year": 2567,
+              "effectValue": 0.00,
+              "tempValue": 36
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "responseCode": 200,
+  "responseMsg": "success"
+}

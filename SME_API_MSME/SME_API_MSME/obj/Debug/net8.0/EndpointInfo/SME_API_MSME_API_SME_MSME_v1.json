@@ -1,0 +1,647 @@
+{
+  "x-generator": "NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v10.0.0.0))",
+  "swagger": "2.0",
+  "info": {
+    "title": "API SME MSME",
+    "description": "API documentation using Swagger 2.0",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/SYS-MSME/bugget-plan/{projectId}": {
+      "get": {
+        "tags": [
+          "BudgetPlan"
+        ],
+        "operationId": "BudgetPlan_GetById",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/bugget-plan-Batch": {
+      "get": {
+        "tags": [
+          "BudgetPlan"
+        ],
+        "operationId": "BudgetPlan_GetBatchEndDay",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/disbursement-result/{projectCode}": {
+      "get": {
+        "tags": [
+          "DisbursementResult"
+        ],
+        "operationId": "DisbursementResult_GetById",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "format": "int64",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/disbursement-result-Batch": {
+      "get": {
+        "tags": [
+          "DisbursementResult"
+        ],
+        "operationId": "DisbursementResult_GetBatchEndDay",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/economic-value/{year}": {
+      "get": {
+        "tags": [
+          "EconomicValue"
+        ],
+        "operationId": "EconomicValue_GetById",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/economic-value-Batch": {
+      "get": {
+        "tags": [
+          "EconomicValue"
+        ],
+        "operationId": "EconomicValue_GetBatchEndDay",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/expected-outcome/{projectCode}": {
+      "get": {
+        "tags": [
+          "ExpectedOutcome"
+        ],
+        "operationId": "ExpectedOutcome_GetById",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "format": "int64",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/expected-outcome-Batch": {
+      "get": {
+        "tags": [
+          "ExpectedOutcome"
+        ],
+        "operationId": "ExpectedOutcome_GetBatchEndDay",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/expected-outcome-result/{projectCode}": {
+      "get": {
+        "tags": [
+          "ExpectedOutcomeResult"
+        ],
+        "operationId": "ExpectedOutcomeResult_GetById",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/expected-outcome-resul-Batch": {
+      "get": {
+        "tags": [
+          "ExpectedOutcomeResult"
+        ],
+        "operationId": "ExpectedOutcomeResult_GetBatchEndDay",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/outcome-result/{projectCode}": {
+      "get": {
+        "tags": [
+          "OutcomeResult"
+        ],
+        "operationId": "OutcomeResult_GetById",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "format": "int64",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/outcome-result-Batch": {
+      "get": {
+        "tags": [
+          "OutcomeResult"
+        ],
+        "operationId": "OutcomeResult_GetBatchEndDay",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/performance-result/{projectCode}": {
+      "get": {
+        "tags": [
+          "PerformanceResult"
+        ],
+        "operationId": "PerformanceResult_GetById",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "format": "int64",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/performance-result-Batch": {
+      "get": {
+        "tags": [
+          "PerformanceResult"
+        ],
+        "operationId": "PerformanceResult_GetBatchEndDay",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/product-result/{projectCode}": {
+      "get": {
+        "tags": [
+          "ProductResult"
+        ],
+        "operationId": "ProductResult_GetById",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "format": "int64",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/product-result-Batch": {
+      "get": {
+        "tags": [
+          "ProductResult"
+        ],
+        "operationId": "ProductResult_GetBatchEndDay",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/project-activity/{projectCode}": {
+      "get": {
+        "tags": [
+          "ProjectActivity"
+        ],
+        "operationId": "ProjectActivity_GetById",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "format": "int64",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/project-activity-Batch": {
+      "get": {
+        "tags": [
+          "ProjectActivity"
+        ],
+        "operationId": "ProjectActivity_GetBatchEndDay",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/project-area/{projectCode}": {
+      "get": {
+        "tags": [
+          "ProjectArea"
+        ],
+        "operationId": "ProjectArea_GetById",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "format": "int64",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/project-area-Batch": {
+      "get": {
+        "tags": [
+          "ProjectArea"
+        ],
+        "operationId": "ProjectArea_GetBatchEndDay",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/project/{year}": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "operationId": "Project_GetById",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResultApiResponeProject"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/project-Batch": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "operationId": "Project_GetBatchEndDay",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/project-outcome/{projectCode}": {
+      "get": {
+        "tags": [
+          "ProjectOutcome"
+        ],
+        "operationId": "ProjectOutcome_GetById",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "format": "int64",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-MSME/project-product/{projectCode}": {
+      "get": {
+        "tags": [
+          "ProjectProduct"
+        ],
+        "operationId": "ProjectProduct_GetById",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "format": "int64",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ResultApiResponeProject": {
+      "type": "object",
+      "required": [
+        "result",
+        "responseCode",
+        "responseMsg"
+      ],
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProjectModels"
+          }
+        },
+        "responseCode": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "responseMsg": {
+          "type": "string"
+        }
+      }
+    },
+    "ProjectModels": {
+      "type": "object",
+      "required": [
+        "projectCode"
+      ],
+      "properties": {
+        "projectCode": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "budgetYear": {
+          "type": "string"
+        },
+        "dateApprove": {
+          "type": "string"
+        },
+        "orgId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orgName": {
+          "type": "string"
+        },
+        "projectBudget": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "projectOffBudget": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "projectSumBudget": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "smeProjectStatusName": {
+          "type": "string"
+        },
+        "legalGroupName": {
+          "type": "string"
+        },
+        "projectName": {
+          "type": "string"
+        },
+        "projectNameInitials": {
+          "type": "string"
+        },
+        "projectReason": {
+          "type": "string"
+        },
+        "projectPurpose": {
+          "type": "string"
+        },
+        "typeBudget": {
+          "type": "string"
+        },
+        "typeResultMsme": {
+          "type": "string"
+        },
+        "planMessage": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string"
+        },
+        "endDate": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

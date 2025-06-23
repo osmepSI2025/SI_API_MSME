@@ -1,0 +1,46 @@
+{
+  "result": [
+    {
+      "projectCode": 67010010,
+      "budgetYear": "2567",
+      "dateApprove": "2023-10-01",
+      "orgId": 2310049299,
+      "orgName": "งานบรณาการขบเคลอนมาตรการ/แผนงาน",
+      "projectOffBudget": 0,
+      "projectSumBudget": 5000000,
+      "smeProjectStatusName": "อยู่ระหว่างดำเนินงาน",
+      "legalGroupName": "มาตรา 34(4)",
+      "projectName": "งานบรณาการขบเคลอนมาตรการ/แผนงาน",
+      "projectNameInitials": "แผนงาน",
+      "projectReason": "",
+      "projectPurpose": "",
+      "typeBudget": "",
+      "typeResultMsme": "ยุทธศาตร์ที่ 1",
+      "planMessage": "ยุทธศาตร",
+      "startDate": "2023-10-01",
+      "endDate": "2024-09-30"
+    },
+    {
+      "projectCode": 67010011,
+      "budgetYear": "2568",
+      "dateApprove": "2023-10-01",
+      "orgId": 2310049299,
+      "orgName": "งานบรณาการขบเคลอนมาตรการ/แผนงานxxxx",
+      "projectOffBudget": 0,
+      "projectSumBudget": 5000000,
+      "smeProjectStatusName": "อยู่ระหว่างดำเนินงานxxx",
+      "legalGroupName": "มาตรา 34(4)",
+      "projectName": "งานบรณาการขบเคลอนมาตรการ/แผนงานxxxx",
+      "projectNameInitials": "แผนงานxxxx",
+      "projectReason": "",
+      "projectPurpose": "",
+      "typeBudget": "",
+      "typeResultMsme": "ยุทธศาตร์ที่ 1",
+      "planMessage": "ยุทธศาตร",
+      "startDate": "2023-10-01",
+      "endDate": "2024-09-30"
+    }
+  ],
+  "responseCode": 200,
+  "responseMsg": "success"
+}

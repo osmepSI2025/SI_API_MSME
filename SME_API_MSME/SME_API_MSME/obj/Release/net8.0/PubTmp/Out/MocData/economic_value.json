@@ -1,0 +1,144 @@
+{
+  "result": [
+    {
+      "projectCode": 67010010,
+      "projectName": "งานบรณาการขบเคลอนมาตรการ/แผนงาน ทมผลกระทบทางเศรษฐกจสงในการสงเสรม SME",
+      "budget": 5000000,
+      "budgetYear": "2567",
+      "sheet1": {
+        "economicValue": [
+          {
+            "economicValueId": 1,
+            "microEnd": 0,
+            "microNext": 0,
+            "smallEnd": 0,
+            "smallNext": 0,
+            "mediumEnd": 0,
+            "mediumNext": 0,
+            "otherEnd": 0,
+            "otherNext": 0
+          },
+          {
+            "economicValueId": 2,
+            "microEnd": 0,
+            "microNext": 0,
+            "smallEnd": 0,
+            "smallNext": 0,
+            "mediumEnd": 0,
+            "mediumNext": 0,
+            "otherEnd": 0,
+            "otherNext": 0
+          },
+          {
+            "economicValueId": 17,
+            "microEnd": 0,
+            "microNext": 0,
+            "smallEnd": 0,
+            "smallNext": 0,
+            "mediumEnd": 0,
+            "mediumNext": 0,
+            "otherEnd": 0,
+            "otherNext": 0
+          }
+        ]
+      },
+      "sheet2": {
+        "province": "1",
+        "interestedBusiness": null,
+        "economicPromoted": [
+          {
+            "entrepreneurId": 1,
+            "production": null,
+            "trade": null,
+            "serve": null,
+            "agribusiness": null,
+            "productionBranch": "",
+            "tradeBranch": "",
+            "serveBranch": "",
+            "agribusinessBranch": ""
+          },
+          {
+            "entrepreneurId": 2,
+            "production": null,
+            "trade": null,
+            "serve": null,
+            "agribusiness": null,
+            "productionBranch": "",
+            "tradeBranch": "",
+            "serveBranch": "",
+            "agribusinessBranch": ""
+          }
+        ],
+        "smeEconomicDevelop": [
+          {
+            "capacityEnhanceId": 5,
+            "businessBranch": "",
+            "micro": null,
+            "small": null,
+            "medium": null,
+            "other": null,
+            "cluster": ""
+          },
+          {
+            "capacityEnhanceId": 6,
+            "businessBranch": "",
+            "micro": null,
+            "small": null,
+            "medium": null,
+            "other": null,
+            "cluster": ""
+          }
+        ],
+        "smeEconomicFactor": {
+          "loginThaiSmeGp": null,
+          "productsServices": null,
+          "smeEntrepreneurs": null,
+          "registerThaiSmeGp": null,
+          "newEntrepreneur": null,
+          "originalEntrepreneur": null,
+          "improveLaw": null,
+          "updatedLaw": "",
+          "businessPlan": null,
+          "trainingCourse": null,
+          "courseName": "",
+          "personnelTrained": null,
+          "bds": null,
+          "businessField": "",
+          "supportMoney": null,
+          "amountMicro": null,
+          "amountSmall": null,
+          "subsidyMedium": null,
+          "subsidyOther": null,
+          "storyDeveloped": null,
+          "businessServiceProvider": null
+        },
+        "smeEconomicDevelopResult": {
+          "businessExpansion": null,
+          "franchise": null,
+          "businessInvestment": null,
+          "businessSameSize": null,
+          "microToSmall": null,
+          "smallToMedium": null,
+          "mediumToLarge": null,
+          "increaseEmployment": null,
+          "businessRegistration": null,
+          "pvBusinessExpansion": null,
+          "amountFranchise": null,
+          "pvBusinessInvestment": null,
+          "fieldBusinessSameSize": null,
+          "fieldMicroToSmall": null,
+          "fieldSmallToMedium": null,
+          "fieldMediumToLarge": null,
+          "maintainIncreaseEmployment": 2,
+          "fieldBusinessRegistration": 1,
+          "investmentBusinessExpansion": 1.25,
+          "investmentFranchise": 1,
+          "fieldBusinessInvestment": 1
+        }
+      }
+
+    }
+  ],
+  "responseCode": 200,
+  "responseMsg": "success"
+} 

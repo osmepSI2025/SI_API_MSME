@@ -1,0 +1,64 @@
+{
+  "result": [
+    {
+      "projectCode": 67010010,
+      "projectName": "งานบรณาการขบเคลอนมาตรการ/แผนงาน",
+      "items": [
+        {
+          "orderIndex": 1,
+          "itemActivityDetail": "1. ข้อเสนอแนะ",
+          "ActivityBudget": 0.00,         
+          "expenseTypeName": "งบดำเนินงาน",
+          "actionResultDetail": [
+            {
+              "monthName": "ตุ.ค.",
+              "year": 2567,
+              "tempValue": 0.00,
+              "resultValue": 1
+            },
+            {
+              "monthName": "พ.ย.",
+              "year": 2567,
+              "tempValue": 0.00,
+              "resultValue": 2
+            },
+            {
+              "monthName": "ธ.ค.",
+              "year": 2567,
+              "tempValue": 0.00,
+              "resultValue": 3
+            }
+          ]
+        },
+        {
+          "orderIndex": 2,
+          "itemActivityDetail": "1. ข้อเสนอแนะxxxxxxxxxxx",
+          "ActivityBudget": 0.00,
+          "expenseTypeName": "งบดำเนินงาน",
+          "actionResultDetail": [
+            {
+              "monthName": "ม.ค.",
+              "year": 2567,
+              "tempValue": 0.00,
+              "resultValue": 5
+            },
+            {
+              "monthName": "ก.พ.",
+              "year": 2567,
+              "tempValue": 0.00,
+              "resultValue": 28
+            },
+            {
+              "monthName": "มี.ค.",
+              "year": 2567,
+              "tempValue": 0.00,
+              "resultValue": 36
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "responseCode": 200,
+  "responseMsg": "success"
+}

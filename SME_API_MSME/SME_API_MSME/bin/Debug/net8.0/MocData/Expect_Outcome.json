@@ -1,0 +1,56 @@
+{
+  "result": [
+    {
+      "projectCode": 67010010,
+      "projectName": "งานบรณาการขบเคลอนมาตรการ/แผนงาน",
+      "items": [
+        {
+          "orderIndex": 1,
+          "resultFinalOutcome": "1. ข้อเสนอแนะ",
+          "sumBudget": 0,
+          "finalOutcomeDetail": [
+            {
+              "monthName": "ตุ.ค.",
+              "year": 2567,
+              "resultValue": 1
+            },
+            {
+              "monthName": "พ.ย.",
+              "year": 2567,
+              "resultValue": 2
+            },
+            {
+              "monthName": "ธ.ค.",
+              "year": 2567,
+              "resultValue": 3
+            }
+          ]
+        },
+        {
+          "orderIndex": 2,
+          "resultFinalOutcome": "1. ข้อเสนอแนะxxxxxxxx",
+          "sumBudget": 0,
+          "finalOutcomeDetail": [
+            {
+              "monthName": "ม.ค.",
+              "year": 2567,
+              "resultValue": 5
+            },
+            {
+              "monthName": "ก.พ.",
+              "year": 2567,
+              "resultValue": 28
+            },
+            {
+              "monthName": "มี.ค.",
+              "year": 2567,
+              "resultValue": 36
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "responseCode": 200,
+  "responseMsg": "success"
+}
