@@ -15,11 +15,11 @@ public class ProjectProductRepository
         return await _context.MProjectsProducts.Include(p => p.TProjectsProducts).ToListAsync();
     }
 
-    public async Task<MProjectsProduct?> GetByIdAsync(long? pProjectCode)
+    public async Task<MProjectsProduct?> GetByIdAsync(long? pProjectCode,string pYear)
     {
         return await _context.MProjectsProducts
             .Include(p => p.TProjectsProducts)
-            .FirstOrDefaultAsync(p => p.ProjectCode == pProjectCode);
+            .FirstOrDefaultAsync(p => p.ProjectCode == pProjectCode && p.Year==pYear);
     }
 
     public async Task AddAsync(MProjectsProduct projectProduct)

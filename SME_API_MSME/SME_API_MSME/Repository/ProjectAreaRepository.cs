@@ -15,11 +15,11 @@ public class ProjectAreaRepository
         return await _context.MProjectAreas.Include(p => p.TProjectAreas).ToListAsync();
     }
 
-    public async Task<MProjectArea?> GetByIdAsync(long? projectCode)
+    public async Task<MProjectArea?> GetByIdAsync(long? projectCode,string year)
     {
         return await _context.MProjectAreas
             .Include(p => p.TProjectAreas)
-            .FirstOrDefaultAsync(p => p.ProjectCode == projectCode);
+            .FirstOrDefaultAsync(p => p.ProjectCode == projectCode && p.Year == year);
     }
 
     public async Task AddAsync(MProjectArea projectArea)

@@ -19,7 +19,7 @@ public partial class TProjectsOutCome
 
     public int? Target { get; set; }
 
-    public string? UnitName { get; set; }
+    public string? CountUnitName { get; set; }
 
     public virtual MProjectsOutCome Project { get; set; } = null!;
 }

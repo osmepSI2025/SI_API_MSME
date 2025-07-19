@@ -1,8 +1,8 @@
 public class ResultProjectOutcomeResponse
 {
-    public int? ResponseCode { get; set; }
-    public string ResponseMsg { get; set; }
-    public List<ProjectOutcomeResult> Result { get; set; }
+    public int? responseCode { get; set; }
+    public string responseMsg { get; set; }
+    public List<ProjectOutcomeResult> result { get; set; }
 }
 
 public class ProjectOutcomeResult

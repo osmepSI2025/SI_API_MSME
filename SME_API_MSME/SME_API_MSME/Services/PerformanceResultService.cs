@@ -27,7 +27,7 @@ public class PerformanceResultService
     //{
     //    return _repository.GetByIdAsync(projectId);
     //}
-    public async Task<ResultPerformanceResultResponse?> GetPerformanceResultByIdAsync(long? pProjectCode)
+    public async Task<ResultPerformanceResultResponse?> GetPerformanceResultByIdAsync(long? pProjectCode,string pYear)
     {
         var xrerult = new ResultPerformanceResultResponse();
         try
@@ -43,7 +43,7 @@ public class PerformanceResultService
             }
             else
             {
-                var resultPA = await _repository.GetByIdAsync(pProjectCode);
+                var resultPA = await _repository.GetByIdAsync(pProjectCode, pYear);
 
                 if (resultPA == null)
                 {
@@ -69,30 +69,31 @@ public class PerformanceResultService
                     if (apiParam == null)
                     {
 
-                        xrerult.ResponseCode = 500;
-                        xrerult.ResponseMsg = "Api Service Inccorect.";
-                        xrerult.Result = new List<PerformanceResultProject>();
+                        xrerult.responseCode = 500;
+                        xrerult.responseMsg = "Api Service Inccorect.";
+                        xrerult.result = new List<PerformanceResultProject>();
                         return xrerult;
 
                     }
 
-                    var apiResponse = await _serviceApi.GetDataApiAsync_PerformanceResult(apiParam, pProjectCode);
-                   if (apiResponse == null || apiResponse.ResponseCode == 0 || apiResponse.Result.Count ==0)
+                    var apiResponse = await _serviceApi.GetDataApiAsync_PerformanceResult(apiParam, pProjectCode, pYear);
+                   if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count ==0)
                     {
-                        xrerult.ResponseCode = 200;
-                        xrerult.ResponseMsg = "No data found";
-                        xrerult.Result =new List<PerformanceResultProject>();
+                        xrerult.responseCode = 200;
+                        xrerult.responseMsg = "No data found";
+                        xrerult.result =new List<PerformanceResultProject>();
                         return xrerult;
                     }
 
                     else
                     {
-                        foreach (var item in apiResponse.Result)
+                        foreach (var item in apiResponse.result)
                         {
                             var proProduct = new MPerformanceResult
                             {
                                 ProjectCode = item.ProjectCode, // Corrected from 'project.ProjectCode' to 'item.ProjectCode'
-                                ProjectName = item.ProjectName, // Corrected from 'project.ProjectName' to 'item.ProjectName'
+                                ProjectName = item.ProjectName,
+                                Year = pYear,// Corrected from 'project.ProjectName' to 'item.ProjectName'
                                 TPerformanceResults = item.Items.Select(i => new TPerformanceResult
                                 {
                                     OrderIndex = i.OrderIndex ?? 0, // Handle nullable OrderIndex
@@ -105,7 +106,7 @@ public class PerformanceResultService
                                     TPerformanceResultDetails = i.ActionResultDetail.Select(x => new TPerformanceResultDetail
                                     {
                                         MonthName = x.MonthName,
-                                        Year = x.Year.ToString(), // Convert Year to string
+                                        Year = x.Year, // Convert Year to string
                                         EffectValue = x.EffectValue ?? 0, // Handle nullable EffectValue
                                         TempValue = x.TempValue ?? 0 // Handle nullable TempValue
                                     }).ToList()
@@ -121,7 +122,7 @@ public class PerformanceResultService
 
                     result = pProjectCode == 0
           ? await _repository.GetAllAsync()
-          : new List<MPerformanceResult> { await _repository.GetByIdAsync(pProjectCode) };
+          : new List<MPerformanceResult> { await _repository.GetByIdAsync(pProjectCode,pYear) };
 
                 }
                 else
@@ -136,6 +137,7 @@ public class PerformanceResultService
                 {
                     ProjectCode = project.ProjectCode,
                     ProjectName = project.ProjectName,
+                    
                     Items = project.TPerformanceResults.Select(item => new PerformanceResultItem
                     {
                         OrderIndex = item.OrderIndex ?? 0, // Handle nullable OrderIndex
@@ -148,30 +150,30 @@ public class PerformanceResultService
                         ActionResultDetail = item.TPerformanceResultDetails.Select(x => new PerformanceActionResultDetail
                         {
                             MonthName = x.MonthName,
-                            Year = x.Year != null ? int.Parse(x.Year) : 0, // Handle null Year by providing a default value
-                            EffectValue = (decimal?)x.EffectValue ?? 0, // Handle nullable EffectValue
+                            Year = x.Year ?? 0, // Handle null Year by providing a default value
+                            EffectValue = x.EffectValue ?? 0, // Handle nullable EffectValue
                             TempValue = (int?)x.TempValue ?? 0 // Handle nullable TempValue
                         }).ToList()
                     }).ToList()
                 }).ToList());
-                xrerult.ResponseCode = 200;
-                xrerult.ResponseMsg = "success";
-                xrerult.Result = dataResult;
+                xrerult.responseCode = 200;
+                xrerult.responseMsg = "success";
+                xrerult.result = dataResult;
             }
             else
             {
-               xrerult.ResponseCode = 200;
-                xrerult.ResponseMsg = "No data found";
-                xrerult.Result = null;
+               xrerult.responseCode = 200;
+                xrerult.responseMsg = "No data found";
+                xrerult.result = null;
             }
 
             return xrerult;
         }
         catch (Exception ex)
         {
-            xrerult.ResponseCode = 500;
-            xrerult.ResponseMsg =ex.Message;
-            xrerult.Result = new List<PerformanceResultProject>();
+            xrerult.responseCode = 500;
+            xrerult.responseMsg =ex.Message;
+            xrerult.result = new List<PerformanceResultProject>();
             return xrerult;
         }
 
@@ -202,11 +204,11 @@ public class PerformanceResultService
         {
             //get projects by year  
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
-            if (Listprojects == null || Listprojects.Result.Count == 0)
+            if (Listprojects == null || Listprojects.result.Count == 0)
             {
                 continue; // Skip to the next year if no projects found
             }
-            else if (Listprojects.ResponseCode == 200)
+            else if (Listprojects.responseCode == 200)
             {
 
 
@@ -229,25 +231,27 @@ public class PerformanceResultService
                     Bearer = x.Bearer,
                 }).FirstOrDefault(); // Use FirstOrDefault to handle empty lists
 
-                foreach (var item in Listprojects.Result)
+                foreach (var item in Listprojects.result)
                 {
-                    var apiResponse = await _serviceApi.GetDataApiAsync_PerformanceResult(apiParam, item.ProjectCode);
-                    if (apiResponse == null || apiResponse.ResponseCode == 0 || apiResponse.Result.Count == 0)
+                    var apiResponse = await _serviceApi.GetDataApiAsync_PerformanceResult(apiParam, item.ProjectCode,year.ToString());
+                    if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count == 0)
                     {
                         continue; // Skip to the next project if no data found
                     }
                     else
                     {
-                        foreach (var Subitem in apiResponse.Result)
+                        foreach (var Subitem in apiResponse.result)
                         {
                             // Check if existing budget plan for the project
-                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode);
+                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode,year.ToString());
 
                             var proProduct = new MPerformanceResult
                             {
                                 ProjectId = resultPA?.ProjectId ?? 0, // Assuming ProjectId is available in the item
                                 ProjectCode = item.ProjectCode, // Corrected from 'project.ProjectCode' to 'item.ProjectCode'
-                                ProjectName = item.ProjectName, // Corrected from 'project.ProjectName' to 'item.ProjectName'
+                                ProjectName = item.ProjectName,
+                                Year = year.ToString(), // Assuming Year is a string, adjust if necessary
+                                // Corrected from 'project.ProjectName' to 'item.ProjectName'
                                 TPerformanceResults = Subitem.Items.Select(i => new TPerformanceResult
                                 {
                                     OrderIndex = i.OrderIndex ?? 0, // Handle nullable OrderIndex
@@ -260,7 +264,7 @@ public class PerformanceResultService
                                     TPerformanceResultDetails = i.ActionResultDetail.Select(x => new TPerformanceResultDetail
                                     {
                                         MonthName = x.MonthName,
-                                        Year = x.Year.ToString(), // Convert Year to string
+                                        Year = x.Year??0, // Convert Year to string
                                         EffectValue = x.EffectValue ?? 0, // Handle nullable EffectValue
                                         TempValue = x.TempValue ?? 0 // Handle nullable TempValue
                                     }).ToList()

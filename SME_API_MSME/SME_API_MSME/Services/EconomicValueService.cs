@@ -2,7 +2,6 @@
 using SME_API_MSME.Models;
 using SME_API_MSME.Repository;
 using SME_API_MSME.Services;
-using System.Security.Cryptography.Xml;
 
 public class EconomicValueService
 {
@@ -25,7 +24,7 @@ public class EconomicValueService
         return _repository.GetAllAsync();
     }
 
-    public async Task<ResultEconomicValueResponse?> GetEconomicValueByIdAsync(string? pyear)
+    public async Task<ResultEconomicValueResponse?> GetEconomicValueByIdAsync(long? pProjectCode, int? pyear)
     {
         var xrerult = new ResultEconomicValueResponse();
         try
@@ -34,13 +33,13 @@ public class EconomicValueService
 
             IEnumerable<MEconomicValueProject>? result = null;
 
-            if (pyear == "0")
+            if (pyear == 0)
             {
                 result = await _repository.GetAllAsync();
             }
             else
             {
-                var resultPA = await _repository.GetByIdAsync(pyear);
+                var resultPA = await _repository.GetByIdAsync(pProjectCode, pyear);
 
                 if (resultPA == null)
                 {
@@ -65,32 +64,32 @@ public class EconomicValueService
 
                     if (apiParam == null)
                     {
-                        xrerult.ResponseCode = 500;
-                        xrerult.ResponseMsg = "Api Service Incorrect.";
-                        xrerult.Result = new List<EconomicValueProjectModels>();
+                        xrerult.responseCode = 500;
+                        xrerult.responseMsg = "Api Service Incorrect.";
+                        xrerult.result = new List<EconomicValueProjectModels>();
                         return xrerult;
                     }
 
-                    var apiResponse = await _serviceApi.GetDataApiAsync_EconomicValue(apiParam, pyear);
-                    if (apiResponse == null || apiResponse.ResponseCode == 0 || apiResponse.Result.Count == 0)
+                    var apiResponse = await _serviceApi.GetDataApiAsync_EconomicValue(apiParam, pProjectCode, pyear);
+                    if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count == 0)
                     {
-                        xrerult.ResponseCode = 200;
-                        xrerult.ResponseMsg = "No data found";
-                        xrerult.Result = new List<EconomicValueProjectModels>();
+                        xrerult.responseCode = 200;
+                        xrerult.responseMsg = "No data found";
+                        xrerult.result = new List<EconomicValueProjectModels>();
                         return xrerult;
                     }
                     else
                     {
-                        foreach (var item in apiResponse.Result)
+                        foreach (var item in apiResponse.result)
                         {
                             List<TEconomicValue> tecom = new List<TEconomicValue>();
                             var proProduct = new MEconomicValueProject
                             {
                                 ProjectCode = item.ProjectCode,
-                                ProjectName = item.ProjectName??"",
+                                ProjectName = item.ProjectName ?? "",
                                 Budget = item.Budget ?? 0,
-                                BudgetYear = item.BudgetYear ?? "",
-                              
+                                BudgetYear = item.BudgetYear ?? 0,
+
                             };
                             tecom = item.Sheet1?.EconomicValue?.Select(i => new TEconomicValue
                             {
@@ -181,9 +180,9 @@ public class EconomicValueService
                         }
                     }
 
-                    result = pyear == "0"
+                    result = pyear == 0
                         ? await _repository.GetAllAsync()
-                        : new List<MEconomicValueProject> { await _repository.GetByIdAsync(pyear) };
+                        : new List<MEconomicValueProject> { await _repository.GetByIdAsync(pProjectCode,pyear??0) };
                 }
                 else
                 {
@@ -290,29 +289,29 @@ public class EconomicValueService
                     //}
                 }).ToList();
 
-                xrerult.ResponseCode = 200;
-                xrerult.ResponseMsg = "success";
-                xrerult.Result = dataResult;
+                xrerult.responseCode = 200;
+                xrerult.responseMsg = "success";
+                xrerult.result = dataResult;
             }
             else
             {
-                xrerult.ResponseCode = 200;
-                xrerult.ResponseMsg = "No data found";
-                xrerult.Result = new List<EconomicValueProjectModels>();
+                xrerult.responseCode = 200;
+                xrerult.responseMsg = "No data found";
+                xrerult.result = new List<EconomicValueProjectModels>();
             }
 
             return xrerult;
         }
         catch (Exception ex)
         {
-            xrerult.ResponseCode = 500;
-            xrerult.ResponseMsg = ex.Message;
-            xrerult.Result = new List<EconomicValueProjectModels>();
+            xrerult.responseCode = 500;
+            xrerult.responseMsg = ex.Message;
+            xrerult.result = new List<EconomicValueProjectModels>();
             return xrerult;
         }
     }
 
-    public Task AddEconomicValueAsync(MEconomicValueProject economicValue,List<TEconomicValue> tecom)
+    public Task AddEconomicValueAsync(MEconomicValueProject economicValue, List<TEconomicValue> tecom)
     {
         return _repository.AddAsync(economicValue, tecom);
     }
@@ -322,7 +321,7 @@ public class EconomicValueService
         return _repository.AddSheet2Async(economicValue);
     }
 
-    public Task UpdateEconomicValueAsync(MEconomicValueProject economicValue,List<TEconomicValue> tecom)
+    public Task UpdateEconomicValueAsync(MEconomicValueProject economicValue, List<TEconomicValue> tecom)
     {
         return _repository.UpdateAsync(economicValue, tecom);
     }
@@ -361,72 +360,81 @@ public class EconomicValueService
 
         for (int year = currentYearBE - 5; year <= currentYearBE; year++)
         {
-            var apiResponse = await _serviceApi.GetDataApiAsync_EconomicValue(apiParam, year.ToString());
-            if (apiResponse == null || apiResponse.ResponseCode == 0 || apiResponse.Result.Count == 0)
+            var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
+            if (Listprojects == null || Listprojects.result.Count == 0)
             {
-                continue;
+                continue; // Skip to the next year if no projects found
             }
             else
             {
-                foreach (var Subitem in apiResponse.Result)
+                foreach (var itemPro in Listprojects.result)
                 {
-                    var resultPA = await _repository.GetCheckByIdAsync(Subitem.BudgetYear);
-
-                    if (resultPA == null)
+                    var apiResponse = await _serviceApi.GetDataApiAsync_EconomicValue(apiParam, itemPro.ProjectCode, year);
+                    if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count == 0)
                     {
-
-                        foreach (var item in apiResponse.Result)
+                        continue;
+                    }
+                    else
+                    {
+                        foreach (var Subitem in apiResponse.result)
                         {
-                            List<TEconomicValue> tecom = new List<TEconomicValue>();
-                            var proProduct = new MEconomicValueProject
+                            var resultPA = await _repository.GetCheckByIdAsync(itemPro.ProjectCode, Subitem.BudgetYear??0);
+
+                            if (resultPA == null)
                             {
-                                ProjectCode = item.ProjectCode,
-                                ProjectName = item.ProjectName??"",
-                                Budget = item.Budget??0,
-                                BudgetYear = item.BudgetYear??"",
-                                
-                  
-                            };
-                            tecom = item.Sheet1?.EconomicValue?.Select(i => new TEconomicValue
-                            {
-                                MicroEnd = i.MicroEnd,
-                                MicroNext = i.MicroNext,
-                                SmallEnd = i.SmallEnd,
-                                SmallNext = i.SmallNext,
-                                MediumEnd = i.MediumEnd,
-                                MediumNext = i.MediumNext,
-                                OtherEnd = i.OtherEnd,
-                                OtherNext = i.OtherNext,
-                                EconomicValueId = i.EconomicValueId,
-                            }).ToList() ?? new List<TEconomicValue>();
-                            var sheet2x = new TEconomicValueSheets2
-                            {
-                                Province = item.Sheet2?.Province,
-                                InterestedBusiness = item.Sheet2?.InterestedBusiness,
-                                ProjectCode = item.ProjectCode,
-                                TEconomicPromoteds = item.Sheet2?.EconomicPromoted?.Select(x => new TEconomicPromoted
+
+                                foreach (var item in apiResponse.result)
                                 {
-                                    EntrepreneurId = x.EntrepreneurId,
-                                    Production = x.Production,
-                                    Trade = x.Trade,
-                                    Serve = x.Serve,
-                                    Agribusiness = x.Agribusiness,
-                                    ProductionBranch = x.ProductionBranch,
-                                    TradeBranch = x.TradeBranch,
-                                    ServeBranch = x.ServeBranch,
-                                    AgribusinessBranch = x.AgribusinessBranch
-                                }).ToList(),
-                                TSmeEconomicDevelops = item.Sheet2?.SmeEconomicDevelop?.Select(x => new TSmeEconomicDevelop
-                                {
-                                    CapacityEnhanceId = x.CapacityEnhanceId,
-                                    BusinessBranch = x.BusinessBranch,  
-                                    Micro = x.Micro,
-                                    Small = x.Small,
-                                    Medium = x.Medium,
-                                    Other = x.Other,
-                                    Cluster = x.Cluster
-                                }).ToList(),
-                                TSmeEconomicFactors = item.Sheet2?.SmeEconomicFactor == null ? null : new List<TSmeEconomicFactor>
+                                    List<TEconomicValue> tecom = new List<TEconomicValue>();
+                                    var proProduct = new MEconomicValueProject
+                                    {
+                                        ProjectCode = item.ProjectCode,
+                                        ProjectName = item.ProjectName ?? "",
+                                        Budget = item.Budget ?? 0,
+                                        BudgetYear = item.BudgetYear ?? 0,
+
+
+                                    };
+                                    tecom = item.Sheet1?.EconomicValue?.Select(i => new TEconomicValue
+                                    {
+                                        MicroEnd = i.MicroEnd,
+                                        MicroNext = i.MicroNext,
+                                        SmallEnd = i.SmallEnd,
+                                        SmallNext = i.SmallNext,
+                                        MediumEnd = i.MediumEnd,
+                                        MediumNext = i.MediumNext,
+                                        OtherEnd = i.OtherEnd,
+                                        OtherNext = i.OtherNext,
+                                        EconomicValueId = i.EconomicValueId,
+                                    }).ToList() ?? new List<TEconomicValue>();
+                                    var sheet2x = new TEconomicValueSheets2
+                                    {
+                                        Province = item.Sheet2?.Province,
+                                        InterestedBusiness = item.Sheet2?.InterestedBusiness,
+                                        ProjectCode = item.ProjectCode,
+                                        TEconomicPromoteds = item.Sheet2?.EconomicPromoted?.Select(x => new TEconomicPromoted
+                                        {
+                                            EntrepreneurId = x.EntrepreneurId,
+                                            Production = x.Production,
+                                            Trade = x.Trade,
+                                            Serve = x.Serve,
+                                            Agribusiness = x.Agribusiness,
+                                            ProductionBranch = x.ProductionBranch,
+                                            TradeBranch = x.TradeBranch,
+                                            ServeBranch = x.ServeBranch,
+                                            AgribusinessBranch = x.AgribusinessBranch
+                                        }).ToList(),
+                                        TSmeEconomicDevelops = item.Sheet2?.SmeEconomicDevelop?.Select(x => new TSmeEconomicDevelop
+                                        {
+                                            CapacityEnhanceId = x.CapacityEnhanceId,
+                                            BusinessBranch = x.BusinessBranch,
+                                            Micro = x.Micro,
+                                            Small = x.Small,
+                                            Medium = x.Medium,
+                                            Other = x.Other,
+                                            Cluster = x.Cluster
+                                        }).ToList(),
+                                        TSmeEconomicFactors = item.Sheet2?.SmeEconomicFactor == null ? null : new List<TSmeEconomicFactor>
                                 {
                                     new TSmeEconomicFactor
                                     {
@@ -442,7 +450,7 @@ public class EconomicValueService
                                         SubsidyOther = item.Sheet2.SmeEconomicFactor.SubsidyOther
                                     }
                                 },
-                                TSmeEconomicDevelopResults = item.Sheet2?.SmeEconomicDevelopResult == null ? null : new List<TSmeEconomicDevelopResult>
+                                        TSmeEconomicDevelopResults = item.Sheet2?.SmeEconomicDevelopResult == null ? null : new List<TSmeEconomicDevelopResult>
                                 {
                                     new TSmeEconomicDevelopResult
                                     {
@@ -469,70 +477,70 @@ public class EconomicValueService
                                         FieldBusinessInvestment = item.Sheet2.SmeEconomicDevelopResult.FieldBusinessInvestment
                                     }
                                 }
-                            };
+                                    };
 
-                            await AddEconomicValueAsync(proProduct, tecom);
+                                    await AddEconomicValueAsync(proProduct, tecom);
 
-                            await AddEconomicValueSheet2Async(sheet2x);
-                        }
-                    }
-                    else
-                    {
-                        resultPA.ProjectName = Subitem.ProjectName;
-                        resultPA.Budget = Subitem.Budget ?? 0;
-                        resultPA.BudgetYear = Subitem.BudgetYear;
-                        List<TEconomicValue> tecom = new List<TEconomicValue>();
-                     //   resultPA.TEconomicValues.Clear();
-                        if (Subitem.Sheet1?.EconomicValue != null)
-                        {
-                            foreach (var i in Subitem.Sheet1.EconomicValue)
-                            {
-                                tecom.Add(new TEconomicValue
-                                {
-                                    MicroEnd = i.MicroEnd,
-                                    MicroNext = i.MicroNext,
-                                    SmallEnd = i.SmallEnd,
-                                    SmallNext = i.SmallNext,
-                                    MediumEnd = i.MediumEnd,
-                                    MediumNext = i.MediumNext,
-                                    OtherEnd = i.OtherEnd,
-                                    OtherNext = i.OtherNext,
-                                    EconomicValueId = i.EconomicValueId,
-                                });
+                                    await AddEconomicValueSheet2Async(sheet2x);
+                                }
                             }
-                        }
-                        TEconomicValueSheets2 shet2 = new TEconomicValueSheets2();
-                        if (Subitem.Sheet2 != null)
-                        {
-                            shet2 = new TEconomicValueSheets2
+                            else
                             {
-                             
-                                ProjectCode = Subitem.ProjectCode,
-                                Province = Subitem.Sheet2.Province,
-                                InterestedBusiness = Subitem.Sheet2.InterestedBusiness,
-                                TEconomicPromoteds = Subitem.Sheet2.EconomicPromoted?.Select(x => new TEconomicPromoted
+                                resultPA.ProjectName = Subitem.ProjectName;
+                                resultPA.Budget = Subitem.Budget ?? 0;
+                                resultPA.BudgetYear = Subitem.BudgetYear ?? 0;
+                                List<TEconomicValue> tecom = new List<TEconomicValue>();
+                                //   resultPA.TEconomicValues.Clear();
+                                if (Subitem.Sheet1?.EconomicValue != null)
                                 {
-                                    EntrepreneurId = x.EntrepreneurId,
-                                    Production = x.Production,
-                                    Trade = x.Trade,
-                                    Serve = x.Serve,
-                                    Agribusiness = x.Agribusiness,
-                                    ProductionBranch = x.ProductionBranch,
-                                    TradeBranch = x.TradeBranch,
-                                    ServeBranch = x.ServeBranch,
-                                    AgribusinessBranch = x.AgribusinessBranch
-                                }).ToList(),
-                                TSmeEconomicDevelops = Subitem.Sheet2.SmeEconomicDevelop?.Select(x => new TSmeEconomicDevelop
+                                    foreach (var i in Subitem.Sheet1.EconomicValue)
+                                    {
+                                        tecom.Add(new TEconomicValue
+                                        {
+                                            MicroEnd = i.MicroEnd,
+                                            MicroNext = i.MicroNext,
+                                            SmallEnd = i.SmallEnd,
+                                            SmallNext = i.SmallNext,
+                                            MediumEnd = i.MediumEnd,
+                                            MediumNext = i.MediumNext,
+                                            OtherEnd = i.OtherEnd,
+                                            OtherNext = i.OtherNext,
+                                            EconomicValueId = i.EconomicValueId,
+                                        });
+                                    }
+                                }
+                                TEconomicValueSheets2 shet2 = new TEconomicValueSheets2();
+                                if (Subitem.Sheet2 != null)
                                 {
-                                    CapacityEnhanceId = x.CapacityEnhanceId,
-                                    BusinessBranch = x.BusinessBranch,
-                                    Micro = x.Micro,
-                                    Small = x.Small,
-                                    Medium = x.Medium,
-                                    Other = x.Other,
-                                    Cluster = x.Cluster
-                                }).ToList(),
-                                TSmeEconomicFactors = Subitem.Sheet2.SmeEconomicFactor == null ? null : new List<TSmeEconomicFactor>
+                                    shet2 = new TEconomicValueSheets2
+                                    {
+
+                                        ProjectCode = Subitem.ProjectCode,
+                                        Province = Subitem.Sheet2.Province,
+                                        InterestedBusiness = Subitem.Sheet2.InterestedBusiness,
+                                        TEconomicPromoteds = Subitem.Sheet2.EconomicPromoted?.Select(x => new TEconomicPromoted
+                                        {
+                                            EntrepreneurId = x.EntrepreneurId,
+                                            Production = x.Production,
+                                            Trade = x.Trade,
+                                            Serve = x.Serve,
+                                            Agribusiness = x.Agribusiness,
+                                            ProductionBranch = x.ProductionBranch,
+                                            TradeBranch = x.TradeBranch,
+                                            ServeBranch = x.ServeBranch,
+                                            AgribusinessBranch = x.AgribusinessBranch
+                                        }).ToList(),
+                                        TSmeEconomicDevelops = Subitem.Sheet2.SmeEconomicDevelop?.Select(x => new TSmeEconomicDevelop
+                                        {
+                                            CapacityEnhanceId = x.CapacityEnhanceId,
+                                            BusinessBranch = x.BusinessBranch,
+                                            Micro = x.Micro,
+                                            Small = x.Small,
+                                            Medium = x.Medium,
+                                            Other = x.Other,
+                                            Cluster = x.Cluster
+                                        }).ToList(),
+                                        TSmeEconomicFactors = Subitem.Sheet2.SmeEconomicFactor == null ? null : new List<TSmeEconomicFactor>
         {
             new TSmeEconomicFactor
             {
@@ -548,7 +556,7 @@ public class EconomicValueService
                 SubsidyOther = Subitem.Sheet2.SmeEconomicFactor.SubsidyOther
             }
         },
-                                TSmeEconomicDevelopResults = Subitem.Sheet2.SmeEconomicDevelopResult == null ? null : new List<TSmeEconomicDevelopResult>
+                                        TSmeEconomicDevelopResults = Subitem.Sheet2.SmeEconomicDevelopResult == null ? null : new List<TSmeEconomicDevelopResult>
         {
             new TSmeEconomicDevelopResult
             {
@@ -575,14 +583,18 @@ public class EconomicValueService
                 FieldBusinessInvestment = Subitem.Sheet2.SmeEconomicDevelopResult.FieldBusinessInvestment
             }
         }
-                            };
-                        }
+                                    };
+                                }
 
-                        await UpdateEconomicValueAsync(resultPA,tecom);
-                        await UpdateEconomicValueSheet2Async(shet2);
+                                await UpdateEconomicValueAsync(resultPA, tecom);
+                                await UpdateEconomicValueSheet2Async(shet2);
+                            }
+                        }
                     }
                 }
             }
+
+
         }
 
         return "Batch end of day process completed successfully.";

@@ -30,7 +30,7 @@ public class ProjectOutcomeService
     //{
     //    return _repository.GetByIdAsync(projectId);
     //}
-    public async Task<ResultProjectOutcomeResponse?> GetProjectOutcomeByIdAsync(long? pProjectCode)
+    public async Task<ResultProjectOutcomeResponse?> GetProjectOutcomeByIdAsync(long? pProjectCode,string pyear)
     {
         var xrerult = new ResultProjectOutcomeResponse();
         try
@@ -71,30 +71,31 @@ public class ProjectOutcomeService
 
                     if (apiParam == null)
                     {
-                        xrerult.ResponseCode = 500;
-                        xrerult.ResponseMsg = "Api Service Inccorect.";
-                        xrerult.Result = new List<ProjectOutcomeResult>();
+                        xrerult.responseCode = 500;
+                        xrerult.responseMsg = "Api Service Inccorect.";
+                        xrerult.result = new List<ProjectOutcomeResult>();
                         return xrerult;
 
                     }
 
-                    var apiResponse = await _serviceApi.GetDataApiAsync_ProjectOutcome(apiParam, pProjectCode);
-                   if (apiResponse == null || apiResponse.ResponseCode == 0 || apiResponse.Result.Count ==0)
+                    var apiResponse = await _serviceApi.GetDataApiAsync_ProjectOutcome(apiParam, pProjectCode,pyear);
+                   if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count ==0)
                     {
-                        xrerult.ResponseCode = 200;
-                        xrerult.ResponseMsg = "No data found";
-                        xrerult.Result = new List<ProjectOutcomeResult>();
+                        xrerult.responseCode = 200;
+                        xrerult.responseMsg = "No data found";
+                        xrerult.result = new List<ProjectOutcomeResult>();
                         return xrerult;
 
                     }
                     else
                     {
-                        foreach (var item in apiResponse.Result)
+                        foreach (var item in apiResponse.result)
                         {
                             var proProduct = new MProjectsOutCome
                             {
                                 ProjectCode = item.ProjectCode,
                                 ProjectName = item.ProjectName,
+                                Year = pyear, // Assuming pyear is the year for the project
                                 TProjectsOutComes = item.Items.Select(i => new TProjectsOutCome
                                 {
                                     OrderIndex = i.OrderIndex,
@@ -102,7 +103,7 @@ public class ProjectOutcomeService
                                     YieldTypeName = i.YieldTypeName,
                                     MeasureResult = i.MeasureResult,
                                     Target = i.Target,
-                                    UnitName = i.CountUnitName,
+                                    CountUnitName = i.CountUnitName,
                                 }).ToList()
 
                             };
@@ -133,28 +134,28 @@ public class ProjectOutcomeService
                         YieldTypeName = item.YieldTypeName,
                         MeasureResult = item.MeasureResult,
                         Target = item.Target,
-                        CountUnitName = item.UnitName
+                        CountUnitName = item.CountUnitName
                     }).ToList()
                 }).ToList());
 
-                xrerult.ResponseCode = 200;
-                xrerult.ResponseMsg = "success";
-                xrerult.Result = dataResult;
+                xrerult.responseCode = 200;
+                xrerult.responseMsg = "success";
+                xrerult.result = dataResult;
             }
             else
             {
-               xrerult.ResponseCode = 200;  
-               xrerult.ResponseMsg = "No data found";
-                xrerult.Result = new List<ProjectOutcomeResult>();
+               xrerult.responseCode = 200;  
+               xrerult.responseMsg = "No data found";
+                xrerult.result = new List<ProjectOutcomeResult>();
             }
 
             return xrerult;
         }
         catch (Exception ex)
         {
-            xrerult.ResponseCode = 500;
-            xrerult.ResponseMsg = "No data found";
-            xrerult.Result = new List<ProjectOutcomeResult>() ;
+            xrerult.responseCode = 500;
+            xrerult.responseMsg = "No data found";
+            xrerult.result = new List<ProjectOutcomeResult>() ;
             return xrerult;
         }
 
@@ -169,11 +170,11 @@ public class ProjectOutcomeService
         {
             //get projects by year  
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
-            if (Listprojects == null || Listprojects.Result.Count == 0)
+            if (Listprojects == null || Listprojects.result.Count == 0)
             {
                 continue; // Skip to the next year if no projects found
             }
-            else if (Listprojects.ResponseCode == 200)
+            else if (Listprojects.responseCode == 200)
             {
 
 
@@ -196,16 +197,16 @@ public class ProjectOutcomeService
                     Bearer = x.Bearer,
                 }).FirstOrDefault(); // Use FirstOrDefault to handle empty lists
 
-                foreach (var item in Listprojects.Result)
+                foreach (var item in Listprojects.result)
                 {
-                    var apiResponse = await _serviceApi.GetDataApiAsync_ProjectOutcome(apiParam, item.ProjectCode);
-                    if (apiResponse == null || apiResponse.ResponseCode == 0 || apiResponse.Result.Count == 0)
+                    var apiResponse = await _serviceApi.GetDataApiAsync_ProjectOutcome(apiParam, item.ProjectCode,year.ToString());
+                    if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count == 0)
                     {
                         continue; // Skip to the next project if no data found
                     }
                     else
                     {
-                        foreach (var Subitem in apiResponse.Result)
+                        foreach (var Subitem in apiResponse.result)
                         {
                             // Check if existing budget plan for the project
                             var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode);
@@ -223,7 +224,7 @@ public class ProjectOutcomeService
                                     YieldTypeName = i.YieldTypeName,
                                     MeasureResult = i.MeasureResult,
                                     Target = i.Target,
-                                    UnitName = i.CountUnitName,
+                                    CountUnitName = i.CountUnitName,
                                 }).ToList()
 
                             };

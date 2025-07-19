@@ -1,8 +1,8 @@
 public class ResultDisbursementResultResponse
 {
-    public List<DisbursementResultProject> Result { get; set; }
-    public int ResponseCode { get; set; }
-    public string ResponseMsg { get; set; }
+    public List<DisbursementResultProject> result { get; set; }
+    public int responseCode { get; set; }
+    public string responseMsg { get; set; }
 }
 
 public class DisbursementResultProject
@@ -16,9 +16,9 @@ public class DisbursementResultItem
 {
     public int? OrderIndex { get; set; }
     public string? ItemActivityDetail { get; set; }
-    public decimal? ActivityBudget { get; set; }
+    public double? ActivityBudget { get; set; }
     public string? ExpenseTypeName { get; set; }
-    public decimal? SumEffectValue { get; set; }
+    public double? SumEffectValue { get; set; }
     public List<DisbursementActionResultDetail> ActionResultDetail { get; set; }
 }
 
@@ -26,8 +26,8 @@ public class DisbursementActionResultDetail
 {
     public string? MonthName { get; set; }
     public int? Year { get; set; }
-    public decimal? TempValue { get; set; }
-    public decimal? EffectValue { get; set; }
+    public double? TempValue { get; set; }
+    public double? EffectValue { get; set; }
 }
 
 

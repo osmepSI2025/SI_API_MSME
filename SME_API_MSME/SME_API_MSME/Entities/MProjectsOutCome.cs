@@ -11,5 +11,7 @@ public partial class MProjectsOutCome
 
     public string ProjectName { get; set; } = null!;
 
+    public string? Year { get; set; }
+
     public virtual ICollection<TProjectsOutCome> TProjectsOutComes { get; set; } = new List<TProjectsOutCome>();
 }

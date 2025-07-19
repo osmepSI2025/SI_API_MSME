@@ -15,13 +15,13 @@ public partial class TPerformanceResult
 
     public string? ExpenseTypeName { get; set; }
 
-    public decimal? ActivityWeight { get; set; }
+    public double? ActivityWeight { get; set; }
 
-    public int? Target { get; set; }
+    public double? Target { get; set; }
 
     public string? UnitName { get; set; }
 
-    public decimal? SumEffectValue { get; set; }
+    public double? SumEffectValue { get; set; }
 
     public virtual MPerformanceResult Project { get; set; } = null!;
 

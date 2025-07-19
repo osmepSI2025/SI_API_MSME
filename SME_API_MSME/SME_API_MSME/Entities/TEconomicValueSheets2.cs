@@ -11,7 +11,7 @@ public partial class TEconomicValueSheets2
 
     public string? Province { get; set; }
 
-    public string? InterestedBusiness { get; set; }
+    public int? InterestedBusiness { get; set; }
 
     public virtual ICollection<TEconomicPromoted> TEconomicPromoteds { get; set; } = new List<TEconomicPromoted>();
 

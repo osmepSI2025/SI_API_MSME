@@ -1,8 +1,8 @@
 public class ResultOutcomeResultResponse
 {
-    public List<OutcomeResultProject> Result { get; set; }
-    public int ResponseCode { get; set; }
-    public string ResponseMsg { get; set; }
+    public List<OutcomeResultProject> result { get; set; }
+    public int responseCode { get; set; }
+    public string responseMsg { get; set; }
 }
 
 public class OutcomeResultProject
@@ -17,7 +17,7 @@ public class OutcomeResultItem
     public int? OrderIndex { get; set; }
     public string? OutputOutComeName { get; set; }
     public string? YieldTypeName { get; set; }
-    public int? Target { get; set; }
+    public double? Target { get; set; }
     public string? UnitName { get; set; }
     public List<OutcomeResultDetail> OutcomeResult { get; set; }
 }
@@ -26,8 +26,8 @@ public class OutcomeResultDetail
 {
     public string? MonthName { get; set; }
     public int? Year { get; set; }
-    public decimal? ResultOfYear { get; set; }
-    public decimal? ResultOffEffect { get; set; }
+    public double? ResultOfYear { get; set; }
+    public double? ResultOffEffect { get; set; }
     public string? Detail { get; set; }
     public string? Problem { get; set; }
     public string? Solution { get; set; }

@@ -11,11 +11,11 @@ public partial class TOutcomeResultDetail
 
     public string? MonthName { get; set; }
 
-    public string? Year { get; set; }
+    public int? Year { get; set; }
 
-    public decimal? ResultOfYear { get; set; }
+    public double? ResultOfYear { get; set; }
 
-    public decimal? ResultOffEffect { get; set; }
+    public double? ResultOffEffect { get; set; }
 
     public string? Detail { get; set; }
 

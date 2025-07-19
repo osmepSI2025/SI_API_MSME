@@ -18,7 +18,7 @@ public class EconomicValueRepository
             .ToListAsync();
     }
 
-    public async Task<MEconomicValueProject?> GetByIdAsync(string? year)
+    public async Task<MEconomicValueProject?> GetByIdAsync(long? pProjectCode, int? year)
     {
         try
         {
@@ -32,7 +32,7 @@ public class EconomicValueRepository
            //    .ThenInclude(s => s.TSmeEconomicFactors)
            //.Include(p => p.TEconomicValueSheets2s)
            //    .ThenInclude(s => s.TSmeEconomicDevelopResults)
-       .FirstOrDefaultAsync(e => e.BudgetYear == year);
+       .FirstOrDefaultAsync(e => e.BudgetYear == year && e.ProjectCode == pProjectCode);
         }
         catch (Exception ex)
         {
@@ -42,11 +42,11 @@ public class EconomicValueRepository
     }
 
 
-    public async Task<MEconomicValueProject?> GetCheckByIdAsync(string? year)
+    public async Task<MEconomicValueProject?> GetCheckByIdAsync(long? ProjectCode ,int year)
     {
         return await _context.MEconomicValueProjects
 
-       .FirstOrDefaultAsync(e => e.BudgetYear == year);
+       .FirstOrDefaultAsync(e => e.BudgetYear == year && e.ProjectCode == ProjectCode);
     }
     public async Task AddAsync(MEconomicValueProject economicValue,List<TEconomicValue> tecom)
     {

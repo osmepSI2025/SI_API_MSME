@@ -11,11 +11,11 @@ public partial class TDisbursementResultDetail
 
     public string? MonthName { get; set; }
 
-    public string? Year { get; set; }
+    public int? Year { get; set; }
 
-    public decimal? TempValue { get; set; }
+    public double? TempValue { get; set; }
 
-    public decimal? EffectValue { get; set; }
+    public double? EffectValue { get; set; }
 
     public virtual TDisbursementResult BudgetActivity { get; set; } = null!;
 }

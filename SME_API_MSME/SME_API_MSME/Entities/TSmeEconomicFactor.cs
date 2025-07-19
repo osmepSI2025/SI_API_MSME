@@ -9,19 +9,19 @@ public partial class TSmeEconomicFactor
 
     public int? SheetId { get; set; }
 
-    public decimal? LoginThaiSmeGp { get; set; }
+    public int? LoginThaiSmeGp { get; set; }
 
-    public decimal? ProductsServices { get; set; }
+    public int? ProductsServices { get; set; }
 
-    public decimal? SmeEntrepreneurs { get; set; }
+    public int? SmeEntrepreneurs { get; set; }
 
-    public decimal? RegisterThaiSmeGp { get; set; }
+    public double? RegisterThaiSmeGp { get; set; }
 
-    public decimal? NewEntrepreneur { get; set; }
+    public int? NewEntrepreneur { get; set; }
 
-    public decimal? OriginalEntrepreneur { get; set; }
+    public int? OriginalEntrepreneur { get; set; }
 
-    public decimal? ImproveLaw { get; set; }
+    public int? ImproveLaw { get; set; }
 
     public string? UpdatedLaw { get; set; }
 
@@ -31,25 +31,25 @@ public partial class TSmeEconomicFactor
 
     public string? CourseName { get; set; }
 
-    public decimal? PersonnelTrained { get; set; }
+    public int? PersonnelTrained { get; set; }
 
-    public decimal? Bds { get; set; }
+    public int? Bds { get; set; }
 
     public string? BusinessField { get; set; }
 
-    public decimal? SupportMoney { get; set; }
+    public double? SupportMoney { get; set; }
 
-    public decimal? AmountMicro { get; set; }
+    public int? AmountMicro { get; set; }
 
-    public decimal? AmountSmall { get; set; }
+    public int? AmountSmall { get; set; }
 
-    public decimal? SubsidyMedium { get; set; }
+    public int? SubsidyMedium { get; set; }
 
-    public decimal? SubsidyOther { get; set; }
+    public int? SubsidyOther { get; set; }
 
-    public decimal? StoryDeveloped { get; set; }
+    public int? StoryDeveloped { get; set; }
 
-    public decimal? BusinessServiceProvider { get; set; }
+    public int? BusinessServiceProvider { get; set; }
 
     public virtual TEconomicValueSheets2? Sheet { get; set; }
 }

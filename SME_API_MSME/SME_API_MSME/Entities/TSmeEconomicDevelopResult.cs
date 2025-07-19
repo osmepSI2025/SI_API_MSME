@@ -9,47 +9,47 @@ public partial class TSmeEconomicDevelopResult
 
     public int? SheetId { get; set; }
 
-    public decimal? BusinessExpansion { get; set; }
+    public int? BusinessExpansion { get; set; }
 
-    public decimal? Franchise { get; set; }
+    public int? Franchise { get; set; }
 
-    public decimal? BusinessInvestment { get; set; }
+    public int? BusinessInvestment { get; set; }
 
-    public decimal? BusinessSameSize { get; set; }
+    public int? BusinessSameSize { get; set; }
 
-    public decimal? MicroToSmall { get; set; }
+    public int? MicroToSmall { get; set; }
 
-    public decimal? SmallToMedium { get; set; }
+    public int? SmallToMedium { get; set; }
 
-    public decimal? MediumToLarge { get; set; }
+    public int? MediumToLarge { get; set; }
 
-    public decimal? IncreaseEmployment { get; set; }
+    public int? IncreaseEmployment { get; set; }
 
-    public decimal? BusinessRegistration { get; set; }
+    public int? BusinessRegistration { get; set; }
 
-    public decimal? PvBusinessExpansion { get; set; }
+    public int? PvBusinessExpansion { get; set; }
 
-    public decimal? AmountFranchise { get; set; }
+    public int? AmountFranchise { get; set; }
 
-    public decimal? PvBusinessInvestment { get; set; }
+    public int? PvBusinessInvestment { get; set; }
 
-    public decimal? FieldBusinessSameSize { get; set; }
+    public int? FieldBusinessSameSize { get; set; }
 
-    public decimal? FieldMicroToSmall { get; set; }
+    public int? FieldMicroToSmall { get; set; }
 
-    public decimal? FieldSmallToMedium { get; set; }
+    public int? FieldSmallToMedium { get; set; }
 
-    public decimal? FieldMediumToLarge { get; set; }
+    public int? FieldMediumToLarge { get; set; }
 
-    public decimal? MaintainIncreaseEmployment { get; set; }
+    public int? MaintainIncreaseEmployment { get; set; }
 
-    public decimal? FieldBusinessRegistration { get; set; }
+    public int? FieldBusinessRegistration { get; set; }
 
-    public decimal? InvestmentBusinessExpansion { get; set; }
+    public double? InvestmentBusinessExpansion { get; set; }
 
-    public decimal? InvestmentFranchise { get; set; }
+    public int? InvestmentFranchise { get; set; }
 
-    public decimal? FieldBusinessInvestment { get; set; }
+    public string? FieldBusinessInvestment { get; set; }
 
     public virtual TEconomicValueSheets2? Sheet { get; set; }
 }

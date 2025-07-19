@@ -14,10 +14,10 @@ public class DisbursementResultController : ControllerBase
 
  
 
-    [HttpGet("disbursement-result/{projectCode}")]
-    public async Task<IActionResult> GetById(long? projectCode)
+    [HttpGet("disbursement-result")]
+    public async Task<IActionResult> GetById([FromQuery] long? projectCode, [FromQuery] string year)
     {
-        var disbursementResult = await _service.GetDisbursementResultByIdAsync(projectCode);
+        var disbursementResult = await _service.GetDisbursementResultByIdAsync(projectCode, year.ToString());
         if (disbursementResult == null) return NotFound();
         return Ok(disbursementResult);
     }

@@ -13,10 +13,10 @@ public class ProjectOutcomeController : ControllerBase
     }
 
 
-    [HttpGet("project-outcome/{projectCode}")]
-    public async Task<IActionResult> GetById(long? projectCode)
+    [HttpGet("project-outcome")]
+    public async Task<IActionResult> GetById([FromQuery] long? projectCode, [FromQuery] string year)
     {
-        var projectOutcome = await _service.GetProjectOutcomeByIdAsync(projectCode);
+        var projectOutcome = await _service.GetProjectOutcomeByIdAsync(projectCode, year);
         if (projectOutcome == null) return NotFound();
         return Ok(projectOutcome);
     }

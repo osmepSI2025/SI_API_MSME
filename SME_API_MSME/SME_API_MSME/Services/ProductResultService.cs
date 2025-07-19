@@ -27,7 +27,7 @@ public class ProductResultService
     //{
     //    return _repository.GetByIdAsync(projectId);
     //}
-    public async Task<ResultProductResultResponse?> GetProductResultByIdAsync(long? pProjectCode)
+    public async Task<ResultProductResultResponse?> GetProductResultByIdAsync(long? pProjectCode, string pYear)
     {
         var xrerult = new ResultProductResultResponse();
         try
@@ -43,7 +43,7 @@ public class ProductResultService
             }
             else
             {
-                var resultPA = await _repository.GetByIdAsync(pProjectCode);
+                var resultPA = await _repository.GetByIdAsync(pProjectCode, pYear);
 
                 if (resultPA == null)
                 {
@@ -68,44 +68,49 @@ public class ProductResultService
 
                     if (apiParam == null)
                     {
-                        xrerult.ResponseCode = 500;
-                        xrerult.ResponseMsg = "Api Service Inccorect.";
-                        xrerult.Result = new List<ProductResultProject>();
+                        xrerult.responseCode = 500;
+                        xrerult.responseMsg = "Api Service Inccorect.";
+                        xrerult.result = new List<ProductResultProject>();
                         return xrerult;
 
                     }
 
-                    var apiResponse = await _serviceApi.GetDataApiAsync_ProductResult(apiParam, pProjectCode);
-                   if (apiResponse == null || apiResponse.ResponseCode == 0 || apiResponse.Result.Count ==0)
+                    var apiResponse = await _serviceApi.GetDataApiAsync_ProductResult(apiParam, pProjectCode, pYear);
+                   if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count ==0)
                     {
-                        xrerult.ResponseCode = 200;
-                        xrerult.ResponseMsg = "No data found";
-                        xrerult.Result =new List<ProductResultProject>();
+                        xrerult.responseCode = 200;
+                        xrerult.responseMsg = "No data found";
+                        xrerult.result =new List<ProductResultProject>();
                         return xrerult;
                     }
                     else
                     {
-                        foreach (var item in apiResponse.Result)
+                        foreach (var item in apiResponse.result)
                         {
                             var proProduct = new MProductResult
                             {
                                 ProjectCode = item.ProjectCode, // Corrected from 'project.ProjectCode' to 'item.ProjectCode'
-                                ProjectName = item.ProjectName, // Corrected from 'project.ProjectName' to 'item.ProjectName'
+                                ProjectName = item.ProjectName,
+                                Year = pYear,// Corrected from 'project.ProjectName' to 'item.ProjectName'
                                 TProductResultOutputs = item.Items.Select(i => new TProductResultOutput
                                 {
-                                    OrderIndex = i.OrderIndex ?? 0, // Handle nullable OrderIndex
+                                    OrderIndex = i.OrderIndex ?? 0,
+                                    // Handle nullable OrderIndex
                                     OutputOutcomeName = i.OutputOutComeName, // Corrected property name
                                     YieldTypeName = i.YieldTypeName, // Corrected property name
                                     UnitName = i.UnitName, // Corrected property name
+                                    Target = i.Target,
+                                   
                                     TProductResultOutputDetails = i.ProductResult.Select(x => new TProductResultOutputDetail
                                     {
                                         MonthName = x.MonthName,
-                                        Year = x.Year.ToString(), // Corrected to match the type
+                                        Year = x.Year??0, // Corrected to match the type
                                         ResultOfYear = x.ResultOfYear, // Corrected property name
                                         ResultOffEffect = x.ResultOffEffect, // Corrected property name
                                         Detail = x.Detail,
                                         Problem = x.Problem,
-                                        Solution = x.Solution
+                                        Solution = x.Solution,
+                                        
                                     }).ToList()
                                 }).ToList()
                             };
@@ -117,7 +122,7 @@ public class ProductResultService
 
                     result = pProjectCode == 0
           ? await _repository.GetAllAsync()
-          : new List<MProductResult> { await _repository.GetByIdAsync(pProjectCode) };
+          : new List<MProductResult> { await _repository.GetByIdAsync(pProjectCode,pYear) };
 
                 }
                 else
@@ -142,9 +147,9 @@ public class ProductResultService
                         ProductResult = item.TProductResultOutputDetails.Select(x => new ProductResultDetail
                         {
                             MonthName = x.MonthName,
-                            Year = x.Year != null ? int.Parse(x.Year) : 0, // Handle null Year by providing a default value
-                            ResultOfYear = (decimal?)x.ResultOfYear ?? 0, // Corrected property name and type
-                            ResultOffEffect = (decimal?)x.ResultOffEffect ?? 0, // Corrected property name and type
+                            Year = x.Year ??0, // Handle null Year by providing a default value
+                            ResultOfYear = x.ResultOfYear ?? 0, // Corrected property name and type
+                            ResultOffEffect = x.ResultOffEffect ?? 0, // Corrected property name and type
                             Detail = x.Detail,
                             Problem = x.Problem,
                             Solution = x.Solution
@@ -154,24 +159,24 @@ public class ProductResultService
 
 
 
-                xrerult.ResponseCode = 200;
-                xrerult.ResponseMsg = "success";
-                xrerult.Result = dataResult;
+                xrerult.responseCode = 200;
+                xrerult.responseMsg = "success";
+                xrerult.result = dataResult;
             }
             else
             {
-               xrerult.ResponseCode = 200;                
-                xrerult.ResponseMsg = "No data found";
-                xrerult.Result = new List<ProductResultProject>() ;
+               xrerult.responseCode = 200;                
+                xrerult.responseMsg = "No data found";
+                xrerult.result = new List<ProductResultProject>() ;
             }
 
             return xrerult;
         }
         catch (Exception ex)
         {
-            xrerult.ResponseCode = 500;
-            xrerult.ResponseMsg = ex.Message;
-            xrerult.Result = new List<ProductResultProject>();
+            xrerult.responseCode = 500;
+            xrerult.responseMsg = ex.Message;
+            xrerult.result = new List<ProductResultProject>();
             return xrerult;
         }
 
@@ -186,11 +191,11 @@ public class ProductResultService
         {
             //get projects by year  
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
-            if (Listprojects == null || Listprojects.Result.Count == 0)
+            if (Listprojects == null || Listprojects.result.Count == 0)
             {
                 continue; // Skip to the next year if no projects found
             }
-            else if (Listprojects.ResponseCode == 200)
+            else if (Listprojects.responseCode == 200)
             {
 
 
@@ -213,35 +218,37 @@ public class ProductResultService
                     Bearer = x.Bearer,
                 }).FirstOrDefault(); // Use FirstOrDefault to handle empty lists
 
-                foreach (var item in Listprojects.Result)
+                foreach (var item in Listprojects.result)
                 {
-                    var apiResponse = await _serviceApi.GetDataApiAsync_ProductResult(apiParam, item.ProjectCode);
-                    if (apiResponse == null || apiResponse.ResponseCode == 0 || apiResponse.Result.Count == 0)
+                    var apiResponse = await _serviceApi.GetDataApiAsync_ProductResult(apiParam, item.ProjectCode,year.ToString());
+                    if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count == 0)
                     {
                         continue; // Skip to the next project if no data found
                     }
                     else
                     {
-                        foreach (var Subitem in apiResponse.Result)
+                        foreach (var Subitem in apiResponse.result)
                         {
                             // Check if existing budget plan for the project
-                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode);
+                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode,year.ToString());
 
                             var proProduct = new MProductResult
                             {
                                 ProjectId = resultPA?.ProjectId ?? 0, // Assuming ProjectId is available in the item
                                 ProjectCode = item.ProjectCode, // Corrected from 'project.ProjectCode' to 'item.ProjectCode'
-                                ProjectName = item.ProjectName, // Corrected from 'project.ProjectName' to 'item.ProjectName'
+                                ProjectName = item.ProjectName,
+                                Year = year.ToString(),// Corrected from 'project.ProjectName' to 'item.ProjectName'
                                 TProductResultOutputs = Subitem.Items.Select(i => new TProductResultOutput
                                 {
                                     OrderIndex = i.OrderIndex ?? 0, // Handle nullable OrderIndex
                                     OutputOutcomeName = i.OutputOutComeName, // Corrected property name
                                     YieldTypeName = i.YieldTypeName, // Corrected property name
-                                    UnitName = i.UnitName, // Corrected property name
+                                    UnitName = i.UnitName,
+                                    Target = i.Target,// Corrected property name
                                     TProductResultOutputDetails = i.ProductResult.Select(x => new TProductResultOutputDetail
                                     {
                                         MonthName = x.MonthName,
-                                        Year = x.Year.ToString(), // Corrected to match the type
+                                        Year = x.Year, // Corrected to match the type
                                         ResultOfYear = x.ResultOfYear, // Corrected property name
                                         ResultOffEffect = x.ResultOffEffect, // Corrected property name
                                         Detail = x.Detail,

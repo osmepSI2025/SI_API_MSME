@@ -11,5 +11,7 @@ public partial class MProjectsActivity
 
     public string ProjectName { get; set; } = null!;
 
+    public string? Year { get; set; }
+
     public virtual ICollection<TProjectActivity> TProjectActivities { get; set; } = new List<TProjectActivity>();
 }

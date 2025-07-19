@@ -1,8 +1,8 @@
 public class ResultExpectOutcomeResponse
 {
-    public List<ExpectOutcomeResult> Result { get; set; }
-    public int ResponseCode { get; set; }
-    public string ResponseMsg { get; set; }
+    public List<ExpectOutcomeResult> result { get; set; }
+    public int responseCode { get; set; }
+    public string responseMsg { get; set; }
 }
 
 public class ExpectOutcomeResult
@@ -16,7 +16,7 @@ public class ExpectOutcomeItem
 {
     public int? OrderIndex { get; set; }
     public string? ResultFinalOutcome { get; set; }
-    public decimal? SumBudget { get; set; }
+    public double? SumBudget { get; set; }
     public List<ExpectOutcomeFinalOutcomeDetail> FinalOutcomeDetail { get; set; }
 }
 

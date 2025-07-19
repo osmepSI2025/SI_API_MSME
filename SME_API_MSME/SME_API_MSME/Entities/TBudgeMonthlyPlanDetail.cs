@@ -11,11 +11,11 @@ public partial class TBudgeMonthlyPlanDetail
 
     public string? MonthName { get; set; }
 
-    public string? Year { get; set; }
+    public int? Year { get; set; }
 
-    public decimal? TempValue { get; set; }
+    public double? TempValue { get; set; }
 
-    public decimal? ResultValue { get; set; }
+    public double? ResultValue { get; set; }
 
     public virtual TBudgetPlan BudgetPlan { get; set; } = null!;
 }

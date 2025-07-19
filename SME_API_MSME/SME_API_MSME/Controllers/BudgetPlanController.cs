@@ -14,10 +14,10 @@ public class BudgetPlanController : ControllerBase
 
    
 
-    [HttpGet("bugget-plan/{projectId}")]
-    public async Task<IActionResult> GetById(int projectId)
+    [HttpGet("bugget-plan")]
+    public async Task<IActionResult> GetById([FromQuery] long? projectCode, [FromQuery] string year)
     {
-        var budgetPlan = await _service.GetBudgetPlanByIdAsync(projectId);
+        var budgetPlan = await _service.GetBudgetPlanByIdAsync(projectCode,year);
         if (budgetPlan == null) return NotFound();
         return Ok(budgetPlan);
     }

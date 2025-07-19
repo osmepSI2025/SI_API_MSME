@@ -1,8 +1,8 @@
 public class ResultProjectAreaResponse
 {
-    public List<ProjectAreaResult> Result { get; set; } = new List<ProjectAreaResult>();
-    public int ResponseCode { get; set; }
-    public string ResponseMsg { get; set; }
+    public List<ProjectAreaResult> result { get; set; } = new List<ProjectAreaResult>();
+    public int responseCode { get; set; }
+    public string responseMsg { get; set; }
 }
 
 public class ProjectAreaResult

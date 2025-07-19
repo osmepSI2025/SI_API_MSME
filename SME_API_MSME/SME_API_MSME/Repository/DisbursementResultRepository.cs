@@ -18,7 +18,7 @@ public class DisbursementResultRepository
             .ToListAsync();
     }
 
-    public async Task<MDisbursementResult?> GetByIdAsync(long? pProjectCode)
+    public async Task<MDisbursementResult?> GetByIdAsync(long? pProjectCode,string pYear)
     {
         return await _context.MDisbursementResults
             .Include(d => d.TDisbursementResults)

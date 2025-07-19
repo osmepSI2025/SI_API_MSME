@@ -11,5 +11,7 @@ public partial class MBudgetPlan
 
     public string ProjectName { get; set; } = null!;
 
+    public string? Year { get; set; }
+
     public virtual ICollection<TBudgetPlan> TBudgetPlans { get; set; } = new List<TBudgetPlan>();
 }

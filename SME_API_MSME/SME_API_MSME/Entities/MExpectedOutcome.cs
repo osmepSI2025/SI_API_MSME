@@ -11,5 +11,7 @@ public partial class MExpectedOutcome
 
     public string ProjectName { get; set; } = null!;
 
+    public string? Year { get; set; }
+
     public virtual ICollection<TExpectedFinalOutcome> TExpectedFinalOutcomes { get; set; } = new List<TExpectedFinalOutcome>();
 }

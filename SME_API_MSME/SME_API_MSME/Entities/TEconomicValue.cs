@@ -11,19 +11,19 @@ public partial class TEconomicValue
 
     public long? ProjectCode { get; set; }
 
-    public decimal? MicroEnd { get; set; }
+    public double? MicroEnd { get; set; }
 
-    public decimal? MicroNext { get; set; }
+    public double? MicroNext { get; set; }
 
-    public decimal? SmallEnd { get; set; }
+    public double? SmallEnd { get; set; }
 
-    public decimal? SmallNext { get; set; }
+    public double? SmallNext { get; set; }
 
-    public decimal? MediumEnd { get; set; }
+    public double? MediumEnd { get; set; }
 
-    public decimal? MediumNext { get; set; }
+    public double? MediumNext { get; set; }
 
-    public decimal? OtherEnd { get; set; }
+    public double? OtherEnd { get; set; }
 
-    public decimal? OtherNext { get; set; }
+    public double? OtherNext { get; set; }
 }

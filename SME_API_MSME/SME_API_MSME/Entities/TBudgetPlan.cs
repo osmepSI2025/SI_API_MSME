@@ -13,7 +13,7 @@ public partial class TBudgetPlan
 
     public string? ItemActivityDetail { get; set; }
 
-    public decimal? ActivityBudget { get; set; }
+    public double? ActivityBudget { get; set; }
 
     public string? ExpenseTypeName { get; set; }
 

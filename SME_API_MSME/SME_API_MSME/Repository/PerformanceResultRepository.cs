@@ -18,12 +18,12 @@ public class PerformanceResultRepository
             .ToListAsync();
     }
 
-    public async Task<MPerformanceResult?> GetByIdAsync(long? pProjectCode)
+    public async Task<MPerformanceResult?> GetByIdAsync(long? pProjectCode,string pYear)
     {
         return await _context.MPerformanceResults
             .Include(p => p.TPerformanceResults)
             .ThenInclude(r => r.TPerformanceResultDetails)
-            .FirstOrDefaultAsync(p => p.ProjectCode == pProjectCode);
+            .FirstOrDefaultAsync(p => p.ProjectCode == pProjectCode && p.Year == pYear);
     }
 
     public async Task AddAsync(MPerformanceResult performanceResult)

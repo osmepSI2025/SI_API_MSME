@@ -1,4 +1,5 @@
-﻿using SME_API_MSME.Entities;
+﻿using Namotion.Reflection;
+using SME_API_MSME.Entities;
 using SME_API_MSME.Models;
 using SME_API_MSME.Repository;
 using SME_API_MSME.Services;
@@ -27,7 +28,7 @@ public class ProjectActivityService
     //{
     //    return _repository.GetByIdAsync(projectId);
     //}
-    public async Task<ResultProjectActivityResponse?> GetProjectActivityByIdAsync(long? pProjectCode)
+    public async Task<ResultProjectActivityResponse?> GetProjectActivityByIdAsync(long? pProjectCode,string pyear)
     {
         var xrerult = new ResultProjectActivityResponse();
         try
@@ -43,7 +44,7 @@ public class ProjectActivityService
             }
             else
             {
-                var resultPA = await _repository.GetByIdAsync(pProjectCode);
+                var resultPA = await _repository.GetByIdAsync(pProjectCode, pyear);
 
                 if (resultPA == null)
                 {
@@ -68,30 +69,32 @@ public class ProjectActivityService
 
                     if (apiParam == null)
                     {
-                        xrerult.ResponseCode = 500;
-                        xrerult.ResponseMsg = "Api Service Inccorect.";
-                        xrerult.Result = new List<ProjectActivityResult>();
+                        xrerult.responseCode = 500;
+                        xrerult.responseMsg = "Api Service Inccorect.";
+                        xrerult.result = new List<ProjectActivityResult>();
                         return xrerult;
 
                     }
 
-                    var apiResponse = await _serviceApi.GetDataApiAsync_ProjectActivity(apiParam, pProjectCode);
-                   if (apiResponse == null || apiResponse.ResponseCode == 0 || apiResponse.Result.Count ==0)
+                    var apiResponse = await _serviceApi.GetDataApiAsync_ProjectActivity(apiParam, pProjectCode, pyear);
+                   if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count ==0)
                     {
-                        xrerult.ResponseCode = 200;
-                        xrerult.ResponseMsg = "No data found";
-                        xrerult.Result = new List<ProjectActivityResult>();
+                        xrerult.responseCode = 200;
+                        xrerult.responseMsg = "No data found";
+                        xrerult.result = new List<ProjectActivityResult>();
                         return xrerult;
 
                     }
                     else
                     {
-                        foreach (var item in apiResponse.Result)
+                        foreach (var item in apiResponse.result)
                         {
                             var proProduct = new MProjectsActivity
                             {
                                 ProjectCode = item.ProjectCode, // Corrected from 'project.ProjectCode' to 'item.ProjectCode'
-                                ProjectName = item.ProjectName, // Corrected from 'project.ProjectName' to 'item.ProjectName'
+                                ProjectName = item.ProjectName,
+                                Year = pyear, // Assuming Year is a string, adjust if necessary
+                                // Corrected from 'project.ProjectName' to 'item.ProjectName'
                                 TProjectActivities = item.Items.Select(i => new TProjectActivity
                                 {
                                     OrderIndex = i.OrderIndex,
@@ -102,8 +105,9 @@ public class ProjectActivityService
                                     TProjectActivityPlans = i.ActionResultDetail.Select(x => new TProjectActivityPlan
                                     {
                                         MonthName = x.MonthName,
-                                        Year = x.Year.ToString(),
+                                        Year = x.Year,
                                         ResultValue = x.ResultValue
+                                        ,TempValue = x.TempValue
                                     }).ToList()
                                 }).ToList()
                             };
@@ -114,7 +118,7 @@ public class ProjectActivityService
 
                     result = pProjectCode == 0
           ? await _repository.GetAllAsync()
-          : new List<MProjectsActivity> { await _repository.GetByIdAsync(pProjectCode) };
+          : new List<MProjectsActivity> { await _repository.GetByIdAsync(pProjectCode,pyear) };
 
                 }
                 else
@@ -139,30 +143,31 @@ public class ProjectActivityService
                         ActionResultDetail = item.TProjectActivityPlans.Select(x => new ActionResultDetail
                         {
                             MonthName = x.MonthName,
-                            Year = x.Year != null ? int.Parse(x.Year) : 0, // Handle null Year by providing a default value
+                            Year = x.Year ?? 0, // Handle null Year by providing a default value
                             ResultValue = x.ResultValue ?? 0 // Handle nullable ResultValue
+                            ,TempValue =x.TempValue
                         }).ToList()
                     }).ToList()
                 }).ToList());
 
-                xrerult.ResponseCode = 200;
-                xrerult.ResponseMsg = "success";
-                xrerult.Result = dataResult;
+                xrerult.responseCode = 200;
+                xrerult.responseMsg = "success";
+                xrerult.result = dataResult;
             }
             else
             {
-               xrerult.ResponseCode = 200;
-                xrerult.ResponseMsg = "No data found";
-                xrerult.Result = null;
+               xrerult.responseCode = 200;
+                xrerult.responseMsg = "No data found";
+                xrerult.result = null;
             }
 
             return xrerult;
         }
         catch (Exception ex)
         {
-            xrerult.ResponseCode = 500;
-            xrerult.ResponseMsg = "No data found";
-            xrerult.Result = new List<ProjectActivityResult>();
+            xrerult.responseCode = 500;
+            xrerult.responseMsg = "No data found";
+            xrerult.result = new List<ProjectActivityResult>();
             return xrerult;
         }
 
@@ -177,11 +182,11 @@ public class ProjectActivityService
         {
             //get projects by year  
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
-            if (Listprojects == null || Listprojects.Result.Count == 0)
+            if (Listprojects == null || Listprojects.result.Count == 0)
             {
                 continue; // Skip to the next year if no projects found
             }
-            else if (Listprojects.ResponseCode == 200)
+            else if (Listprojects.responseCode == 200)
             {
 
 
@@ -204,25 +209,26 @@ public class ProjectActivityService
                     Bearer = x.Bearer,
                 }).FirstOrDefault(); // Use FirstOrDefault to handle empty lists
 
-                foreach (var item in Listprojects.Result)
+                foreach (var item in Listprojects.result)
                 {
-                    var apiResponse = await _serviceApi.GetDataApiAsync_ProjectActivity(apiParam, item.ProjectCode);
-                    if (apiResponse == null || apiResponse.ResponseCode == 0 || apiResponse.Result.Count == 0)
+                    var apiResponse = await _serviceApi.GetDataApiAsync_ProjectActivity(apiParam, item.ProjectCode,year.ToString());
+                    if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count == 0)
                     {
                         continue; // Skip to the next project if no data found
                     }
                     else
                     {
-                        foreach (var Subitem in apiResponse.Result)
+                        foreach (var Subitem in apiResponse.result)
                         {
                             // Check if existing budget plan for the project
-                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode);
+                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode,year.ToString());
 
                             var proProduct = new MProjectsActivity
                             {
                                 ProjectId = resultPA?.ProjectId ?? 0, // Assuming ProjectId is available in the item
                                 ProjectCode = item.ProjectCode, // Corrected from 'project.ProjectCode' to 'item.ProjectCode'
-                                ProjectName = item.ProjectName, // Corrected from 'project.ProjectName' to 'item.ProjectName'
+                                ProjectName = item.ProjectName,
+                                Year = year.ToString(),// Corrected from 'project.ProjectName' to 'item.ProjectName'
                                 TProjectActivities = Subitem.Items.Select(i => new TProjectActivity
                                 {
                                     OrderIndex = i.OrderIndex,
@@ -233,8 +239,9 @@ public class ProjectActivityService
                                     TProjectActivityPlans = i.ActionResultDetail.Select(x => new TProjectActivityPlan
                                     {
                                         MonthName = x.MonthName,
-                                        Year = x.Year.ToString(),
+                                        Year = x.Year??0,
                                         ResultValue = x.ResultValue
+                                        ,TempValue =x.TempValue
                                     }).ToList()
                                 }).ToList()
                             };

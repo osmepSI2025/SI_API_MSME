@@ -11,13 +11,13 @@ public partial class TEconomicPromoted
 
     public int? EntrepreneurId { get; set; }
 
-    public string? Production { get; set; }
+    public int? Production { get; set; }
 
-    public string? Trade { get; set; }
+    public int? Trade { get; set; }
 
-    public string? Serve { get; set; }
+    public int? Serve { get; set; }
 
-    public string? Agribusiness { get; set; }
+    public int? Agribusiness { get; set; }
 
     public string? ProductionBranch { get; set; }
 

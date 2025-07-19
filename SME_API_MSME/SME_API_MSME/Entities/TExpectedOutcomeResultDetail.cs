@@ -11,9 +11,9 @@ public partial class TExpectedOutcomeResultDetail
 
     public string? MonthName { get; set; }
 
-    public string? Year { get; set; }
+    public int? Year { get; set; }
 
-    public decimal? ResultValue { get; set; }
+    public double? ResultValue { get; set; }
 
     public virtual TExpectedOutcomeResult Outcome { get; set; } = null!;
 }

@@ -14,10 +14,10 @@ public class ExpectedOutcomeResultController : ControllerBase
 
  
 
-    [HttpGet("expected-outcome-result/{projectCode}")]
-    public async Task<IActionResult> GetById(int projectCode)
+    [HttpGet("expected-outcome-result")]
+    public async Task<IActionResult> GetById([FromQuery] long? projectCode, [FromQuery] string year)
     {
-        var expectedOutcomeResult = await _service.GetExpectedOutcomeResultByIdAsync(projectCode);
+        var expectedOutcomeResult = await _service.GetExpectedOutcomeResultByIdAsync(projectCode, year);
         if (expectedOutcomeResult == null) return NotFound();
         return Ok(expectedOutcomeResult);
     }

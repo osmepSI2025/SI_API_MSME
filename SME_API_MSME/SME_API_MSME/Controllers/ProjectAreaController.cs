@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using SME_API_MSME.Entities;
 
 [ApiController]
@@ -13,10 +14,10 @@ public class ProjectAreaController : ControllerBase
     }
 
 
-    [HttpGet("project-area/{projectCode}")]
-    public async Task<IActionResult> GetById(long? projectCode)
+    [HttpGet("project-area")]
+    public async Task<IActionResult> GetById([FromQuery] long? projectCode, [FromQuery] string year)
     {
-        var projectArea = await _service.GetProjectAreaByIdAsync(projectCode);
+        var projectArea = await _service.GetProjectAreaByIdAsync(projectCode, year);
         if (projectArea == null) return NotFound();
         return Ok(projectArea);
     }

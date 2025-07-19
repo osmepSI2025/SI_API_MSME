@@ -1,8 +1,8 @@
 public class ResultProjectActivityResponse
 {
-    public List<ProjectActivityResult> Result { get; set; }
-    public int ResponseCode { get; set; }
-    public string ResponseMsg { get; set; }
+    public List<ProjectActivityResult> result { get; set; }
+    public int responseCode { get; set; }
+    public string responseMsg { get; set; }
 }
 
 public class ProjectActivityResult
@@ -16,8 +16,8 @@ public class ProjectActivityItem
 {
     public int? OrderIndex { get; set; }
     public string? ItemActivityDetail { get; set; }
-    public decimal? ActivityWeight { get; set; }
-    public int? Target { get; set; }
+    public double? ActivityWeight { get; set; }
+    public double? Target { get; set; }
     public string? UnitName { get; set; }
     public List<ActionResultDetail> ActionResultDetail { get; set; }
 }
@@ -26,6 +26,6 @@ public class ActionResultDetail
 {
     public string? MonthName { get; set; }
     public int? Year { get; set; }
-    public decimal? TempValue { get; set; }
-    public decimal? ResultValue { get; set; }
+    public double? TempValue { get; set; }
+    public double? ResultValue { get; set; }
 }

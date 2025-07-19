@@ -20,6 +20,7 @@ namespace SME_API_MSME.Services
         public CallAPIService(HttpClient httpClient, IConfiguration configuration, IApiInformationRepository repositoryApi)
         {
             _httpClient = httpClient;
+            _httpClient.Timeout = TimeSpan.FromMinutes(2); // Increase timeout to 5 minutes (adjust as needed)
             Api_ErrorLog = configuration["Information:Api_ErrorLog"] ?? throw new ArgumentNullException("Api_ErrorLog is missing in appsettings.json");
             Api_SysCode = configuration["Information:Api_SysCode"] ?? throw new ArgumentNullException("Api_SysCode is missing in appsettings.json");
         
@@ -109,9 +110,8 @@ namespace SME_API_MSME.Services
             };
             if (_FlagDev == "Y")
             {
-              
                 // Call MocData from URL
-                    var filePath = apiModels.Urldevelopment+"/"+ pyear;
+                var filePath = apiModels.Urldevelopment + "/" + pyear;
                 try
                 {
                     using var httpClient = new HttpClient();
@@ -128,20 +128,19 @@ namespace SME_API_MSME.Services
                 {
                     return new ResultApiResponeProject
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_Project: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<ProjectModels>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_Project: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<ProjectModels>()
                     }; // Return empty response on error
                 }
-
             }
             else
             {
                 try
                 {
-
                     var handler = new HttpClientHandler
                     {
+                        AllowAutoRedirect = false, // Prevent automatic redirection
                         ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                     };
                     var httpClient = new HttpClient(handler);
@@ -159,7 +158,7 @@ namespace SME_API_MSME.Services
                     {
                         throw new Exception("Method type not supported");
                     }
-                    url = url.Replace("[year]", pyear);
+                    url = url.Replace("{year}", pyear);
                     requestJson = url;
                     var request = new HttpRequestMessage(HttpMethod.Get, url);
                     if (apiModels.AuthorizationType == "Basic")
@@ -172,7 +171,6 @@ namespace SME_API_MSME.Services
                         string? token = apiModels.Bearer;
                         if (!string.IsNullOrEmpty(apiModels.Bearer) && IsTokenExpired(apiModels.Bearer))
                         {
-                            // throw new Exception("Token expired");
                             var LApi = await _repositoryApi.GetAllAsync(new MapiInformationModels { ServiceNameCode = "user-api" });
                             var apiParamx = LApi.Select(x => new MapiInformationModels
                             {
@@ -188,17 +186,21 @@ namespace SME_API_MSME.Services
                                 Urlproduction = x.Urlproduction,
                                 Username = x.Username,
                                 Password = x.Password,
-                                UpdateDate = x.UpdateDate
-                                ,
+                                UpdateDate = x.UpdateDate,
                                 Bearer = x.Bearer,
-                            }).First(); // ดึงตัวแรกของ List
+                            }).First();
                             if (apiParamx == null)
                             {
-                                return null;
+                                return new ResultApiResponeProject
+                                {
+                                    responseCode = 500,
+                                    responseMsg = "API parameters not found.",
+                                    result = new List<ProjectModels>()
+                                };
                             }
 
-                            var result = GetDataApiAsync_Login(apiParamx);
-                            token = result.Result;
+                            var resultToken = await GetDataApiAsync_Login(apiParamx);
+                            token = resultToken;
                         }
                         else
                         {
@@ -219,7 +221,8 @@ namespace SME_API_MSME.Services
                     var response = await httpClient.SendAsync(request);
                     response.EnsureSuccessStatusCode();
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<ResultApiResponeProject>(content);
+                    var result = JsonSerializer.Deserialize<ResultApiResponeProject>(content, options);
+                    return result ?? new ResultApiResponeProject();
                 }
                 catch (Exception ex)
                 {
@@ -235,23 +238,21 @@ namespace SME_API_MSME.Services
                         HttpMethod = apiModels.MethodType,
                         RequestData = requestJson, // serialize เป็น JSON
                         InnerException = ex.InnerException?.ToString(),
-                         SystemCode = Api_SysCode,
+                        SystemCode = Api_SysCode,
                         CreatedBy = "system"
-
                     };
                     await RecErrorLogApiAsync(apiModels, errorLog);
-               //     throw new Exception("Error in GetData: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message);
-                    return new ResultApiResponeProject {
-                     ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_Project: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                         Result = new List<ProjectModels>()
-                    }; // Return empty response on error
+                    return new ResultApiResponeProject
+                    {
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_Project: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<ProjectModels>()
+                    };
                 }
             }
-
         }
 
-        public async Task<ResultProjectAreaResponse> GetDataApiAsync_ProjectArea(MapiInformationModels apiModels, long? pProjectCode)
+        public async Task<ResultProjectAreaResponse> GetDataApiAsync_ProjectArea(MapiInformationModels apiModels, long? pProjectCode,string pYear)
         {
             string requestJson = "";
             var options = new JsonSerializerOptions
@@ -280,9 +281,9 @@ namespace SME_API_MSME.Services
                 {
                     return new ResultProjectAreaResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_ProjectArea: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<ProjectAreaResult>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_ProjectArea: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<ProjectAreaResult>()
                     }
                     ;
                 }
@@ -295,6 +296,7 @@ namespace SME_API_MSME.Services
 
                     var handler = new HttpClientHandler
                     {
+                        AllowAutoRedirect = false, // Prevent automatic redirection
                         ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                     };
                     var httpClient = new HttpClient(handler);
@@ -312,7 +314,7 @@ namespace SME_API_MSME.Services
                     {
                         throw new Exception("Method type not supported");
                     }
-                    url = url.Replace("[projectCode]", pProjectCode.ToString());
+                    url = url.Replace("{projectCode}", pProjectCode.ToString()).Replace("{year}",pYear);
                     requestJson = url;
                     var request = new HttpRequestMessage(HttpMethod.Get, url);
                     if (apiModels.AuthorizationType == "Basic")
@@ -371,8 +373,10 @@ namespace SME_API_MSME.Services
 
                     var response = await httpClient.SendAsync(request);
                     response.EnsureSuccessStatusCode();
-                    var content = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<ResultProjectAreaResponse>(content);
+                     var content = await response.Content.ReadAsStringAsync();
+                    //return JsonSerializer.Deserialize<ResultProjectAreaResponse>(content);
+                    var resultapi = JsonSerializer.Deserialize<ResultProjectAreaResponse>(content, options);
+                    return resultapi ?? new ResultProjectAreaResponse();
                 }
                 catch (Exception ex)
                 {
@@ -396,16 +400,16 @@ namespace SME_API_MSME.Services
                     //  throw new Exception("Error in GetData: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message);
                     return new ResultProjectAreaResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_ProjectArea: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<ProjectAreaResult>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_ProjectArea: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<ProjectAreaResult>()
                     }
                    ;
                 }
             }
 
         }
-        public async Task<ResultProjectProductResponse> GetDataApiAsync_ProjectProduct(MapiInformationModels apiModels, long? pProjectCode)
+        public async Task<ResultProjectProductResponse> GetDataApiAsync_ProjectProduct(MapiInformationModels apiModels, long? pProjectCode, string pyear)
         {
             string requestJson = "";
             var options = new JsonSerializerOptions
@@ -435,9 +439,9 @@ namespace SME_API_MSME.Services
                   
                     return new ResultProjectProductResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_ProjectProduct: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result =new List<ProjectProductResult>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_ProjectProduct: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result =new List<ProjectProductResult>()
                     }
                    ;
                 }
@@ -450,6 +454,7 @@ namespace SME_API_MSME.Services
 
                     var handler = new HttpClientHandler
                     {
+                        AllowAutoRedirect = false, // Prevent automatic redirection
                         ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                     };
                     var httpClient = new HttpClient(handler);
@@ -467,7 +472,7 @@ namespace SME_API_MSME.Services
                     {
                         throw new Exception("Method type not supported");
                     }
-                    url = url.Replace("[projectCode]", pProjectCode.ToString());
+                    url = url.Replace("{projectCode}", pProjectCode.ToString()).Replace("{year}",pyear);
                     requestJson = url;
                     var request = new HttpRequestMessage(HttpMethod.Get, url);
                     if (apiModels.AuthorizationType == "Basic")
@@ -527,7 +532,9 @@ namespace SME_API_MSME.Services
                     var response = await httpClient.SendAsync(request);
                     response.EnsureSuccessStatusCode();
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<ResultProjectProductResponse>(content);
+                    var resultapi = JsonSerializer.Deserialize<ResultProjectProductResponse>(content, options);
+                    return resultapi ?? new ResultProjectProductResponse();
+              
                 }
                 catch (Exception ex)
                 {
@@ -551,9 +558,9 @@ namespace SME_API_MSME.Services
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     return new ResultProjectProductResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_ProjectProduct: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<ProjectProductResult>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_ProjectProduct: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<ProjectProductResult>()
                     }
                     ;
                 }
@@ -561,7 +568,7 @@ namespace SME_API_MSME.Services
 
         }
 
-        public async Task<ResultProjectOutcomeResponse> GetDataApiAsync_ProjectOutcome(MapiInformationModels apiModels, long? pProjectCode)
+        public async Task<ResultProjectOutcomeResponse> GetDataApiAsync_ProjectOutcome(MapiInformationModels apiModels, long? pProjectCode, string pyear)
         {
             string requestJson = "";
             var options = new JsonSerializerOptions
@@ -590,9 +597,9 @@ namespace SME_API_MSME.Services
                 {                 
                     return new ResultProjectOutcomeResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_ProjectOutcome: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<ProjectOutcomeResult>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_ProjectOutcome: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<ProjectOutcomeResult>()
                     };
                 }
             }
@@ -603,6 +610,7 @@ namespace SME_API_MSME.Services
 
                     var handler = new HttpClientHandler
                     {
+                        AllowAutoRedirect = false, // Prevent automatic redirection
                         ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                     };
                     var httpClient = new HttpClient(handler);
@@ -620,7 +628,7 @@ namespace SME_API_MSME.Services
                     {
                         throw new Exception("Method type not supported");
                     }
-                    url = url.Replace("[projectCode]", pProjectCode.ToString());
+                    url = url.Replace("{projectCode}", pProjectCode.ToString()).Replace("{year}",pyear);
                     requestJson = url;
                     var request = new HttpRequestMessage(HttpMethod.Get, url);
                     if (apiModels.AuthorizationType == "Basic")
@@ -680,7 +688,9 @@ namespace SME_API_MSME.Services
                     var response = await httpClient.SendAsync(request);
                     response.EnsureSuccessStatusCode();
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<ResultProjectOutcomeResponse>(content);
+      
+                    var resultapi = JsonSerializer.Deserialize<ResultProjectOutcomeResponse>(content, options);
+                    return resultapi ?? new ResultProjectOutcomeResponse();
                 }
                 catch (Exception ex)
                 {
@@ -703,16 +713,16 @@ namespace SME_API_MSME.Services
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     return new ResultProjectOutcomeResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_ProjectOutcome: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<ProjectOutcomeResult>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_ProjectOutcome: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<ProjectOutcomeResult>()
                     };
                 }
             }
 
         }
 
-        public async Task<ResultExpectOutcomeResponse> GetDataApiAsync_ExpectOutcome(MapiInformationModels apiModels, long? pProjectCode)
+        public async Task<ResultExpectOutcomeResponse> GetDataApiAsync_ExpectOutcome(MapiInformationModels apiModels, long? pProjectCode,string pyear)
         {
             string requestJson = "";
             var options = new JsonSerializerOptions
@@ -742,9 +752,9 @@ namespace SME_API_MSME.Services
                   
                     return new ResultExpectOutcomeResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_ExpectOutcome: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<ExpectOutcomeResult>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_ExpectOutcome: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<ExpectOutcomeResult>()
                     };
                 }
             }
@@ -755,6 +765,7 @@ namespace SME_API_MSME.Services
 
                     var handler = new HttpClientHandler
                     {
+                        AllowAutoRedirect = false, // Prevent automatic redirection
                         ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                     };
                     var httpClient = new HttpClient(handler);
@@ -772,7 +783,7 @@ namespace SME_API_MSME.Services
                     {
                         throw new Exception("Method type not supported");
                     }
-                    url = url.Replace("[projectCode]", pProjectCode.ToString());
+                    url = url.Replace("{projectCode}", pProjectCode.ToString()).Replace("{year}",pyear);
                     requestJson = url;
                     var request = new HttpRequestMessage(HttpMethod.Get, url);
                     if (apiModels.AuthorizationType == "Basic")
@@ -832,7 +843,9 @@ namespace SME_API_MSME.Services
                     var response = await httpClient.SendAsync(request);
                     response.EnsureSuccessStatusCode();
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<ResultExpectOutcomeResponse>(content);
+                 //   return JsonSerializer.Deserialize<ResultExpectOutcomeResponse>(content);
+                    var resultapi = JsonSerializer.Deserialize<ResultExpectOutcomeResponse>(content, options);
+                    return resultapi ?? new ResultExpectOutcomeResponse();
                 }
                 catch (Exception ex)
                 {
@@ -855,15 +868,15 @@ namespace SME_API_MSME.Services
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     return new ResultExpectOutcomeResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_ExpectOutcome: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<ExpectOutcomeResult>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_ExpectOutcome: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<ExpectOutcomeResult>()
                     };
                 }
             }
 
         }
-        public async Task<ResultProjectActivityResponse> GetDataApiAsync_ProjectActivity(MapiInformationModels apiModels, long? pProjectCode)
+        public async Task<ResultProjectActivityResponse> GetDataApiAsync_ProjectActivity(MapiInformationModels apiModels, long? pProjectCode,string pYear)
         {
             string requestJson = "";
             var options = new JsonSerializerOptions
@@ -894,9 +907,9 @@ namespace SME_API_MSME.Services
                  
                     return new ResultProjectActivityResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_ProjectActivity: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result =new List<ProjectActivityResult>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_ProjectActivity: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<ProjectActivityResult>()
                     };
                 }
             }
@@ -907,6 +920,7 @@ namespace SME_API_MSME.Services
 
                     var handler = new HttpClientHandler
                     {
+                        AllowAutoRedirect = false, // Prevent automatic redirection
                         ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                     };
                     var httpClient = new HttpClient(handler);
@@ -924,7 +938,7 @@ namespace SME_API_MSME.Services
                     {
                         throw new Exception("Method type not supported");
                     }
-                    url = url.Replace("[projectCode]", pProjectCode.ToString());
+                    url = url.Replace("{projectCode}", pProjectCode.ToString()).Replace("{year}",pYear);
                     requestJson = url;
                     var request = new HttpRequestMessage(HttpMethod.Get, url);
                     if (apiModels.AuthorizationType == "Basic")
@@ -984,7 +998,9 @@ namespace SME_API_MSME.Services
                     var response = await httpClient.SendAsync(request);
                     response.EnsureSuccessStatusCode();
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<ResultProjectActivityResponse>(content);
+                  //  return JsonSerializer.Deserialize<ResultProjectActivityResponse>(content);
+                    var resultapi = JsonSerializer.Deserialize<ResultProjectActivityResponse>(content, options);
+                    return resultapi ?? new ResultProjectActivityResponse();
                 }
                 catch (Exception ex)
                 {
@@ -1007,15 +1023,15 @@ namespace SME_API_MSME.Services
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     return new ResultProjectActivityResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_ProjectActivity: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<ProjectActivityResult>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_ProjectActivity: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<ProjectActivityResult>()
                     };
                 }
             }
 
         }
-        public async Task<ResultBudgetPlanResponse> GetDataApiAsync_BudgetPlan(MapiInformationModels apiModels, long? pProjectCode)
+        public async Task<ResultBudgetPlanResponse> GetDataApiAsync_BudgetPlan(MapiInformationModels apiModels, long? pProjectCode,string pYear)
         {
             string requestJson = "";
             var options = new JsonSerializerOptions
@@ -1046,9 +1062,9 @@ namespace SME_API_MSME.Services
                  
                     return new ResultBudgetPlanResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_BudgetPlan: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result =new List<BudgetPlanResult>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_BudgetPlan: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result =new List<BudgetPlanResult>()
                     };
                 }
             }
@@ -1059,6 +1075,7 @@ namespace SME_API_MSME.Services
 
                     var handler = new HttpClientHandler
                     {
+                        AllowAutoRedirect = false, // Prevent automatic redirection
                         ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                     };
                     var httpClient = new HttpClient(handler);
@@ -1066,7 +1083,7 @@ namespace SME_API_MSME.Services
                     var url = $"{apiModels.Urlproduction}";
                     if (apiModels.MethodType == "POST")
                     {
-                        url = apiModels.Urldevelopment;
+                        url = apiModels.Urlproduction;
                     }
                     else if (apiModels.MethodType == "GET")
                     {
@@ -1076,7 +1093,7 @@ namespace SME_API_MSME.Services
                     {
                         throw new Exception("Method type not supported");
                     }
-                    url = url.Replace("[projectCode]", pProjectCode.ToString());
+                    url = url.Replace("{projectCode}", pProjectCode.ToString()).Replace("{year}", pYear);
                     requestJson = url;
                     var request = new HttpRequestMessage(HttpMethod.Get, url);
                     if (apiModels.AuthorizationType == "Basic")
@@ -1136,7 +1153,9 @@ namespace SME_API_MSME.Services
                     var response = await httpClient.SendAsync(request);
                     response.EnsureSuccessStatusCode();
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<ResultBudgetPlanResponse>(content);
+                  //  return JsonSerializer.Deserialize<ResultBudgetPlanResponse>(content);
+                    var resultapi = JsonSerializer.Deserialize<ResultBudgetPlanResponse>(content, options);
+                    return resultapi ?? new ResultBudgetPlanResponse();
                 }
                 catch (Exception ex)
                 {
@@ -1159,15 +1178,15 @@ namespace SME_API_MSME.Services
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     return new ResultBudgetPlanResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_BudgetPlan: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<BudgetPlanResult>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_BudgetPlan: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<BudgetPlanResult>()
                     };
                 }
             }
 
         }
-        public async Task<ResultProductResultResponse> GetDataApiAsync_ProductResult(MapiInformationModels apiModels, long? pProjectCode)
+        public async Task<ResultProductResultResponse> GetDataApiAsync_ProductResult(MapiInformationModels apiModels, long? pProjectCode,string pYear)
         {
             string requestJson = "";
             var options = new JsonSerializerOptions
@@ -1198,9 +1217,9 @@ namespace SME_API_MSME.Services
                   
                     return new ResultProductResultResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_ProductResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result =new List<ProductResultProject>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_ProductResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<ProductResultProject>()
                     };
                 }
 
@@ -1212,6 +1231,7 @@ namespace SME_API_MSME.Services
 
                     var handler = new HttpClientHandler
                     {
+                        AllowAutoRedirect = false, // Prevent automatic redirection
                         ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                     };
                     var httpClient = new HttpClient(handler);
@@ -1219,7 +1239,7 @@ namespace SME_API_MSME.Services
                     var url = $"{apiModels.Urlproduction}";
                     if (apiModels.MethodType == "POST")
                     {
-                        url = apiModels.Urldevelopment;
+                        url = apiModels.Urlproduction;
                     }
                     else if (apiModels.MethodType == "GET")
                     {
@@ -1229,7 +1249,7 @@ namespace SME_API_MSME.Services
                     {
                         throw new Exception("Method type not supported");
                     }
-                    url = url.Replace("[projectCode]", pProjectCode.ToString());
+                    url = url.Replace("{projectCode}", pProjectCode.ToString()).Replace("{year}",pYear);
                     requestJson = url;
                     var request = new HttpRequestMessage(HttpMethod.Get, url);
                     if (apiModels.AuthorizationType == "Basic")
@@ -1289,7 +1309,9 @@ namespace SME_API_MSME.Services
                     var response = await httpClient.SendAsync(request);
                     response.EnsureSuccessStatusCode();
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<ResultProductResultResponse>(content);
+                    //return JsonSerializer.Deserialize<ResultProductResultResponse>(content);
+                    var resultapi = JsonSerializer.Deserialize<ResultProductResultResponse>(content, options);
+                    return resultapi ?? new ResultProductResultResponse();
                 }
                 catch (Exception ex)
                 {
@@ -1312,17 +1334,18 @@ namespace SME_API_MSME.Services
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     return new ResultProductResultResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_ProductResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<ProductResultProject>()
-                    };
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_ProductResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<ProductResultProject>()
+                    }
+                    ;
                 }
             }
 
         }
 
 
-        public async Task<ResultOutcomeResultResponse> GetDataApiAsync_OutcomeResult(MapiInformationModels apiModels, long? pProjectCode)
+        public async Task<ResultOutcomeResultResponse> GetDataApiAsync_OutcomeResult(MapiInformationModels apiModels, long? pProjectCode,string pYear)
         {
             string requestJson = "";
             var options = new JsonSerializerOptions
@@ -1352,9 +1375,9 @@ namespace SME_API_MSME.Services
                    // return new ResultOutcomeResultResponse();
                     return new ResultOutcomeResultResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_OutcomeResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<OutcomeResultProject>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_OutcomeResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<OutcomeResultProject>()
                     };
                 }
             }
@@ -1365,6 +1388,7 @@ namespace SME_API_MSME.Services
 
                     var handler = new HttpClientHandler
                     {
+                        AllowAutoRedirect = false, // Prevent automatic redirection
                         ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                     };
                     var httpClient = new HttpClient(handler);
@@ -1382,7 +1406,7 @@ namespace SME_API_MSME.Services
                     {
                         throw new Exception("Method type not supported");
                     }
-                    url = url.Replace("[projectCode]", pProjectCode.ToString());
+                    url = url.Replace("{projectCode}", pProjectCode.ToString()).Replace("{year}",pYear);
                     requestJson = url;
                     var request = new HttpRequestMessage(HttpMethod.Get, url);
                     if (apiModels.AuthorizationType == "Basic")
@@ -1442,7 +1466,9 @@ namespace SME_API_MSME.Services
                     var response = await httpClient.SendAsync(request);
                     response.EnsureSuccessStatusCode();
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<ResultOutcomeResultResponse>(content);
+                 //   return JsonSerializer.Deserialize<ResultOutcomeResultResponse>(content);
+                    var resultapi = JsonSerializer.Deserialize<ResultOutcomeResultResponse>(content, options);
+                    return resultapi ?? new ResultOutcomeResultResponse();
                 }
                 catch (Exception ex)
                 {
@@ -1463,12 +1489,11 @@ namespace SME_API_MSME.Services
 
                     };
                     await RecErrorLogApiAsync(apiModels, errorLog);
-                    //    throw new Exception("Error in GetData: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message);
                     return new ResultOutcomeResultResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_OutcomeResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<OutcomeResultProject>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_OutcomeResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<OutcomeResultProject>()
                     };
                 }
             }
@@ -1476,7 +1501,7 @@ namespace SME_API_MSME.Services
         }
 
 
-        public async Task<ResultPerformanceResultResponse> GetDataApiAsync_PerformanceResult(MapiInformationModels apiModels, long? pProjectCode)
+        public async Task<ResultPerformanceResultResponse> GetDataApiAsync_PerformanceResult(MapiInformationModels apiModels, long? pProjectCode,string pYear)
         {
             string requestJson = "";
             var options = new JsonSerializerOptions
@@ -1505,9 +1530,9 @@ namespace SME_API_MSME.Services
 
                     return new ResultPerformanceResultResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_PerformanceResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<PerformanceResultProject>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_PerformanceResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<PerformanceResultProject>()
                     };
                 }
 
@@ -1519,6 +1544,7 @@ namespace SME_API_MSME.Services
 
                     var handler = new HttpClientHandler
                     {
+                        AllowAutoRedirect = false, // Prevent automatic redirection
                         ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                     };
                     var httpClient = new HttpClient(handler);
@@ -1526,7 +1552,7 @@ namespace SME_API_MSME.Services
                     var url = $"{apiModels.Urlproduction}";
                     if (apiModels.MethodType == "POST")
                     {
-                        url = apiModels.Urldevelopment;
+                        url = apiModels.Urlproduction;
                     }
                     else if (apiModels.MethodType == "GET")
                     {
@@ -1536,7 +1562,7 @@ namespace SME_API_MSME.Services
                     {
                         throw new Exception("Method type not supported");
                     }
-                    url = url.Replace("[projectCode]", pProjectCode.ToString());
+                    url = url.Replace("{projectCode}", pProjectCode.ToString()).Replace("{year}", pYear);
                     requestJson = url;
                     var request = new HttpRequestMessage(HttpMethod.Get, url);
                     if (apiModels.AuthorizationType == "Basic")
@@ -1596,7 +1622,9 @@ namespace SME_API_MSME.Services
                     var response = await httpClient.SendAsync(request);
                     response.EnsureSuccessStatusCode();
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<ResultPerformanceResultResponse>(content);
+               //     return JsonSerializer.Deserialize<ResultPerformanceResultResponse>(content);.
+                        var resultapi = JsonSerializer.Deserialize<ResultPerformanceResultResponse>(content, options);
+                    return resultapi ?? new ResultPerformanceResultResponse();
                 }
                 catch (Exception ex)
                 {
@@ -1619,16 +1647,16 @@ namespace SME_API_MSME.Services
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     return new ResultPerformanceResultResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_PerformanceResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<PerformanceResultProject>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_PerformanceResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<PerformanceResultProject>()
                     };
                 }
             }
 
         }
 
-        public async Task<ResultDisbursementResultResponse> GetDataApiAsync_DisbursementResult(MapiInformationModels apiModels, long? pProjectCode)
+        public async Task<ResultDisbursementResultResponse> GetDataApiAsync_DisbursementResult(MapiInformationModels apiModels, long? pProjectCode,string pYear)
         {
             string requestJson = "";
             var options = new JsonSerializerOptions
@@ -1658,9 +1686,9 @@ namespace SME_API_MSME.Services
 
                     return new ResultDisbursementResultResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_DisbursementResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<DisbursementResultProject>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_DisbursementResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<DisbursementResultProject>()
                     };
                 }
 
@@ -1672,6 +1700,7 @@ namespace SME_API_MSME.Services
 
                     var handler = new HttpClientHandler
                     {
+                        AllowAutoRedirect = false, // Prevent automatic redirection
                         ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                     };
                     var httpClient = new HttpClient(handler);
@@ -1679,7 +1708,7 @@ namespace SME_API_MSME.Services
                     var url = $"{apiModels.Urlproduction}";
                     if (apiModels.MethodType == "POST")
                     {
-                        url = apiModels.Urldevelopment;
+                        url = apiModels.Urlproduction;
                     }
                     else if (apiModels.MethodType == "GET")
                     {
@@ -1689,7 +1718,7 @@ namespace SME_API_MSME.Services
                     {
                         throw new Exception("Method type not supported");
                     }
-                    url = url.Replace("[projectCode]", pProjectCode.ToString());
+                    url = url.Replace("{projectCode}", pProjectCode.ToString()).Replace("{year}",pYear);
                     requestJson = url;
                     var request = new HttpRequestMessage(HttpMethod.Get, url);
                     if (apiModels.AuthorizationType == "Basic")
@@ -1749,7 +1778,9 @@ namespace SME_API_MSME.Services
                     var response = await httpClient.SendAsync(request);
                     response.EnsureSuccessStatusCode();
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<ResultDisbursementResultResponse>(content);
+                 //   return JsonSerializer.Deserialize<ResultDisbursementResultResponse>(content);
+                    var resultapi = JsonSerializer.Deserialize<ResultDisbursementResultResponse>(content, options);
+                    return resultapi ?? new ResultDisbursementResultResponse();
                 }
                 catch (Exception ex)
                 {
@@ -1773,9 +1804,9 @@ namespace SME_API_MSME.Services
                     //throw new Exception("Error in GetData: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message);
                     return new ResultDisbursementResultResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_DisbursementResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<DisbursementResultProject>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_DisbursementResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<DisbursementResultProject>()
                     }; // Return empty response on error
 
                 }
@@ -1783,7 +1814,7 @@ namespace SME_API_MSME.Services
 
         }
 
-        public async Task<ResultExpectedOutcomeResultResponse> GetDataApiAsync_ExpectedOutcomeResult(MapiInformationModels apiModels, long? pProjectCode)
+        public async Task<ResultExpectedOutcomeResultResponse> GetDataApiAsync_ExpectedOutcomeResult(MapiInformationModels apiModels, long? pProjectCode,string pYear)
         {
             string requestJson = "";
             var options = new JsonSerializerOptions
@@ -1814,9 +1845,9 @@ namespace SME_API_MSME.Services
                
                     return new ResultExpectedOutcomeResultResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_ExpectedOutcomeResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<ExpectedOutcomeResultProject>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_ExpectedOutcomeResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<ExpectedOutcomeResultProject>()
                     };
                 }
 
@@ -1828,6 +1859,7 @@ namespace SME_API_MSME.Services
 
                     var handler = new HttpClientHandler
                     {
+                        AllowAutoRedirect = false, // Prevent automatic redirection
                         ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                     };
                     var httpClient = new HttpClient(handler);
@@ -1845,7 +1877,7 @@ namespace SME_API_MSME.Services
                     {
                         throw new Exception("Method type not supported");
                     }
-                    url = url.Replace("[projectCode]", pProjectCode.ToString());
+                    url = url.Replace("{projectCode}", pProjectCode.ToString()).Replace("{year}",pYear);
                     requestJson = url;
                     var request = new HttpRequestMessage(HttpMethod.Get, url);
                     if (apiModels.AuthorizationType == "Basic")
@@ -1905,7 +1937,9 @@ namespace SME_API_MSME.Services
                     var response = await httpClient.SendAsync(request);
                     response.EnsureSuccessStatusCode();
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<ResultExpectedOutcomeResultResponse>(content);
+                //    return JsonSerializer.Deserialize<ResultExpectedOutcomeResultResponse>(content);
+                    var resultapi = JsonSerializer.Deserialize<ResultExpectedOutcomeResultResponse>(content, options);
+                    return resultapi ?? new ResultExpectedOutcomeResultResponse();
                 }
                 catch (Exception ex)
                 {
@@ -1928,16 +1962,16 @@ namespace SME_API_MSME.Services
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     return new ResultExpectedOutcomeResultResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_ExpectedOutcomeResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<ExpectedOutcomeResultProject>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_ExpectedOutcomeResult: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<ExpectedOutcomeResultProject>()
                     };
                 }
             }
 
         }
 
-        public async Task<ResultEconomicValueResponse> GetDataApiAsync_EconomicValue(MapiInformationModels apiModels, string? pyear)
+        public async Task<ResultEconomicValueResponse> GetDataApiAsync_EconomicValue(MapiInformationModels apiModels, long? pProjectCode, int? pYear)
         {
             string requestJson = "";
             var options = new JsonSerializerOptions
@@ -1950,7 +1984,7 @@ namespace SME_API_MSME.Services
              
 
                 // Call MocData from URL
-                    var filePath = apiModels.Urldevelopment+"/"+ pyear;
+                    var filePath = apiModels.Urldevelopment+"/"+ pYear;
                 try
                 {
                     using var httpClient = new HttpClient();
@@ -1968,9 +2002,9 @@ namespace SME_API_MSME.Services
                 
                     return new ResultEconomicValueResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_EconomicValue: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<EconomicValueProjectModels>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_EconomicValue: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<EconomicValueProjectModels>()
                     };
                 }
 
@@ -1982,6 +2016,7 @@ namespace SME_API_MSME.Services
 
                     var handler = new HttpClientHandler
                     {
+                        AllowAutoRedirect = false, // Prevent automatic redirection
                         ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                     };
                     var httpClient = new HttpClient(handler);
@@ -1989,7 +2024,7 @@ namespace SME_API_MSME.Services
                     var url = $"{apiModels.Urlproduction}";
                     if (apiModels.MethodType == "POST")
                     {
-                        url = apiModels.Urldevelopment;
+                        url = apiModels.Urlproduction;
                     }
                     else if (apiModels.MethodType == "GET")
                     {
@@ -1999,7 +2034,7 @@ namespace SME_API_MSME.Services
                     {
                         throw new Exception("Method type not supported");
                     }
-                    url = url.Replace("[year]", pyear);
+                    url = url.Replace("{projectCode}", pProjectCode.ToString()).Replace("{year}", pYear.ToString());
                     requestJson = url;
                     var request = new HttpRequestMessage(HttpMethod.Get, url);
                     if (apiModels.AuthorizationType == "Basic")
@@ -2059,7 +2094,9 @@ namespace SME_API_MSME.Services
                     var response = await httpClient.SendAsync(request);
                     response.EnsureSuccessStatusCode();
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<ResultEconomicValueResponse>(content);
+                    //return JsonSerializer.Deserialize<ResultEconomicValueResponse>(content);
+                    var resultapi = JsonSerializer.Deserialize<ResultEconomicValueResponse>(content, options);
+                    return resultapi ?? new ResultEconomicValueResponse();
                 }
                 catch (Exception ex)
                 {
@@ -2082,9 +2119,9 @@ namespace SME_API_MSME.Services
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     return new ResultEconomicValueResponse
                     {
-                        ResponseCode = 500,
-                        ResponseMsg = "Error in GetDataApiAsync_EconomicValue: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
-                        Result = new List<EconomicValueProjectModels>()
+                        responseCode = 500,
+                        responseMsg = "Error in GetDataApiAsync_EconomicValue: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message,
+                        result = new List<EconomicValueProjectModels>()
                     };
                 }
             }

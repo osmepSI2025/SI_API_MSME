@@ -13,11 +13,11 @@ public partial class TDisbursementResult
 
     public string? ItemActivityDetail { get; set; }
 
-    public decimal? ActivityBudget { get; set; }
+    public double? ActivityBudget { get; set; }
 
     public string? ExpenseTypeName { get; set; }
 
-    public decimal? SumEffectValue { get; set; }
+    public double? SumEffectValue { get; set; }
 
     public virtual MDisbursementResult Project { get; set; } = null!;
 

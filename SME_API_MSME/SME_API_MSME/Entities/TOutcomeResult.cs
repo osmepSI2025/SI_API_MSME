@@ -15,7 +15,7 @@ public partial class TOutcomeResult
 
     public string? YieldTypeName { get; set; }
 
-    public int? Target { get; set; }
+    public double? Target { get; set; }
 
     public string? UnitName { get; set; }
 

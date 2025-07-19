@@ -11,5 +11,7 @@ public partial class MPerformanceResult
 
     public string ProjectName { get; set; } = null!;
 
+    public string? Year { get; set; }
+
     public virtual ICollection<TPerformanceResult> TPerformanceResults { get; set; } = new List<TPerformanceResult>();
 }

@@ -9,11 +9,7 @@ public partial class MEconomicValueProject
 
     public string? ProjectName { get; set; }
 
-    public decimal? Budget { get; set; }
+    public double? Budget { get; set; }
 
-    public string BudgetYear { get; set; } = null!;
-
-
-    //public List<TEconomicValue> TEconomicValues { get; set; }
-    //public List<TEconomicValueSheets2> TEconomicValueSheets2s { get; set; } // Add this property
+    public int BudgetYear { get; set; }
 }

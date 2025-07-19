@@ -13,13 +13,13 @@ public partial class TSmeEconomicDevelop
 
     public string? BusinessBranch { get; set; }
 
-    public decimal? Micro { get; set; }
+    public int? Micro { get; set; }
 
-    public decimal? Small { get; set; }
+    public int? Small { get; set; }
 
-    public decimal? Medium { get; set; }
+    public int? Medium { get; set; }
 
-    public decimal? Other { get; set; }
+    public int? Other { get; set; }
 
     public string? Cluster { get; set; }
 

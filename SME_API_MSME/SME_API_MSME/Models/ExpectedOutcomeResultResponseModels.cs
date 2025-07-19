@@ -1,8 +1,8 @@
 public class ResultExpectedOutcomeResultResponse
 {
-    public List<ExpectedOutcomeResultProject> Result { get; set; }
-    public int ResponseCode { get; set; }
-    public string ResponseMsg { get; set; }
+    public List<ExpectedOutcomeResultProject> result { get; set; }
+    public int responseCode { get; set; }
+    public string responseMsg { get; set; }
 }
 
 public class ExpectedOutcomeResultProject
@@ -16,7 +16,7 @@ public class ExpectedOutcomeResultItem
 {
     public int? OrderIndex { get; set; }
     public string? ResultFinalOutcome { get; set; }
-    public decimal? SumBudget { get; set; }
+    public double? SumBudget { get; set; }
     public List<ExpectedOutcomeResultFinalOutcomeDetail> FinalOutcomeDetail { get; set; }
 }
 
@@ -24,7 +24,7 @@ public class ExpectedOutcomeResultFinalOutcomeDetail
 {
     public string? MonthName { get; set; }
     public int? Year { get; set; }
-    public decimal? ResultValue { get; set; }
+    public double? ResultValue { get; set; }
 }
 
 

@@ -14,10 +14,10 @@ public class PerformanceResultController : ControllerBase
 
    
 
-    [HttpGet("performance-result/{projectCode}")]
-    public async Task<IActionResult> GetById(long? projectCode)
+    [HttpGet("performance-result")]
+    public async Task<IActionResult> GetById([FromQuery] long? projectCode, [FromQuery] string year)
     {
-        var performanceResult = await _service.GetPerformanceResultByIdAsync(projectCode);
+        var performanceResult = await _service.GetPerformanceResultByIdAsync(projectCode, year.ToString());
         if (performanceResult == null) return NotFound();
         return Ok(performanceResult);
     }

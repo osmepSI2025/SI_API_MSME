@@ -11,5 +11,7 @@ public partial class MDisbursementResult
 
     public string ProjectName { get; set; } = null!;
 
+    public string? Year { get; set; }
+
     public virtual ICollection<TDisbursementResult> TDisbursementResults { get; set; } = new List<TDisbursementResult>();
 }

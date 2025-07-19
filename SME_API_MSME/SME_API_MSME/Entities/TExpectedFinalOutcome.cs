@@ -13,7 +13,7 @@ public partial class TExpectedFinalOutcome
 
     public string? ResultFinalOutcome { get; set; }
 
-    public decimal? SumBudget { get; set; }
+    public double? SumBudget { get; set; }
 
     public virtual MExpectedOutcome Project { get; set; } = null!;
 

@@ -27,7 +27,7 @@ public class DisbursementResultService
     //{
     //    return _repository.GetByIdAsync(projectId);
     //}
-    public async Task<ResultDisbursementResultResponse?> GetDisbursementResultByIdAsync(long? pProjectCode)
+    public async Task<ResultDisbursementResultResponse?> GetDisbursementResultByIdAsync(long? pProjectCode,string pYear)
     {
         var xrerult = new ResultDisbursementResultResponse();
         try
@@ -43,7 +43,7 @@ public class DisbursementResultService
             }
             else
             {
-                var resultPA = await _repository.GetByIdAsync(pProjectCode);
+                var resultPA = await _repository.GetByIdAsync(pProjectCode, pYear);
 
                 if (resultPA == null)
                 {
@@ -68,29 +68,30 @@ public class DisbursementResultService
 
                     if (apiParam == null)
                     {
-						xrerult.ResponseCode = 500;
-						xrerult.ResponseMsg = "Api Service Inccorect.";
-						xrerult.Result = new List<DisbursementResultProject>();
+						xrerult.responseCode = 500;
+						xrerult.responseMsg = "Api Service Inccorect.";
+						xrerult.result = new List<DisbursementResultProject>();
 
 					}
 
-					var apiResponse = await _serviceApi.GetDataApiAsync_DisbursementResult(apiParam, pProjectCode);
-					 if (apiResponse == null || apiResponse.ResponseCode == 0 || apiResponse.Result.Count ==0)
+					var apiResponse = await _serviceApi.GetDataApiAsync_DisbursementResult(apiParam, pProjectCode, pYear);
+					 if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count ==0)
 					{
-						xrerult.ResponseCode = 200;
-						xrerult.ResponseMsg = "No data found";
-						xrerult.Result = new List<DisbursementResultProject>();
+						xrerult.responseCode = 200;
+						xrerult.responseMsg = "No data found";
+						xrerult.result = new List<DisbursementResultProject>();
 						return xrerult;
 					}
 
 					else
 					{
-                        foreach (var item in apiResponse.Result)
+                        foreach (var item in apiResponse.result)
                         {
                             var proProduct = new MDisbursementResult
                             {
                                 ProjectCode = item.ProjectCode, // Corrected from 'project.ProjectCode' to 'item.ProjectCode'
-                                ProjectName = item.ProjectName, // Corrected from 'project.ProjectName' to 'item.ProjectName'
+                                ProjectName = item.ProjectName,
+                                Year = pYear,// Corrected from 'project.ProjectName' to 'item.ProjectName'
                                 TDisbursementResults = item.Items.Select(i => new TDisbursementResult
                                 {
                                     OrderIndex = i.OrderIndex ?? 0, // Handle nullable OrderIndex
@@ -101,7 +102,7 @@ public class DisbursementResultService
                                     TDisbursementResultDetails = i.ActionResultDetail.Select(x => new TDisbursementResultDetail
                                     {
                                         MonthName = x.MonthName,
-                                        Year = x.Year.ToString(), // Corrected to match the type
+                                        Year = x.Year, // Corrected to match the type
                                         TempValue = x.TempValue ?? 0, // Handle nullable TempValue
                                         EffectValue = x.EffectValue ?? 0 // Handle nullable EffectValue
                                     }).ToList()
@@ -114,7 +115,7 @@ public class DisbursementResultService
 
                     result = pProjectCode == 0
           ? await _repository.GetAllAsync()
-          : new List<MDisbursementResult> { await _repository.GetByIdAsync(pProjectCode) };
+          : new List<MDisbursementResult> { await _repository.GetByIdAsync(pProjectCode, pYear) };
 
                 }
                 else
@@ -139,30 +140,30 @@ public class DisbursementResultService
                         ActionResultDetail = item.TDisbursementResultDetails.Select(x => new DisbursementActionResultDetail
                         {
                             MonthName = x.MonthName,
-                            Year = x.Year != null ? int.Parse(x.Year) : 0, // Handle null Year by providing a default value
+                            Year = x.Year != null ? x.Year : 0, // Handle null Year by providing a default value
                             TempValue = x.TempValue ?? 0, // Handle nullable TempValue
                             EffectValue = x.EffectValue ?? 0 // Handle nullable EffectValue
                         }).ToList()
                     }).ToList()
                 }).ToList());
-                xrerult.ResponseCode = 200;
-                xrerult.ResponseMsg = "success";
-                xrerult.Result = dataResult;
+                xrerult.responseCode = 200;
+                xrerult.responseMsg = "success";
+                xrerult.result = dataResult;
             }
             else
             {
-               xrerult.ResponseCode = 200;
-                xrerult.ResponseMsg = "No data found";
-                xrerult.Result = new List<DisbursementResultProject>() ;
+               xrerult.responseCode = 200;
+                xrerult.responseMsg = "No data found";
+                xrerult.result = new List<DisbursementResultProject>() ;
             }
 
             return xrerult;
         }
         catch (Exception ex)
         {
-            xrerult.ResponseCode = 500;
-            xrerult.ResponseMsg = ex.Message;
-			xrerult.Result = new List<DisbursementResultProject>();
+            xrerult.responseCode = 500;
+            xrerult.responseMsg = ex.Message;
+			xrerult.result = new List<DisbursementResultProject>();
             return xrerult;
         }
 
@@ -193,11 +194,11 @@ public class DisbursementResultService
         {
             //get projects by year  
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
-            if (Listprojects == null || Listprojects.Result.Count == 0)
+            if (Listprojects == null || Listprojects.result.Count == 0)
             {
                 continue; // Skip to the next year if no projects found
             }
-            else if (Listprojects.ResponseCode == 200)
+            else if (Listprojects.responseCode == 200)
             {
 
 
@@ -220,26 +221,27 @@ public class DisbursementResultService
                     Bearer = x.Bearer,
                 }).FirstOrDefault(); // Use FirstOrDefault to handle empty lists
 
-                foreach (var item in Listprojects.Result)
+                foreach (var item in Listprojects.result)
                 {
-                    var apiResponse = await _serviceApi.GetDataApiAsync_DisbursementResult(apiParam, item.ProjectCode);
-                    if (apiResponse == null || apiResponse.ResponseCode == 0 || apiResponse.Result.Count == 0)
+                    var apiResponse = await _serviceApi.GetDataApiAsync_DisbursementResult(apiParam, item.ProjectCode,year.ToString());
+                    if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count == 0)
                     {
                         continue; // Skip to the next project if no data found
                     }
                     else
                     {
-                        foreach (var Subitem in apiResponse.Result)
+                        foreach (var Subitem in apiResponse.result)
                         {
                             // Check if existing budget plan for the project
-                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode);
+                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode,year.ToString());
 
                             if (resultPA == null)
                             {
                                 var proProduct = new MDisbursementResult
                                 {
                                     ProjectCode = Subitem.ProjectCode, // Corrected from 'project.ProjectCode' to 'item.ProjectCode'
-                                    ProjectName = Subitem.ProjectName, // Corrected from 'project.ProjectName' to 'item.ProjectName'
+                                    ProjectName = Subitem.ProjectName,
+                                    Year = year.ToString(),// Corrected from 'project.ProjectName' to 'item.ProjectName'
                                     TDisbursementResults = Subitem.Items.Select(i => new TDisbursementResult
                                     {
                                         OrderIndex = i.OrderIndex ?? 0, // Handle nullable OrderIndex
@@ -250,7 +252,7 @@ public class DisbursementResultService
                                         TDisbursementResultDetails = i.ActionResultDetail.Select(x => new TDisbursementResultDetail
                                         {
                                             MonthName = x.MonthName,
-                                            Year = x.Year.ToString(), // Corrected to match the type
+                                            Year = x.Year, // Corrected to match the type
                                             TempValue = x.TempValue ?? 0, // Handle nullable TempValue
                                             EffectValue = x.EffectValue ?? 0 // Handle nullable EffectValue
                                         }).ToList()
@@ -290,7 +292,7 @@ public class DisbursementResultService
                                         var incomingDetailKeys = i.ActionResultDetail
                                             .Select(x => (x.MonthName, x.Year)).ToHashSet();
                                         var toRemoveDetails = existingActivity.TDisbursementResultDetails
-                                            .Where(x => !incomingDetailKeys.Contains((x.MonthName, int.Parse(x.Year))))
+                                            .Where(x => !incomingDetailKeys.Contains((x.MonthName, x.Year)))
                                             .ToList();
                                         foreach (var detail in toRemoveDetails)
                                         {
@@ -301,7 +303,7 @@ public class DisbursementResultService
                                         foreach (var x in i.ActionResultDetail)
                                         {
                                             var existingDetail = existingActivity.TDisbursementResultDetails
-                                                .FirstOrDefault(d => d.MonthName == x.MonthName && d.Year == x.Year.ToString());
+                                                .FirstOrDefault(d => d.MonthName == x.MonthName && d.Year == x.Year);
                                             if (existingDetail != null)
                                             {
                                                 existingDetail.TempValue = x.TempValue ?? 0;
@@ -312,7 +314,7 @@ public class DisbursementResultService
                                                 existingActivity.TDisbursementResultDetails.Add(new TDisbursementResultDetail
                                                 {
                                                     MonthName = x.MonthName,
-                                                    Year = x.Year.ToString(),
+                                                    Year = x.Year,
                                                     TempValue = x.TempValue ?? 0,
                                                     EffectValue = x.EffectValue ?? 0
                                                 });
@@ -332,7 +334,7 @@ public class DisbursementResultService
                                             TDisbursementResultDetails = i.ActionResultDetail.Select(x => new TDisbursementResultDetail
                                             {
                                                 MonthName = x.MonthName,
-                                                Year = x.Year.ToString(),
+                                                Year = x.Year,
                                                 TempValue = x.TempValue ?? 0,
                                                 EffectValue = x.EffectValue ?? 0
                                             }).ToList()

@@ -12,10 +12,10 @@ public class ProjectActivityController : ControllerBase
         _service = service;
     }
 
-    [HttpGet("project-activity/{projectCode}")]
-    public async Task<IActionResult> GetById(long? projectCode)
+    [HttpGet("project-activity")]
+    public async Task<IActionResult> GetById([FromQuery] long? projectCode, [FromQuery] string year)
     {
-        var projectActivity = await _service.GetProjectActivityByIdAsync(projectCode);
+        var projectActivity = await _service.GetProjectActivityByIdAsync(projectCode,year);
         if (projectActivity == null) return NotFound();
         return Ok(projectActivity);
     }

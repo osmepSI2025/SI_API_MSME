@@ -14,10 +14,10 @@ public class ProductResultController : ControllerBase
 
    
 
-    [HttpGet("product-result/{projectCode}")]
-    public async Task<IActionResult> GetById(long? projectCode)
+    [HttpGet("product-result")]
+    public async Task<IActionResult> GetById([FromQuery] long? projectCode, [FromQuery] string year)
     {
-        var productResult = await _service.GetProductResultByIdAsync(projectCode);
+        var productResult = await _service.GetProductResultByIdAsync(projectCode, year);
         if (productResult == null) return NotFound();
         return Ok(productResult);
     }

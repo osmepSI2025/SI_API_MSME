@@ -11,5 +11,7 @@ public partial class MProductResult
 
     public string ProjectName { get; set; } = null!;
 
+    public string? Year { get; set; }
+
     public virtual ICollection<TProductResultOutput> TProductResultOutputs { get; set; } = new List<TProductResultOutput>();
 }

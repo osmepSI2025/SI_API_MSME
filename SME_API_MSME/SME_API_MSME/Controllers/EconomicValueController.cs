@@ -15,10 +15,10 @@ public class EconomicValueController : ControllerBase
 
 
 
-    [HttpGet("economic-value/{year}")]
-    public async Task<IActionResult> GetById(string? year)
+    [HttpGet("economic-value")]
+    public async Task<IActionResult> GetById([FromQuery] long? projectCode, [FromQuery] string year)
     {
-        var economicValue = await _service.GetEconomicValueByIdAsync(year);
+        var economicValue = await _service.GetEconomicValueByIdAsync(projectCode,int.Parse(year));
         if (economicValue == null) return NotFound();
         return Ok(economicValue);
     }

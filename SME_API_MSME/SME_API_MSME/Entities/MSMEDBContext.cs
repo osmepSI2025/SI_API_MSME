@@ -134,6 +134,7 @@ public partial class MSMEDBContext : DbContext
             entity.HasIndex(e => e.ProjectCode, "UQ__M_Budget__2F3A4948E3F1D639").IsUnique();
 
             entity.Property(e => e.ProjectName).HasMaxLength(255);
+            entity.Property(e => e.Year).HasMaxLength(50);
         });
 
         modelBuilder.Entity<MDisbursementResult>(entity =>
@@ -145,6 +146,7 @@ public partial class MSMEDBContext : DbContext
             entity.HasIndex(e => e.ProjectCode, "UQ__M_Disbur__2F3A49480981E1B8").IsUnique();
 
             entity.Property(e => e.ProjectName).HasMaxLength(255);
+            entity.Property(e => e.Year).HasMaxLength(50);
         });
 
         modelBuilder.Entity<MEconomicValueProject>(entity =>
@@ -153,11 +155,7 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("M_EconomicValueProject", "SI_MSME");
 
-            entity.Property(e => e.BudgetYear).HasMaxLength(4);
-            entity.Property(e => e.Budget).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.ProjectName).HasMaxLength(255);
-
-
         });
 
         modelBuilder.Entity<MExpectedOutcome>(entity =>
@@ -169,6 +167,9 @@ public partial class MSMEDBContext : DbContext
             entity.HasIndex(e => e.ProjectCode, "UQ__Projects__2F3A4948C337D083").IsUnique();
 
             entity.Property(e => e.ProjectName).HasMaxLength(255);
+            entity.Property(e => e.Year)
+                .HasMaxLength(50)
+                .HasColumnName("year");
         });
 
         modelBuilder.Entity<MExpectedOutcomeResult>(entity =>
@@ -180,6 +181,7 @@ public partial class MSMEDBContext : DbContext
             entity.HasIndex(e => e.ProjectCode, "UQ__M_Expect__2F3A4948C6FE4FE2").IsUnique();
 
             entity.Property(e => e.ProjectName).HasMaxLength(255);
+            entity.Property(e => e.Year).HasMaxLength(50);
         });
 
         modelBuilder.Entity<MOutcomeResult>(entity =>
@@ -191,6 +193,7 @@ public partial class MSMEDBContext : DbContext
             entity.HasIndex(e => e.ProjectCode, "UQ__M_Outcom__2F3A4948A0ECDDD8").IsUnique();
 
             entity.Property(e => e.ProjectName).HasMaxLength(255);
+            entity.Property(e => e.Year).HasMaxLength(50);
         });
 
         modelBuilder.Entity<MPerformanceResult>(entity =>
@@ -202,6 +205,7 @@ public partial class MSMEDBContext : DbContext
             entity.HasIndex(e => e.ProjectCode, "UQ__M_Perfor__2F3A4948F1B01384").IsUnique();
 
             entity.Property(e => e.ProjectName).HasMaxLength(255);
+            entity.Property(e => e.Year).HasMaxLength(50);
         });
 
         modelBuilder.Entity<MProductResult>(entity =>
@@ -213,6 +217,7 @@ public partial class MSMEDBContext : DbContext
             entity.HasIndex(e => e.ProjectCode, "UQ__M_Produc__2F3A4948368576E1").IsUnique();
 
             entity.Property(e => e.ProjectName).HasMaxLength(255);
+            entity.Property(e => e.Year).HasMaxLength(50);
         });
 
         modelBuilder.Entity<MProject>(entity =>
@@ -294,6 +299,9 @@ public partial class MSMEDBContext : DbContext
             entity.ToTable("M_ProjectArea", "SI_MSME");
 
             entity.Property(e => e.ProjectName).HasMaxLength(200);
+            entity.Property(e => e.Year)
+                .HasMaxLength(50)
+                .HasColumnName("year");
         });
 
         modelBuilder.Entity<MProjectsActivity>(entity =>
@@ -305,6 +313,7 @@ public partial class MSMEDBContext : DbContext
             entity.HasIndex(e => e.ProjectCode, "UQ__M_Projec__2F3A4948D7CBE7DC").IsUnique();
 
             entity.Property(e => e.ProjectName).HasMaxLength(255);
+            entity.Property(e => e.Year).HasMaxLength(50);
         });
 
         modelBuilder.Entity<MProjectsOutCome>(entity =>
@@ -316,6 +325,9 @@ public partial class MSMEDBContext : DbContext
             entity.HasIndex(e => e.ProjectCode, "UQ__Projects__2F3A4948B9ADFD06").IsUnique();
 
             entity.Property(e => e.ProjectName).HasMaxLength(255);
+            entity.Property(e => e.Year)
+                .HasMaxLength(50)
+                .HasColumnName("year");
         });
 
         modelBuilder.Entity<MProjectsProduct>(entity =>
@@ -327,6 +339,7 @@ public partial class MSMEDBContext : DbContext
             entity.HasIndex(e => e.ProjectCode, "UQ__Projects__2F3A49480F6893BD").IsUnique();
 
             entity.Property(e => e.ProjectName).HasMaxLength(255);
+            entity.Property(e => e.Year).HasMaxLength(50);
         });
 
         modelBuilder.Entity<MScheduledJob>(entity =>
@@ -344,9 +357,6 @@ public partial class MSMEDBContext : DbContext
             entity.ToTable("T_BudgeMonthlyPlanDetails", "SI_MSME");
 
             entity.Property(e => e.MonthName).HasMaxLength(50);
-            entity.Property(e => e.ResultValue).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.TempValue).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.Year).HasMaxLength(10);
 
             entity.HasOne(d => d.BudgetPlan).WithMany(p => p.TBudgeMonthlyPlanDetails)
                 .HasForeignKey(d => d.BudgetPlanId)
@@ -360,9 +370,7 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_BudgetPlans", "SI_MSME");
 
-            entity.Property(e => e.ActivityBudget).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.ExpenseTypeName).HasMaxLength(100);
-            entity.Property(e => e.ItemActivityDetail).HasMaxLength(500);
 
             entity.HasOne(d => d.Project).WithMany(p => p.TBudgetPlans)
                 .HasForeignKey(d => d.ProjectId)
@@ -376,10 +384,7 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_DisbursementResult", "SI_MSME");
 
-            entity.Property(e => e.ActivityBudget).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.ExpenseTypeName).HasMaxLength(100);
-            entity.Property(e => e.ItemActivityDetail).HasMaxLength(500);
-            entity.Property(e => e.SumEffectValue).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.ExpenseTypeName).HasMaxLength(200);
 
             entity.HasOne(d => d.Project).WithMany(p => p.TDisbursementResults)
                 .HasForeignKey(d => d.ProjectId)
@@ -393,10 +398,7 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_DisbursementResultDetail", "SI_MSME");
 
-            entity.Property(e => e.EffectValue).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.MonthName).HasMaxLength(50);
-            entity.Property(e => e.TempValue).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.Year).HasMaxLength(10);
 
             entity.HasOne(d => d.BudgetActivity).WithMany(p => p.TDisbursementResultDetails)
                 .HasForeignKey(d => d.BudgetActivityId)
@@ -410,14 +412,10 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_EconomicPromoted", "SI_MSME");
 
-            entity.Property(e => e.Agribusiness).HasMaxLength(255);
-            entity.Property(e => e.AgribusinessBranch).HasMaxLength(255);
-            entity.Property(e => e.Production).HasMaxLength(255);
-            entity.Property(e => e.ProductionBranch).HasMaxLength(255);
-            entity.Property(e => e.Serve).HasMaxLength(255);
-            entity.Property(e => e.ServeBranch).HasMaxLength(255);
-            entity.Property(e => e.Trade).HasMaxLength(255);
-            entity.Property(e => e.TradeBranch).HasMaxLength(255);
+            entity.Property(e => e.AgribusinessBranch).HasMaxLength(500);
+            entity.Property(e => e.ProductionBranch).HasMaxLength(500);
+            entity.Property(e => e.ServeBranch).HasMaxLength(500);
+            entity.Property(e => e.TradeBranch).HasMaxLength(500);
 
             entity.HasOne(d => d.Sheet).WithMany(p => p.TEconomicPromoteds)
                 .HasForeignKey(d => d.SheetId)
@@ -433,14 +431,6 @@ public partial class MSMEDBContext : DbContext
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("id");
-            entity.Property(e => e.MediumEnd).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.MediumNext).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.MicroEnd).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.MicroNext).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.OtherEnd).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.OtherNext).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.SmallEnd).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.SmallNext).HasColumnType("decimal(18, 2)");
         });
 
         modelBuilder.Entity<TEconomicValueSheets2>(entity =>
@@ -449,7 +439,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_EconomicValueSheets2", "SI_MSME");
 
-            entity.Property(e => e.InterestedBusiness).HasMaxLength(255);
             entity.Property(e => e.Province).HasMaxLength(255);
         });
 
@@ -458,9 +447,6 @@ public partial class MSMEDBContext : DbContext
             entity.HasKey(e => e.FinalOutcomeId).HasName("PK__T_Expect__7DEC8211519E2450");
 
             entity.ToTable("T_ExpectedFinalOutcome", "SI_MSME");
-
-            entity.Property(e => e.ResultFinalOutcome).HasMaxLength(500);
-            entity.Property(e => e.SumBudget).HasColumnType("decimal(18, 0)");
 
             entity.HasOne(d => d.Project).WithMany(p => p.TExpectedFinalOutcomes)
                 .HasForeignKey(d => d.ProjectId)
@@ -490,7 +476,6 @@ public partial class MSMEDBContext : DbContext
             entity.ToTable("T_ExpectedOutcomeResult", "SI_MSME");
 
             entity.Property(e => e.ResultFinalOutcome).HasMaxLength(500);
-            entity.Property(e => e.SumBudget).HasColumnType("decimal(18, 0)");
 
             entity.HasOne(d => d.Project).WithMany(p => p.TExpectedOutcomeResults)
                 .HasForeignKey(d => d.ProjectId)
@@ -505,8 +490,6 @@ public partial class MSMEDBContext : DbContext
             entity.ToTable("T_ExpectedOutcomeResultDetail", "SI_MSME");
 
             entity.Property(e => e.MonthName).HasMaxLength(50);
-            entity.Property(e => e.ResultValue).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.Year).HasMaxLength(10);
 
             entity.HasOne(d => d.Outcome).WithMany(p => p.TExpectedOutcomeResultDetails)
                 .HasForeignKey(d => d.OutcomeId)
@@ -520,7 +503,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_OutcomeResult", "SI_MSME");
 
-            entity.Property(e => e.OutputOutcomeName).HasMaxLength(500);
             entity.Property(e => e.UnitName).HasMaxLength(100);
             entity.Property(e => e.YieldTypeName).HasMaxLength(100);
 
@@ -537,9 +519,6 @@ public partial class MSMEDBContext : DbContext
             entity.ToTable("T_OutcomeResultDetails", "SI_MSME");
 
             entity.Property(e => e.MonthName).HasMaxLength(50);
-            entity.Property(e => e.ResultOfYear).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.ResultOffEffect).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.Year).HasMaxLength(10);
 
             entity.HasOne(d => d.Outcome).WithMany(p => p.TOutcomeResultDetails)
                 .HasForeignKey(d => d.OutcomeId)
@@ -553,10 +532,7 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_PerformanceResult", "SI_MSME");
 
-            entity.Property(e => e.ActivityWeight).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.ExpenseTypeName).HasMaxLength(100);
-            entity.Property(e => e.ItemActivityDetail).HasMaxLength(500);
-            entity.Property(e => e.SumEffectValue).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.UnitName).HasMaxLength(100);
 
             entity.HasOne(d => d.Project).WithMany(p => p.TPerformanceResults)
@@ -571,10 +547,7 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_PerformanceResultDetails", "SI_MSME");
 
-            entity.Property(e => e.EffectValue).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.MonthName).HasMaxLength(50);
-            entity.Property(e => e.TempValue).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.Year).HasMaxLength(10);
 
             entity.HasOne(d => d.Activity).WithMany(p => p.TPerformanceResultDetails)
                 .HasForeignKey(d => d.ActivityId)
@@ -605,9 +578,6 @@ public partial class MSMEDBContext : DbContext
             entity.ToTable("T_ProductResultOutputDetail", "SI_MSME");
 
             entity.Property(e => e.MonthName).HasMaxLength(50);
-            entity.Property(e => e.ResultOfYear).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.ResultOffEffect).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.Year).HasMaxLength(10);
 
             entity.HasOne(d => d.Output).WithMany(p => p.TProductResultOutputDetails)
                 .HasForeignKey(d => d.OutputId)
@@ -621,8 +591,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_ProjectActivities", "SI_MSME");
 
-            entity.Property(e => e.ActivityWeight).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.ItemActivityDetail).HasMaxLength(500);
             entity.Property(e => e.UnitName).HasMaxLength(100);
 
             entity.HasOne(d => d.Project).WithMany(p => p.TProjectActivities)
@@ -638,9 +606,6 @@ public partial class MSMEDBContext : DbContext
             entity.ToTable("T_ProjectActivityPlans", "SI_MSME");
 
             entity.Property(e => e.MonthName).HasMaxLength(50);
-            entity.Property(e => e.ResultValue).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.TempValue).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.Year).HasMaxLength(50);
 
             entity.HasOne(d => d.Activity).WithMany(p => p.TProjectActivityPlans)
                 .HasForeignKey(d => d.ActivityId)
@@ -668,10 +633,9 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_ProjectsOutCome", "SI_MSME");
 
-            entity.Property(e => e.MeasureResult).HasMaxLength(255);
-            entity.Property(e => e.OutputOutcomeName).HasMaxLength(500);
-            entity.Property(e => e.UnitName).HasMaxLength(100);
-            entity.Property(e => e.YieldTypeName).HasMaxLength(255);
+            entity.Property(e => e.CountUnitName)
+                .HasMaxLength(100)
+                .HasColumnName("countUnitName");
 
             entity.HasOne(d => d.Project).WithMany(p => p.TProjectsOutComes)
                 .HasForeignKey(d => d.ProjectId)
@@ -685,10 +649,9 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_ProjectsProduct", "SI_MSME");
 
-            entity.Property(e => e.MeasureResult).HasMaxLength(255);
-            entity.Property(e => e.OutputOutcomeName).HasMaxLength(500);
-            entity.Property(e => e.UnitName).HasMaxLength(100);
-            entity.Property(e => e.YieldTypeName).HasMaxLength(255);
+            entity.Property(e => e.CountUnitName)
+                .HasMaxLength(100)
+                .HasColumnName("countUnitName");
 
             entity.HasOne(d => d.Project).WithMany(p => p.TProjectsProducts)
                 .HasForeignKey(d => d.ProjectId)
@@ -704,10 +667,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.Property(e => e.BusinessBranch).HasMaxLength(255);
             entity.Property(e => e.Cluster).HasMaxLength(255);
-            entity.Property(e => e.Medium).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.Micro).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.Other).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.Small).HasColumnType("decimal(18, 2)");
 
             entity.HasOne(d => d.Sheet).WithMany(p => p.TSmeEconomicDevelops)
                 .HasForeignKey(d => d.SheetId)
@@ -720,27 +679,7 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_SmeEconomicDevelopResults", "SI_MSME");
 
-            entity.Property(e => e.AmountFranchise).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.BusinessExpansion).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.BusinessInvestment).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.BusinessRegistration).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.BusinessSameSize).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.FieldBusinessInvestment).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.FieldBusinessRegistration).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.FieldBusinessSameSize).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.FieldMediumToLarge).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.FieldMicroToSmall).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.FieldSmallToMedium).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.Franchise).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.IncreaseEmployment).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.InvestmentBusinessExpansion).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.InvestmentFranchise).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.MaintainIncreaseEmployment).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.MediumToLarge).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.MicroToSmall).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.PvBusinessExpansion).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.PvBusinessInvestment).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.SmallToMedium).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.FieldBusinessInvestment).HasMaxLength(500);
 
             entity.HasOne(d => d.Sheet).WithMany(p => p.TSmeEconomicDevelopResults)
                 .HasForeignKey(d => d.SheetId)
@@ -753,25 +692,9 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_SmeEconomicFactors", "SI_MSME");
 
-            entity.Property(e => e.AmountMicro).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.AmountSmall).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.Bds).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.BusinessField).HasMaxLength(255);
             entity.Property(e => e.BusinessPlan).HasMaxLength(255);
-            entity.Property(e => e.BusinessServiceProvider).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.CourseName).HasMaxLength(255);
-            entity.Property(e => e.ImproveLaw).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.LoginThaiSmeGp).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.NewEntrepreneur).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.OriginalEntrepreneur).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.PersonnelTrained).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.ProductsServices).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.RegisterThaiSmeGp).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.SmeEntrepreneurs).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.StoryDeveloped).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.SubsidyMedium).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.SubsidyOther).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.SupportMoney).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.TrainingCourse).HasMaxLength(255);
             entity.Property(e => e.UpdatedLaw).HasMaxLength(255);
 

@@ -18,13 +18,13 @@ public class ProjectActivityRepository
             .ToListAsync();
     }
 
-    public async Task<MProjectsActivity?> GetByIdAsync(long? pProjectCode)
+    public async Task<MProjectsActivity?> GetByIdAsync(long? pProjectCode,string pYear)
     {
         try {
             return await _context.MProjectsActivities
                .Include(p => p.TProjectActivities)
                .ThenInclude(a => a.TProjectActivityPlans)
-               .FirstOrDefaultAsync(p => p.ProjectCode == pProjectCode);
+               .FirstOrDefaultAsync(p => p.ProjectCode == pProjectCode );
         } catch (Exception ex) 
         {
             return new MProjectsActivity();

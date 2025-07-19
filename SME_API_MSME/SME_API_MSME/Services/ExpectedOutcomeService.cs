@@ -28,7 +28,7 @@ public class ExpectedOutcomeService
     //{
     //    return _repository.GetByIdAsync(projectId);
     //}
-    public async Task<ResultExpectOutcomeResponse?> GetExpectedOutcomeByIdAsync(long? pProjectCode)
+    public async Task<ResultExpectOutcomeResponse?> GetExpectedOutcomeByIdAsync(long? pProjectCode,string pyear)
     {
         var xrerult = new ResultExpectOutcomeResponse();
         try
@@ -44,7 +44,7 @@ public class ExpectedOutcomeService
             }
             else
             {
-                var resultPA = await _repository.GetByIdAsync(pProjectCode);
+                var resultPA = await _repository.GetByIdAsync(pProjectCode, pyear);
 
                 if (resultPA == null)
                 {
@@ -69,30 +69,31 @@ public class ExpectedOutcomeService
 
                     if (apiParam == null)
                     {
-                        xrerult.ResponseCode = 500;
-                        xrerult.ResponseMsg = "Api Service Inccorect.";
-                        xrerult.Result = new List<ExpectOutcomeResult>();
+                        xrerult.responseCode = 500;
+                        xrerult.responseMsg = "Api Service Inccorect.";
+                        xrerult.result = new List<ExpectOutcomeResult>();
                         return xrerult;
 
                     }
 
-                    var apiResponse = await _serviceApi.GetDataApiAsync_ExpectOutcome(apiParam, pProjectCode);
-                  if (apiResponse == null || apiResponse.ResponseCode == 0 || apiResponse.Result.Count==0)
+                    var apiResponse = await _serviceApi.GetDataApiAsync_ExpectOutcome(apiParam, pProjectCode,pyear);
+                  if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count==0)
                     {
-                        xrerult.ResponseCode = 200;
-                        xrerult.ResponseMsg = "No data found";
-                        xrerult.Result =new List<ExpectOutcomeResult>();
+                        xrerult.responseCode = 200;
+                        xrerult.responseMsg = "No data found";
+                        xrerult.result =new List<ExpectOutcomeResult>();
                         return xrerult;
                     }
 
                     else
                     {
-                        foreach (var item in apiResponse.Result)
+                        foreach (var item in apiResponse.result)
                         {
                             var proProduct = new MExpectedOutcome
                             {
                                 ProjectCode = item.ProjectCode, // Corrected from 'project.ProjectCode' to 'item.ProjectCode'
-                                ProjectName = item.ProjectName, // Corrected from 'project.ProjectName' to 'item.ProjectName'
+                                ProjectName = item.ProjectName, 
+                                Year = pyear,// Corrected from 'project.ProjectName' to 'item.ProjectName'
                                 TExpectedFinalOutcomes = item.Items.Select(i => new TExpectedFinalOutcome
                                 {
                                     OrderIndex = i.OrderIndex,
@@ -113,7 +114,7 @@ public class ExpectedOutcomeService
 
                     result = pProjectCode == 0
           ? await _repository.GetAllAsync()
-          : new List<MExpectedOutcome> { await _repository.GetByIdAsync(pProjectCode) };
+          : new List<MExpectedOutcome> { await _repository.GetByIdAsync(pProjectCode,pyear) };
 
                 }
                 else
@@ -142,24 +143,24 @@ public class ExpectedOutcomeService
                     }).ToList()
                 }).ToList());
 
-                xrerult.ResponseCode = 200;
-                xrerult.ResponseMsg = "success";
-                xrerult.Result = dataResult;
+                xrerult.responseCode = 200;
+                xrerult.responseMsg = "success";
+                xrerult.result = dataResult;
             }
             else
             {
-               xrerult.ResponseCode = 200;
-                xrerult.ResponseMsg = "No data found";
-                xrerult.Result = new List<ExpectOutcomeResult>();
+               xrerult.responseCode = 200;
+                xrerult.responseMsg = "No data found";
+                xrerult.result = new List<ExpectOutcomeResult>();
             }
 
             return xrerult;
         }
         catch (Exception ex)
         {
-            xrerult.ResponseCode = 500;
-            xrerult.ResponseMsg = ex.Message;
-            xrerult.Result = new List<ExpectOutcomeResult>();
+            xrerult.responseCode = 500;
+            xrerult.responseMsg = ex.Message;
+            xrerult.result = new List<ExpectOutcomeResult>();
             return xrerult;
         }
 
@@ -189,11 +190,11 @@ public class ExpectedOutcomeService
         {
             //get projects by year  
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
-            if (Listprojects == null || Listprojects.Result.Count == 0)
+            if (Listprojects == null || Listprojects.result.Count == 0)
             {
                 continue; // Skip to the next year if no projects found
             }
-            else if (Listprojects.ResponseCode == 200)
+            else if (Listprojects.responseCode == 200)
             {
 
 
@@ -216,19 +217,19 @@ public class ExpectedOutcomeService
                     Bearer = x.Bearer,
                 }).FirstOrDefault(); // Use FirstOrDefault to handle empty lists
 
-                foreach (var item in Listprojects.Result)
+                foreach (var item in Listprojects.result)
                 {
-                    var apiResponse = await _serviceApi.GetDataApiAsync_ExpectOutcome(apiParam, item.ProjectCode);
-                    if (apiResponse == null || apiResponse.ResponseCode == 0 || apiResponse.Result.Count == 0)
+                    var apiResponse = await _serviceApi.GetDataApiAsync_ExpectOutcome(apiParam, item.ProjectCode,year.ToString());
+                    if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count == 0)
                     {
                         continue; // Skip to the next project if no data found
                     }
                     else
                     {
-                        foreach (var Subitem in apiResponse.Result)
+                        foreach (var Subitem in apiResponse.result)
                         {
                             // Check if existing budget plan for the project
-                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode);
+                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode,year.ToString());
 
                             var proProduct = new MExpectedOutcome
                             {

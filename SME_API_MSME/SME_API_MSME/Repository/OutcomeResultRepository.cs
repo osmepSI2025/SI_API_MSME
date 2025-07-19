@@ -18,12 +18,12 @@ public class OutcomeResultRepository
             .ToListAsync();
     }
 
-    public async Task<MOutcomeResult?> GetByIdAsync(long? pProjectCode)
+    public async Task<MOutcomeResult?> GetByIdAsync(long? pProjectCode,string pYear)
     {
         return await _context.MOutcomeResults
             .Include(o => o.TOutcomeResults)
             .ThenInclude(r => r.TOutcomeResultDetails)
-            .FirstOrDefaultAsync(o => o.ProjectCode == pProjectCode);
+            .FirstOrDefaultAsync(o => o.ProjectCode == pProjectCode && o.Year ==pYear);
     }
 
     public async Task AddAsync(MOutcomeResult outcomeResult)

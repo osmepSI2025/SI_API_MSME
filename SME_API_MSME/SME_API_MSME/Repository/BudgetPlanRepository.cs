@@ -18,14 +18,14 @@ public class BudgetPlanRepository
             .ToListAsync();
     }
 
-    public async Task<MBudgetPlan?> GetByIdAsync(long? pProjectCode)
+    public async Task<MBudgetPlan?> GetByIdAsync(long? pProjectCode,string pYear)
     {
         try
         {
             return await _context.MBudgetPlans
            .Include(p => p.TBudgetPlans)
            .ThenInclude(b => b.TBudgeMonthlyPlanDetails)
-           .FirstOrDefaultAsync(p => p.ProjectCode == pProjectCode);
+           .FirstOrDefaultAsync(p => p.ProjectCode == pProjectCode && p.Year == pYear);
         }
         catch (Exception ex)
         {
