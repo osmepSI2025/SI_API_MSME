@@ -23,8 +23,15 @@ public class ProjectRepository
 
     public async Task AddAsync(MProject project)
     {
-        _context.MProjects.Add(project);
-        await _context.SaveChangesAsync();
+        try
+        {
+            _context.MProjects.Add(project);
+            await _context.SaveChangesAsync();
+        }
+        catch(Exception ex) 
+        {
+        
+        }
     }
 
     public async Task UpdateAsync(MProject project)

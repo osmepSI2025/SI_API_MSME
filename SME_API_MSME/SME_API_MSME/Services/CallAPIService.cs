@@ -45,17 +45,29 @@ namespace SME_API_MSME.Services
 
             try
             {
-                using var request = new HttpRequestMessage(HttpMethod.Post, apiModels.Urlproduction);
 
-                // Prepare the payload for the token request
-                var payload = new
+                var url = $"{apiModels.Urlproduction}";
+                if (apiModels.MethodType == "POST")
                 {
-                    username = apiModels.Username,
-                    password = apiModels.Password
-                };
+                    url = apiModels.Urldevelopment;
+                }
+                else if (apiModels.MethodType == "GET")
+                {
+                    url = $"{apiModels.Urlproduction}";
+                }
+                else
+                {
+                    throw new Exception("Method type not supported");
+                }
+                url = url.Replace("{username}", apiModels.Username).Replace("{password}",apiModels.Password);
+                requestJson = url;
+               
+                using var request = new HttpRequestMessage(HttpMethod.Get, url);
+
+      
 
                 // Serialize the payload to JSON and set it as the request content
-                requestJson = JsonSerializer.Serialize(payload, options);
+                requestJson = JsonSerializer.Serialize(request, options);
                 request.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
 
                 // Send the request using the existing _httpClient
@@ -69,12 +81,12 @@ namespace SME_API_MSME.Services
 
                 // Parse the JSON response to extract the token
                 using var doc = JsonDocument.Parse(content);
-                if (!doc.RootElement.TryGetProperty("access_token", out var tokenElement))
+                if (!doc.RootElement.TryGetProperty("token", out var tokenElement))
                     throw new Exception("Token not found in response");
 
                 // update token
                 var token = tokenElement.GetString();
-                _repositoryApi.UpdateAllBearerTokensAsync(token);
+               await _repositoryApi.UpdateAllBearerTokensAsync(token);
 
                 return tokenElement.GetString() ?? throw new Exception("Token is null or empty");
             }
@@ -111,15 +123,19 @@ namespace SME_API_MSME.Services
             if (_FlagDev == "Y")
             {
                 // Call MocData from URL
-                var filePath = apiModels.Urldevelopment + "/" + pyear;
-                try
+                //var filePath = apiModels.Urldevelopment + "/" + pyear;
+                var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MocData", $"project.json");
+              
+                    try
                 {
-                    using var httpClient = new HttpClient();
-                    var response = await httpClient.GetAsync(filePath);
-                    if (!response.IsSuccessStatusCode)
-                        return new ResultApiResponeProject();
+                    //using var httpClient = new HttpClient();
+                    //var response = await httpClient.GetAsync(filePath);
+                    //if (!response.IsSuccessStatusCode)
+                    //    return new ResultApiResponeProject();
 
-                    var jsonString = await response.Content.ReadAsStringAsync();
+                    //var jsonString = await response.Content.ReadAsStringAsync();
+                    var jsonString = await File.ReadAllTextAsync(filePath);
+        
                     var result = JsonSerializer.Deserialize<ResultApiResponeProject>(jsonString, options);
 
                     return result ?? new ResultApiResponeProject();

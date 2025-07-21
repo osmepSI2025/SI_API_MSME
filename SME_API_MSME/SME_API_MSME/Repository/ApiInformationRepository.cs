@@ -40,8 +40,16 @@ namespace SME_API_MSME.Repository
 
         public async Task UpdateAsync(MApiInformation service)
         {
-            _context.MApiInformations.Update(service);
-            await _context.SaveChangesAsync();
+            try {
+                _context.MApiInformations.Update(service);
+                await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error updating API information: " + ex.Message, ex);
+            }
+           
         }
 
         public async Task DeleteAsync(int id)

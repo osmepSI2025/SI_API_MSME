@@ -87,7 +87,7 @@ public class ProjectService
                                 BudgetYear = item.BudgetYear,
                                 DateApprove = item.DateApprove,
                                 // Change this line in the mapping from ProjectModels to MProject
-                                OrgId = item.OrgId,
+                                OrgId = item.OrgId??null,
                                 OrgName = item.OrgName,
                                 ProjectBudget = item.ProjectBudget,
                                 ProjectOffBudget = item.ProjectOffBudget,
@@ -167,7 +167,7 @@ public class ProjectService
         int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear; // แปลงเป็น พ.ศ. ถ้ายังเป็น ค.ศ.
 
 
-        for (int year = currentYearBE - 4; year <= currentYearBE; year++)
+        for (int year = currentYearBE - 1; year <= currentYearBE; year++)
         {
             //get projects by year  
             var Listprojects = await GetProjectByIdAsync(year.ToString());
