@@ -17,7 +17,7 @@ public partial class TProjectsOutCome
 
     public string? MeasureResult { get; set; }
 
-    public int? Target { get; set; }
+    public double? Target { get; set; }
 
     public string? CountUnitName { get; set; }
 

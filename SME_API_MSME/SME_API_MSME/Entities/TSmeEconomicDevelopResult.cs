@@ -27,23 +27,23 @@ public partial class TSmeEconomicDevelopResult
 
     public int? BusinessRegistration { get; set; }
 
-    public int? PvBusinessExpansion { get; set; }
+    public string? PvBusinessExpansion { get; set; }
 
     public int? AmountFranchise { get; set; }
 
-    public int? PvBusinessInvestment { get; set; }
+    public string? PvBusinessInvestment { get; set; }
 
-    public int? FieldBusinessSameSize { get; set; }
+    public string? FieldBusinessSameSize { get; set; }
 
-    public int? FieldMicroToSmall { get; set; }
+    public string? FieldMicroToSmall { get; set; }
 
-    public int? FieldSmallToMedium { get; set; }
+    public string? FieldSmallToMedium { get; set; }
 
-    public int? FieldMediumToLarge { get; set; }
+    public string? FieldMediumToLarge { get; set; }
 
     public int? MaintainIncreaseEmployment { get; set; }
 
-    public int? FieldBusinessRegistration { get; set; }
+    public string? FieldBusinessRegistration { get; set; }
 
     public double? InvestmentBusinessExpansion { get; set; }
 

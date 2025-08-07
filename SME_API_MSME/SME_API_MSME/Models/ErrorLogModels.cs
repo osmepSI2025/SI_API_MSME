@@ -29,5 +29,9 @@
         public string? CreatedBy { get; set; }
 
         public DateTime? Createdate { get; set; }
+
+        public string? SystemName { get; set; }
+        public string? ApiKey { get; set; }
+        public string? HttpCode { get; set; }
     }
 }

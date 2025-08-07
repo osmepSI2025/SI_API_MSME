@@ -14,8 +14,8 @@ public class ProjectController : ControllerBase
 
  
 
-    [HttpGet("project/{year}")]
-    public async Task<ResultApiResponeProject> GetById(string year)
+    [HttpGet("project")]
+    public async Task<ResultApiResponeProject> GetById([FromQuery]  string year)
     {
         var project = await _service.GetProjectByIdAsync(year);
        

@@ -12,4 +12,7 @@ public partial class MEconomicValueProject
     public double? Budget { get; set; }
 
     public int BudgetYear { get; set; }
+
+    // Add this navigation property if it is missing
+    //public virtual ICollection<TEconomicValueSheets2> TEconomicValueSheets2s { get; set; } = new List<TEconomicValueSheets2>();
 }

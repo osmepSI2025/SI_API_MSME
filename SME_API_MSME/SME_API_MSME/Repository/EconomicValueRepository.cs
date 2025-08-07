@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using SME_API_MSME.Entities;
 
 public class EconomicValueRepository
@@ -23,25 +24,22 @@ public class EconomicValueRepository
         try
         {
             return await _context.MEconomicValueProjects
-           //.Include(p => p.TEconomicValues)
-           //.Include(p => p.TEconomicValueSheets2s)
-           //    .ThenInclude(s => s.TEconomicPromoteds)
-           //.Include(p => p.TEconomicValueSheets2s)
-           //    .ThenInclude(s => s.TSmeEconomicDevelops)
-           //.Include(p => p.TEconomicValueSheets2s)
-           //    .ThenInclude(s => s.TSmeEconomicFactors)
-           //.Include(p => p.TEconomicValueSheets2s)
-           //    .ThenInclude(s => s.TSmeEconomicDevelopResults)
-       .FirstOrDefaultAsync(e => e.BudgetYear == year && e.ProjectCode == pProjectCode);
+                // .Include(p => p.TEconomicValues) // <-- Remove or comment out this line
+                //.Include(p => p.TEconomicValueSheets2s)
+                //    .ThenInclude(s => s.TEconomicPromoteds)
+                //.Include(p => p.TEconomicValueSheets2s)
+                //    .ThenInclude(s => s.TSmeEconomicDevelops)
+                //.Include(p => p.TEconomicValueSheets2s)
+                //    .ThenInclude(s => s.TSmeEconomicFactors)
+                //.Include(p => p.TEconomicValueSheets2s)
+                //    .ThenInclude(s => s.TSmeEconomicDevelopResults)
+                .FirstOrDefaultAsync(e => e.BudgetYear == year && e.ProjectCode == pProjectCode);
         }
         catch (Exception ex)
         {
             return null;
         }
-
     }
-
-
     public async Task<MEconomicValueProject?> GetCheckByIdAsync(long? ProjectCode ,int year)
     {
         return await _context.MEconomicValueProjects
@@ -88,14 +86,14 @@ public class EconomicValueRepository
         }
     }
     #region sheet2
-    public async Task<TEconomicValueSheets2?> GetByIdSheet2Async(int sheetId)
+    public async Task<TEconomicValueSheets2?> GetByIdSheet2Async(long? pProjectCode)
     {
         return await _context.TEconomicValueSheets2s
             .Include(s => s.TEconomicPromoteds)
             .Include(s => s.TSmeEconomicDevelops)
             .Include(s => s.TSmeEconomicFactors)
             .Include(s => s.TSmeEconomicDevelopResults)
-            .FirstOrDefaultAsync(s => s.SheetId == sheetId);
+            .FirstOrDefaultAsync(s => s.ProjectCode == pProjectCode);
     }
     public async Task AddSheet2Async(TEconomicValueSheets2 economicValue)
     {
@@ -123,4 +121,15 @@ public class EconomicValueRepository
         }
     }
     #endregion sheet2
+
+    #region Get sheet 1
+    public async Task<IEnumerable<TEconomicValue>> GetTEconomicAsync(long? pProjectCode)
+    {
+        return await _context.TEconomicValues
+            .Where(e => e.ProjectCode == pProjectCode)
+            .ToListAsync();
+    }
+    #endregion
+
+
 }

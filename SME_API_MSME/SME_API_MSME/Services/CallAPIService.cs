@@ -106,6 +106,7 @@ namespace SME_API_MSME.Services
                     InnerException = ex.InnerException?.ToString(),
                      SystemCode = Api_SysCode,
                     CreatedBy = "system"
+                    ,HttpCode = "500"
                 };
                 await RecErrorLogApiAsync(apiModels, errorLog);
                 throw new Exception("Error in GetDataApiAsync_Login: " + ex.Message, ex);
@@ -256,6 +257,8 @@ namespace SME_API_MSME.Services
                         InnerException = ex.InnerException?.ToString(),
                         SystemCode = Api_SysCode,
                         CreatedBy = "system"
+                         ,
+                        HttpCode = "500"
                     };
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     return new ResultApiResponeProject
@@ -410,7 +413,8 @@ namespace SME_API_MSME.Services
                         InnerException = ex.InnerException?.ToString(),
                          SystemCode = Api_SysCode,
                         CreatedBy = "system"
-
+                         ,
+                        HttpCode = "500"
                     };
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     //  throw new Exception("Error in GetData: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message);
@@ -568,7 +572,8 @@ namespace SME_API_MSME.Services
                         InnerException = ex.InnerException?.ToString(),
                          SystemCode = Api_SysCode,
                         CreatedBy = "system"
-
+                         ,
+                        HttpCode = "500"
 
                     };
                     await RecErrorLogApiAsync(apiModels, errorLog);
@@ -724,7 +729,8 @@ namespace SME_API_MSME.Services
                         InnerException = ex.InnerException?.ToString(),
                          SystemCode = Api_SysCode,
                         CreatedBy = "system"
-
+                         ,
+                        HttpCode = "500"
                     };
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     return new ResultProjectOutcomeResponse
@@ -879,7 +885,8 @@ namespace SME_API_MSME.Services
                         InnerException = ex.InnerException?.ToString(),
                          SystemCode = Api_SysCode,
                         CreatedBy = "system"
-
+                         ,
+                        HttpCode = "500"
                     };
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     return new ResultExpectOutcomeResponse
@@ -1034,6 +1041,8 @@ namespace SME_API_MSME.Services
                         InnerException = ex.InnerException?.ToString(),
                          SystemCode = Api_SysCode,
                         CreatedBy = "system"
+                         ,
+                        HttpCode = "500"
 
                     };
                     await RecErrorLogApiAsync(apiModels, errorLog);
@@ -1189,7 +1198,8 @@ namespace SME_API_MSME.Services
                         InnerException = ex.InnerException?.ToString(),
                          SystemCode = Api_SysCode,
                         CreatedBy = "system"
-
+                         ,
+                        HttpCode = "500"
                     };
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     return new ResultBudgetPlanResponse
@@ -1345,6 +1355,8 @@ namespace SME_API_MSME.Services
                         InnerException = ex.InnerException?.ToString(),
                          SystemCode = Api_SysCode,
                         CreatedBy = "system"
+                         ,
+                        HttpCode = "500"
 
                     };
                     await RecErrorLogApiAsync(apiModels, errorLog);
@@ -1502,6 +1514,8 @@ namespace SME_API_MSME.Services
                         InnerException = ex.InnerException?.ToString(),
                          SystemCode = Api_SysCode,
                         CreatedBy = "system"
+                         ,
+                        HttpCode = "500"
 
                     };
                     await RecErrorLogApiAsync(apiModels, errorLog);
@@ -1658,7 +1672,8 @@ namespace SME_API_MSME.Services
                         InnerException = ex.InnerException?.ToString(),
                          SystemCode = Api_SysCode,
                         CreatedBy = "system"
-
+                         ,
+                        HttpCode = "500"
                     };
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     return new ResultPerformanceResultResponse
@@ -1814,7 +1829,8 @@ namespace SME_API_MSME.Services
                         InnerException = ex.InnerException?.ToString(),
                          SystemCode = Api_SysCode,
                         CreatedBy = "system"
-
+                         ,
+                        HttpCode = "500"
                     };
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     //throw new Exception("Error in GetData: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message);
@@ -1973,7 +1989,8 @@ namespace SME_API_MSME.Services
                         InnerException = ex.InnerException?.ToString(),
                          SystemCode = Api_SysCode,
                         CreatedBy = "system"
-
+                         ,
+                        HttpCode = "500"
                     };
                     await RecErrorLogApiAsync(apiModels, errorLog);
                     return new ResultExpectedOutcomeResultResponse
@@ -2118,6 +2135,7 @@ namespace SME_API_MSME.Services
                 {
                     var errorLog = new ErrorLogModels
                     {
+                        
                         Message = "Function " + apiModels.ServiceNameTh + " " + ex.Message,
                         StackTrace = ex.StackTrace,
                         Source = ex.Source,
@@ -2130,6 +2148,8 @@ namespace SME_API_MSME.Services
                         InnerException = ex.InnerException?.ToString(),
                         SystemCode = Api_SysCode,
                         CreatedBy = "system"
+                        ,HttpCode = "500"
+                        
 
                     };
                     await RecErrorLogApiAsync(apiModels, errorLog);

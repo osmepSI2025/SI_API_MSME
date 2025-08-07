@@ -23,6 +23,304 @@ public class EconomicValueService
     {
         return _repository.GetAllAsync();
     }
+    #region get data older
+    //public async Task<ResultEconomicValueResponse?> GetEconomicValueByIdAsync(long? pProjectCode, int? pyear)
+    //{
+    //    var xrerult = new ResultEconomicValueResponse();
+    //    try
+    //    {
+    //        var dataResult = new List<EconomicValueProjectModels>();
+
+    //        IEnumerable<MEconomicValueProject>? result = null;
+
+    //        if (pyear == 0)
+    //        {
+    //            result = await _repository.GetAllAsync();
+    //        }
+    //        else
+    //        {
+    //            var resultPA = await _repository.GetByIdAsync(pProjectCode, pyear);
+
+
+    //            if (resultPA == null)
+    //            {
+    //                var LApi = await _repositoryApi.GetAllAsync(new MapiInformationModels { ServiceNameCode = "economic-value" });
+    //                var apiParam = LApi.Select(x => new MapiInformationModels
+    //                {
+    //                    ServiceNameCode = x.ServiceNameCode,
+    //                    ApiKey = x.ApiKey,
+    //                    AuthorizationType = x.AuthorizationType,
+    //                    ContentType = x.ContentType,
+    //                    CreateDate = x.CreateDate,
+    //                    Id = x.Id,
+    //                    MethodType = x.MethodType,
+    //                    ServiceNameTh = x.ServiceNameTh,
+    //                    Urldevelopment = x.Urldevelopment,
+    //                    Urlproduction = x.Urlproduction,
+    //                    Username = x.Username,
+    //                    Password = x.Password,
+    //                    UpdateDate = x.UpdateDate,
+    //                    Bearer = x.Bearer,
+    //                }).FirstOrDefault();
+
+    //                if (apiParam == null)
+    //                {
+    //                    xrerult.responseCode = 500;
+    //                    xrerult.responseMsg = "Api Service Incorrect.";
+    //                    xrerult.result = new List<EconomicValueProjectModels>();
+    //                    return xrerult;
+    //                }
+
+    //                var apiResponse = await _serviceApi.GetDataApiAsync_EconomicValue(apiParam, pProjectCode, pyear);
+    //                if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count == 0)
+    //                {
+    //                    xrerult.responseCode = 200;
+    //                    xrerult.responseMsg = "No data found";
+    //                    xrerult.result = new List<EconomicValueProjectModels>();
+    //                    return xrerult;
+    //                }
+    //                else
+    //                {
+    //                    foreach (var item in apiResponse.result)
+    //                    {
+    //                        long strProjectCode = item.ProjectCode;
+    //                        List<TEconomicValue> tecom = new List<TEconomicValue>();
+    //                        var proProduct = new MEconomicValueProject
+    //                        {
+
+    //                            ProjectCode = item.ProjectCode,
+    //                            ProjectName = item.ProjectName ?? "",
+    //                            Budget = item.Budget ?? 0,
+    //                            BudgetYear = item.BudgetYear ?? 0,
+
+    //                        };
+    //                        tecom = item.Sheet1?.EconomicValue?.Select(i => new TEconomicValue
+    //                        {
+    //                            ProjectCode = strProjectCode,
+    //                            MicroEnd = i.MicroEnd,
+    //                            MicroNext = i.MicroNext,
+    //                            SmallEnd = i.SmallEnd,
+    //                            SmallNext = i.SmallNext,
+    //                            MediumEnd = i.MediumEnd,
+    //                            MediumNext = i.MediumNext,
+    //                            OtherEnd = i.OtherEnd,
+    //                            OtherNext = i.OtherNext,
+    //                            EconomicValueId = i.EconomicValueId,
+    //                        }).ToList() ?? new List<TEconomicValue>();
+    //                        var sheet2x = new TEconomicValueSheets2
+    //                        {
+    //                            Province = item.Sheet2?.Province,
+    //                            InterestedBusiness = item.Sheet2?.InterestedBusiness,
+    //                            ProjectCode = item.ProjectCode,
+    //                            TEconomicPromoteds = item.Sheet2?.EconomicPromoted?.Select(x => new TEconomicPromoted
+    //                            {
+    //                                EntrepreneurId = x.EntrepreneurId,
+    //                                Production = x.Production,
+    //                                Trade = x.Trade,
+    //                                Serve = x.Serve,
+    //                                Agribusiness = x.Agribusiness,
+    //                                ProductionBranch = x.ProductionBranch,
+    //                                TradeBranch = x.TradeBranch,
+    //                                ServeBranch = x.ServeBranch,
+    //                                AgribusinessBranch = x.AgribusinessBranch
+    //                            }).ToList(),
+    //                            TSmeEconomicDevelops = item.Sheet2?.SmeEconomicDevelop?.Select(x => new TSmeEconomicDevelop
+    //                            {
+
+    //                                CapacityEnhanceId = x.CapacityEnhanceId,
+    //                                BusinessBranch = x.BusinessBranch,
+    //                                Micro = x.Micro,
+    //                                Small = x.Small,
+    //                                Medium = x.Medium,
+    //                                Other = x.Other,
+    //                                Cluster = x.Cluster
+    //                            }).ToList(),
+    //                            TSmeEconomicFactors = item.Sheet2?.SmeEconomicFactor == null ? null : new List<TSmeEconomicFactor>
+    //                            {
+    //                                new TSmeEconomicFactor
+    //                                {
+
+    //                                    BusinessField = item.Sheet2.SmeEconomicFactor.BusinessField,
+    //                                    BusinessPlan = item.Sheet2.SmeEconomicFactor.BusinessPlan,
+    //                                    CourseName = item.Sheet2.SmeEconomicFactor.CourseName,
+    //                                    PersonnelTrained = item.Sheet2.SmeEconomicFactor.PersonnelTrained,
+    //                                    Bds = item.Sheet2.SmeEconomicFactor.Bds,
+    //                                    SupportMoney = item.Sheet2.SmeEconomicFactor.SupportMoney,
+    //                                    AmountMicro = item.Sheet2.SmeEconomicFactor.AmountMicro,
+    //                                    AmountSmall = item.Sheet2.SmeEconomicFactor.AmountSmall,
+    //                                    SubsidyMedium = item.Sheet2.SmeEconomicFactor.SubsidyMedium,
+    //                                    SubsidyOther = item.Sheet2.SmeEconomicFactor.SubsidyOther
+    //                                }
+    //                            },
+    //                            TSmeEconomicDevelopResults = item.Sheet2?.SmeEconomicDevelopResult == null ? null : new List<TSmeEconomicDevelopResult>
+    //                            {
+    //                                new TSmeEconomicDevelopResult
+    //                                {
+
+    //                                    BusinessExpansion = item.Sheet2.SmeEconomicDevelopResult.BusinessExpansion,
+    //                                    Franchise = item.Sheet2.SmeEconomicDevelopResult.Franchise,
+    //                                    BusinessInvestment = item.Sheet2.SmeEconomicDevelopResult.BusinessInvestment,
+    //                                    BusinessSameSize = item.Sheet2.SmeEconomicDevelopResult.BusinessSameSize,
+    //                                    MicroToSmall = item.Sheet2.SmeEconomicDevelopResult.MicroToSmall,
+    //                                    SmallToMedium = item.Sheet2.SmeEconomicDevelopResult.SmallToMedium,
+    //                                    MediumToLarge = item.Sheet2.SmeEconomicDevelopResult.MediumToLarge,
+    //                                    IncreaseEmployment = item.Sheet2.SmeEconomicDevelopResult.IncreaseEmployment,
+    //                                    BusinessRegistration = item.Sheet2.SmeEconomicDevelopResult.BusinessRegistration,
+    //                                    PvBusinessExpansion = item.Sheet2.SmeEconomicDevelopResult.PvBusinessExpansion,
+    //                                    AmountFranchise = item.Sheet2.SmeEconomicDevelopResult.AmountFranchise,
+    //                                    PvBusinessInvestment = item.Sheet2.SmeEconomicDevelopResult.PvBusinessInvestment,
+    //                                    FieldBusinessSameSize = item.Sheet2.SmeEconomicDevelopResult.FieldBusinessSameSize,
+    //                                    FieldMicroToSmall = item.Sheet2.SmeEconomicDevelopResult.FieldMicroToSmall,
+    //                                    FieldSmallToMedium = item.Sheet2.SmeEconomicDevelopResult.FieldSmallToMedium,
+    //                                    FieldMediumToLarge = item.Sheet2.SmeEconomicDevelopResult.FieldMediumToLarge,
+    //                                    MaintainIncreaseEmployment = item.Sheet2.SmeEconomicDevelopResult.MaintainIncreaseEmployment,
+    //                                    FieldBusinessRegistration = item.Sheet2.SmeEconomicDevelopResult.FieldBusinessRegistration,
+    //                                    InvestmentBusinessExpansion = item.Sheet2.SmeEconomicDevelopResult.InvestmentBusinessExpansion,
+    //                                    InvestmentFranchise = item.Sheet2.SmeEconomicDevelopResult.InvestmentFranchise,
+    //                                    FieldBusinessInvestment = item.Sheet2.SmeEconomicDevelopResult.FieldBusinessInvestment
+    //                                }
+    //                            }
+    //                        };
+
+    //                        await AddEconomicValueAsync(proProduct, tecom);
+    //                        await AddEconomicValueSheet2Async(sheet2x);
+    //                    }
+    //                }
+
+    //                result = pyear == 0
+    //                    ? await _repository.GetAllAsync()
+    //                    : new List<MEconomicValueProject> { await _repository.GetByIdAsync(pProjectCode,pyear??0) };
+    //            }
+    //            else
+    //            {
+    //                result = new List<MEconomicValueProject> { resultPA };
+    //            }
+    //        }
+
+    //        if (result != null && result.Any())
+    //        {
+    //            var resultsheet1 = await _repository.GetTEconomicAsync(pProjectCode);
+    //            var resultsheet2 = await _repository.GetByIdSheet2Async(pProjectCode);
+    //            dataResult = result.Select(project => new EconomicValueProjectModels
+    //            {
+
+    //                ProjectCode = project.ProjectCode,
+    //                ProjectName = project.ProjectName,
+    //                Budget = project.Budget,
+    //                BudgetYear = project.BudgetYear,
+    //                Sheet1 = new EconomicValueSheet1
+    //                {
+    //                    EconomicValue = project.Select(x => new EconomicValueModels
+    //                    {
+    //                        EconomicValueId = x.EconomicValueId,
+    //                        MicroEnd = x.MicroEnd,
+    //                        MicroNext = x.MicroNext,
+    //                        SmallEnd = x.SmallEnd,
+    //                        SmallNext = x.SmallNext,
+    //                        MediumEnd = x.MediumEnd,
+    //                        MediumNext = x.MediumNext,
+    //                        OtherEnd = x.OtherEnd,
+    //                        OtherNext = x.OtherNext
+    //                    }).ToList()
+    //                },
+    //                Sheet2 = new EconomicValueSheet2
+    //                {
+    //                    Province = project.TEconomicValueSheets2s.FirstOrDefault()?.Province,
+    //                    InterestedBusiness = project.TEconomicValueSheets2s.FirstOrDefault()?.InterestedBusiness,
+    //                    EconomicPromoted = project.TEconomicValueSheets2s
+    //                        .SelectMany(s => s.TEconomicPromoteds)
+    //                        .Select(x => new EconomicPromotedModels
+    //                        {
+    //                            EntrepreneurId = x.EntrepreneurId,
+    //                            Production = x.Production,
+    //                            Trade = x.Trade,
+    //                            Serve = x.Serve,
+    //                            Agribusiness = x.Agribusiness,
+    //                            ProductionBranch = x.ProductionBranch,
+    //                            TradeBranch = x.TradeBranch,
+    //                            ServeBranch = x.ServeBranch,
+    //                            AgribusinessBranch = x.AgribusinessBranch
+    //                        }).ToList(),
+    //                    SmeEconomicDevelop = project.TEconomicValueSheets2s
+    //                        .SelectMany(s => s.TSmeEconomicDevelops)
+    //                        .Select(x => new SmeEconomicDevelopModels
+    //                        {
+    //                            CapacityEnhanceId = x.CapacityEnhanceId,
+    //                            BusinessBranch = x.BusinessBranch,
+    //                            Micro = x.Micro,
+    //                            Small = x.Small,
+    //                            Medium = x.Medium,
+    //                            Other = x.Other,
+    //                            Cluster = x.Cluster
+    //                        }).ToList(),
+    //                    SmeEconomicFactor = project.TEconomicValueSheets2s
+    //                        .FirstOrDefault()?
+    //                        .TSmeEconomicFactors
+    //                        .Select(x => new SmeEconomicFactorModels
+    //                        {
+    //                            BusinessField = x.BusinessField,
+    //                            BusinessPlan = x.BusinessPlan,
+    //                            CourseName = x.CourseName,
+    //                            PersonnelTrained = x.PersonnelTrained,
+    //                            Bds = x.Bds,
+    //                            SupportMoney = x.SupportMoney,
+    //                            AmountMicro = x.AmountMicro,
+    //                            AmountSmall = x.AmountSmall,
+    //                            SubsidyMedium = x.SubsidyMedium,
+    //                            SubsidyOther = x.SubsidyOther
+    //                        }).FirstOrDefault(),
+    //                    SmeEconomicDevelopResult = project.TEconomicValueSheets2s
+    //                        .FirstOrDefault()?
+    //                        .TSmeEconomicDevelopResults
+    //                        .Select(x => new SmeEconomicDevelopResultModels
+    //                        {
+    //                            BusinessExpansion = x.BusinessExpansion,
+    //                            Franchise = x.Franchise,
+    //                            BusinessInvestment = x.BusinessInvestment,
+    //                            BusinessSameSize = x.BusinessSameSize,
+    //                            MicroToSmall = x.MicroToSmall,
+    //                            SmallToMedium = x.SmallToMedium,
+    //                            MediumToLarge = x.MediumToLarge,
+    //                            IncreaseEmployment = x.IncreaseEmployment,
+    //                            BusinessRegistration = x.BusinessRegistration,
+    //                            PvBusinessExpansion = x.PvBusinessExpansion,
+    //                            AmountFranchise = x.AmountFranchise,
+    //                            PvBusinessInvestment = x.PvBusinessInvestment,
+    //                            FieldBusinessSameSize = x.FieldBusinessSameSize,
+    //                            FieldMicroToSmall = x.FieldMicroToSmall,
+    //                            FieldSmallToMedium = x.FieldSmallToMedium,
+    //                            FieldMediumToLarge = x.FieldMediumToLarge,
+    //                            MaintainIncreaseEmployment = x.MaintainIncreaseEmployment,
+    //                            FieldBusinessRegistration = x.FieldBusinessRegistration,
+    //                            InvestmentBusinessExpansion = x.InvestmentBusinessExpansion,
+    //                            InvestmentFranchise = x.InvestmentFranchise,
+    //                            FieldBusinessInvestment = x.FieldBusinessInvestment
+    //                        }).FirstOrDefault()
+    //                }
+    //            }).ToList();
+
+    //            xrerult.responseCode = 200;
+    //            xrerult.responseMsg = "success";
+    //            xrerult.result = dataResult;
+    //        }
+    //        else
+    //        {
+    //            xrerult.responseCode = 200;
+    //            xrerult.responseMsg = "No data found";
+    //            xrerult.result = new List<EconomicValueProjectModels>();
+    //        }
+
+    //        return xrerult;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        xrerult.responseCode = 500;
+    //        xrerult.responseMsg = ex.Message;
+    //        xrerult.result = new List<EconomicValueProjectModels>();
+    //        return xrerult;
+    //    }
+    //}
+    #endregion get data older
 
     public async Task<ResultEconomicValueResponse?> GetEconomicValueByIdAsync(long? pProjectCode, int? pyear)
     {
@@ -30,7 +328,6 @@ public class EconomicValueService
         try
         {
             var dataResult = new List<EconomicValueProjectModels>();
-
             IEnumerable<MEconomicValueProject>? result = null;
 
             if (pyear == 0)
@@ -82,17 +379,10 @@ public class EconomicValueService
                     {
                         foreach (var item in apiResponse.result)
                         {
-                            List<TEconomicValue> tecom = new List<TEconomicValue>();
-                            var proProduct = new MEconomicValueProject
+                            long strProjectCode = item.ProjectCode;
+                            List<TEconomicValue> tecom = item.Sheet1?.EconomicValue?.Select(i => new TEconomicValue
                             {
-                                ProjectCode = item.ProjectCode,
-                                ProjectName = item.ProjectName ?? "",
-                                Budget = item.Budget ?? 0,
-                                BudgetYear = item.BudgetYear ?? 0,
-
-                            };
-                            tecom = item.Sheet1?.EconomicValue?.Select(i => new TEconomicValue
-                            {
+                                ProjectCode = strProjectCode,
                                 MicroEnd = i.MicroEnd,
                                 MicroNext = i.MicroNext,
                                 SmallEnd = i.SmallEnd,
@@ -103,6 +393,15 @@ public class EconomicValueService
                                 OtherNext = i.OtherNext,
                                 EconomicValueId = i.EconomicValueId,
                             }).ToList() ?? new List<TEconomicValue>();
+
+                            var proProduct = new MEconomicValueProject
+                            {
+                                ProjectCode = item.ProjectCode,
+                                ProjectName = item.ProjectName ?? "",
+                                Budget = item.Budget ?? 0,
+                                BudgetYear = item.BudgetYear ?? 0,
+                            };
+
                             var sheet2x = new TEconomicValueSheets2
                             {
                                 Province = item.Sheet2?.Province,
@@ -131,48 +430,48 @@ public class EconomicValueService
                                     Cluster = x.Cluster
                                 }).ToList(),
                                 TSmeEconomicFactors = item.Sheet2?.SmeEconomicFactor == null ? null : new List<TSmeEconomicFactor>
+                            {
+                                new TSmeEconomicFactor
                                 {
-                                    new TSmeEconomicFactor
-                                    {
-                                        BusinessField = item.Sheet2.SmeEconomicFactor.BusinessField,
-                                        BusinessPlan = item.Sheet2.SmeEconomicFactor.BusinessPlan,
-                                        CourseName = item.Sheet2.SmeEconomicFactor.CourseName,
-                                        PersonnelTrained = item.Sheet2.SmeEconomicFactor.PersonnelTrained,
-                                        Bds = item.Sheet2.SmeEconomicFactor.Bds,
-                                        SupportMoney = item.Sheet2.SmeEconomicFactor.SupportMoney,
-                                        AmountMicro = item.Sheet2.SmeEconomicFactor.AmountMicro,
-                                        AmountSmall = item.Sheet2.SmeEconomicFactor.AmountSmall,
-                                        SubsidyMedium = item.Sheet2.SmeEconomicFactor.SubsidyMedium,
-                                        SubsidyOther = item.Sheet2.SmeEconomicFactor.SubsidyOther
-                                    }
-                                },
-                                TSmeEconomicDevelopResults = item.Sheet2?.SmeEconomicDevelopResult == null ? null : new List<TSmeEconomicDevelopResult>
-                                {
-                                    new TSmeEconomicDevelopResult
-                                    {
-                                        BusinessExpansion = item.Sheet2.SmeEconomicDevelopResult.BusinessExpansion,
-                                        Franchise = item.Sheet2.SmeEconomicDevelopResult.Franchise,
-                                        BusinessInvestment = item.Sheet2.SmeEconomicDevelopResult.BusinessInvestment,
-                                        BusinessSameSize = item.Sheet2.SmeEconomicDevelopResult.BusinessSameSize,
-                                        MicroToSmall = item.Sheet2.SmeEconomicDevelopResult.MicroToSmall,
-                                        SmallToMedium = item.Sheet2.SmeEconomicDevelopResult.SmallToMedium,
-                                        MediumToLarge = item.Sheet2.SmeEconomicDevelopResult.MediumToLarge,
-                                        IncreaseEmployment = item.Sheet2.SmeEconomicDevelopResult.IncreaseEmployment,
-                                        BusinessRegistration = item.Sheet2.SmeEconomicDevelopResult.BusinessRegistration,
-                                        PvBusinessExpansion = item.Sheet2.SmeEconomicDevelopResult.PvBusinessExpansion,
-                                        AmountFranchise = item.Sheet2.SmeEconomicDevelopResult.AmountFranchise,
-                                        PvBusinessInvestment = item.Sheet2.SmeEconomicDevelopResult.PvBusinessInvestment,
-                                        FieldBusinessSameSize = item.Sheet2.SmeEconomicDevelopResult.FieldBusinessSameSize,
-                                        FieldMicroToSmall = item.Sheet2.SmeEconomicDevelopResult.FieldMicroToSmall,
-                                        FieldSmallToMedium = item.Sheet2.SmeEconomicDevelopResult.FieldSmallToMedium,
-                                        FieldMediumToLarge = item.Sheet2.SmeEconomicDevelopResult.FieldMediumToLarge,
-                                        MaintainIncreaseEmployment = item.Sheet2.SmeEconomicDevelopResult.MaintainIncreaseEmployment,
-                                        FieldBusinessRegistration = item.Sheet2.SmeEconomicDevelopResult.FieldBusinessRegistration,
-                                        InvestmentBusinessExpansion = item.Sheet2.SmeEconomicDevelopResult.InvestmentBusinessExpansion,
-                                        InvestmentFranchise = item.Sheet2.SmeEconomicDevelopResult.InvestmentFranchise,
-                                        FieldBusinessInvestment = item.Sheet2.SmeEconomicDevelopResult.FieldBusinessInvestment
-                                    }
+                                    BusinessField = item.Sheet2.SmeEconomicFactor.BusinessField,
+                                    BusinessPlan = item.Sheet2.SmeEconomicFactor.BusinessPlan,
+                                    CourseName = item.Sheet2.SmeEconomicFactor.CourseName,
+                                    PersonnelTrained = item.Sheet2.SmeEconomicFactor.PersonnelTrained,
+                                    Bds = item.Sheet2.SmeEconomicFactor.Bds,
+                                    SupportMoney = item.Sheet2.SmeEconomicFactor.SupportMoney,
+                                    AmountMicro = item.Sheet2.SmeEconomicFactor.AmountMicro,
+                                    AmountSmall = item.Sheet2.SmeEconomicFactor.AmountSmall,
+                                    SubsidyMedium = item.Sheet2.SmeEconomicFactor.SubsidyMedium,
+                                    SubsidyOther = item.Sheet2.SmeEconomicFactor.SubsidyOther
                                 }
+                            },
+                                TSmeEconomicDevelopResults = item.Sheet2?.SmeEconomicDevelopResult == null ? null : new List<TSmeEconomicDevelopResult>
+                            {
+                                new TSmeEconomicDevelopResult
+                                {
+                                    BusinessExpansion = item.Sheet2.SmeEconomicDevelopResult.BusinessExpansion,
+                                    Franchise = item.Sheet2.SmeEconomicDevelopResult.Franchise,
+                                    BusinessInvestment = item.Sheet2.SmeEconomicDevelopResult.BusinessInvestment,
+                                    BusinessSameSize = item.Sheet2.SmeEconomicDevelopResult.BusinessSameSize,
+                                    MicroToSmall = item.Sheet2.SmeEconomicDevelopResult.MicroToSmall,
+                                    SmallToMedium = item.Sheet2.SmeEconomicDevelopResult.SmallToMedium,
+                                    MediumToLarge = item.Sheet2.SmeEconomicDevelopResult.MediumToLarge,
+                                    IncreaseEmployment = item.Sheet2.SmeEconomicDevelopResult.IncreaseEmployment,
+                                    BusinessRegistration = item.Sheet2.SmeEconomicDevelopResult.BusinessRegistration,
+                                    PvBusinessExpansion = item.Sheet2.SmeEconomicDevelopResult.PvBusinessExpansion,
+                                    AmountFranchise = item.Sheet2.SmeEconomicDevelopResult.AmountFranchise,
+                                    PvBusinessInvestment = item.Sheet2.SmeEconomicDevelopResult.PvBusinessInvestment,
+                                    FieldBusinessSameSize = item.Sheet2.SmeEconomicDevelopResult.FieldBusinessSameSize,
+                                    FieldMicroToSmall = item.Sheet2.SmeEconomicDevelopResult.FieldMicroToSmall,
+                                    FieldSmallToMedium = item.Sheet2.SmeEconomicDevelopResult.FieldSmallToMedium,
+                                    FieldMediumToLarge = item.Sheet2.SmeEconomicDevelopResult.FieldMediumToLarge,
+                                    MaintainIncreaseEmployment = item.Sheet2.SmeEconomicDevelopResult.MaintainIncreaseEmployment,
+                                    FieldBusinessRegistration = item.Sheet2.SmeEconomicDevelopResult.FieldBusinessRegistration,
+                                    InvestmentBusinessExpansion = item.Sheet2.SmeEconomicDevelopResult.InvestmentBusinessExpansion,
+                                    InvestmentFranchise = item.Sheet2.SmeEconomicDevelopResult.InvestmentFranchise,
+                                    FieldBusinessInvestment = item.Sheet2.SmeEconomicDevelopResult.FieldBusinessInvestment
+                                }
+                            }
                             };
 
                             await AddEconomicValueAsync(proProduct, tecom);
@@ -182,7 +481,7 @@ public class EconomicValueService
 
                     result = pyear == 0
                         ? await _repository.GetAllAsync()
-                        : new List<MEconomicValueProject> { await _repository.GetByIdAsync(pProjectCode,pyear??0) };
+                        : new List<MEconomicValueProject> { await _repository.GetByIdAsync(pProjectCode, pyear ?? 0) };
                 }
                 else
                 {
@@ -192,101 +491,93 @@ public class EconomicValueService
 
             if (result != null && result.Any())
             {
+                var resultsheet1 = await _repository.GetTEconomicAsync(pProjectCode);
+                var resultsheet2 = await _repository.GetByIdSheet2Async(pProjectCode);
                 dataResult = result.Select(project => new EconomicValueProjectModels
                 {
                     ProjectCode = project.ProjectCode,
                     ProjectName = project.ProjectName,
                     Budget = project.Budget,
                     BudgetYear = project.BudgetYear,
-                    //Sheet1 = new EconomicValueSheet1
-                    //{
-                    //    EconomicValue = project.TEconomicValues.Select(x => new EconomicValueModels
-                    //    {
-                    //        EconomicValueId = x.EconomicValueId,
-                    //        MicroEnd = x.MicroEnd,
-                    //        MicroNext = x.MicroNext,
-                    //        SmallEnd = x.SmallEnd,
-                    //        SmallNext = x.SmallNext,
-                    //        MediumEnd = x.MediumEnd,
-                    //        MediumNext = x.MediumNext,
-                    //        OtherEnd = x.OtherEnd,
-                    //        OtherNext = x.OtherNext
-                    //    }).ToList()
-                    //},
-                    //Sheet2 = new EconomicValueSheet2
-                    //{
-                    //    Province = project.TEconomicValueSheets2s.FirstOrDefault()?.Province,
-                    //    InterestedBusiness = project.TEconomicValueSheets2s.FirstOrDefault()?.InterestedBusiness,
-                    //    EconomicPromoted = project.TEconomicValueSheets2s
-                    //        .SelectMany(s => s.TEconomicPromoteds)
-                    //        .Select(x => new EconomicPromotedModels
-                    //        {
-                    //            EntrepreneurId = x.EntrepreneurId,
-                    //            Production = x.Production,
-                    //            Trade = x.Trade,
-                    //            Serve = x.Serve,
-                    //            Agribusiness = x.Agribusiness,
-                    //            ProductionBranch = x.ProductionBranch,
-                    //            TradeBranch = x.TradeBranch,
-                    //            ServeBranch = x.ServeBranch,
-                    //            AgribusinessBranch = x.AgribusinessBranch
-                    //        }).ToList(),
-                    //    SmeEconomicDevelop = project.TEconomicValueSheets2s
-                    //        .SelectMany(s => s.TSmeEconomicDevelops)
-                    //        .Select(x => new SmeEconomicDevelopModels
-                    //        {
-                    //            CapacityEnhanceId = x.CapacityEnhanceId,
-                    //            BusinessBranch = x.BusinessBranch,
-                    //            Micro = x.Micro,
-                    //            Small = x.Small,
-                    //            Medium = x.Medium,
-                    //            Other = x.Other,
-                    //            Cluster = x.Cluster
-                    //        }).ToList(),
-                    //    SmeEconomicFactor = project.TEconomicValueSheets2s
-                    //        .FirstOrDefault()?
-                    //        .TSmeEconomicFactors
-                    //        .Select(x => new SmeEconomicFactorModels
-                    //        {
-                    //            BusinessField = x.BusinessField,
-                    //            BusinessPlan = x.BusinessPlan,
-                    //            CourseName = x.CourseName,
-                    //            PersonnelTrained = x.PersonnelTrained,
-                    //            Bds = x.Bds,
-                    //            SupportMoney = x.SupportMoney,
-                    //            AmountMicro = x.AmountMicro,
-                    //            AmountSmall = x.AmountSmall,
-                    //            SubsidyMedium = x.SubsidyMedium,
-                    //            SubsidyOther = x.SubsidyOther
-                    //        }).FirstOrDefault(),
-                    //    SmeEconomicDevelopResult = project.TEconomicValueSheets2s
-                    //        .FirstOrDefault()?
-                    //        .TSmeEconomicDevelopResults
-                    //        .Select(x => new SmeEconomicDevelopResultModels
-                    //        {
-                    //            BusinessExpansion = x.BusinessExpansion,
-                    //            Franchise = x.Franchise,
-                    //            BusinessInvestment = x.BusinessInvestment,
-                    //            BusinessSameSize = x.BusinessSameSize,
-                    //            MicroToSmall = x.MicroToSmall,
-                    //            SmallToMedium = x.SmallToMedium,
-                    //            MediumToLarge = x.MediumToLarge,
-                    //            IncreaseEmployment = x.IncreaseEmployment,
-                    //            BusinessRegistration = x.BusinessRegistration,
-                    //            PvBusinessExpansion = x.PvBusinessExpansion,
-                    //            AmountFranchise = x.AmountFranchise,
-                    //            PvBusinessInvestment = x.PvBusinessInvestment,
-                    //            FieldBusinessSameSize = x.FieldBusinessSameSize,
-                    //            FieldMicroToSmall = x.FieldMicroToSmall,
-                    //            FieldSmallToMedium = x.FieldSmallToMedium,
-                    //            FieldMediumToLarge = x.FieldMediumToLarge,
-                    //            MaintainIncreaseEmployment = x.MaintainIncreaseEmployment,
-                    //            FieldBusinessRegistration = x.FieldBusinessRegistration,
-                    //            InvestmentBusinessExpansion = x.InvestmentBusinessExpansion,
-                    //            InvestmentFranchise = x.InvestmentFranchise,
-                    //            FieldBusinessInvestment = x.FieldBusinessInvestment
-                    //        }).FirstOrDefault()
-                    //}
+                    Sheet1 = new EconomicValueSheet1
+                    {
+                        EconomicValue = resultsheet1?.Select(x => new EconomicValueModels
+                        {
+                            EconomicValueId = x.EconomicValueId,
+                            MicroEnd = x.MicroEnd,
+                            MicroNext = x.MicroNext,
+                            SmallEnd = x.SmallEnd,
+                            SmallNext = x.SmallNext,
+                            MediumEnd = x.MediumEnd,
+                            MediumNext = x.MediumNext,
+                            OtherEnd = x.OtherEnd,
+                            OtherNext = x.OtherNext
+                        }).ToList() ?? new List<EconomicValueModels>()
+                    },
+                    Sheet2 = resultsheet2 == null ? null : new EconomicValueSheet2
+                    {
+                        Province = resultsheet2.Province,
+                        InterestedBusiness = resultsheet2.InterestedBusiness,
+                        EconomicPromoted = resultsheet2.TEconomicPromoteds?.Select(x => new EconomicPromotedModels
+                        {
+                            EntrepreneurId = x.EntrepreneurId,
+                            Production = x.Production,
+                            Trade = x.Trade,
+                            Serve = x.Serve,
+                            Agribusiness = x.Agribusiness,
+                            ProductionBranch = x.ProductionBranch,
+                            TradeBranch = x.TradeBranch,
+                            ServeBranch = x.ServeBranch,
+                            AgribusinessBranch = x.AgribusinessBranch
+                        }).ToList() ?? new List<EconomicPromotedModels>(),
+                        SmeEconomicDevelop = resultsheet2.TSmeEconomicDevelops?.Select(x => new SmeEconomicDevelopModels
+                        {
+                            CapacityEnhanceId = x.CapacityEnhanceId,
+                            BusinessBranch = x.BusinessBranch,
+                            Micro = x.Micro,
+                            Small = x.Small,
+                            Medium = x.Medium,
+                            Other = x.Other,
+                            Cluster = x.Cluster
+                        }).ToList() ?? new List<SmeEconomicDevelopModels>(),
+                        SmeEconomicFactor = resultsheet2.TSmeEconomicFactors?.Select(x => new SmeEconomicFactorModels
+                        {
+                            BusinessField = x.BusinessField,
+                            BusinessPlan = x.BusinessPlan,
+                            CourseName = x.CourseName,
+                            PersonnelTrained = x.PersonnelTrained,
+                            Bds = x.Bds,
+                            SupportMoney = x.SupportMoney,
+                            AmountMicro = x.AmountMicro,
+                            AmountSmall = x.AmountSmall,
+                            SubsidyMedium = x.SubsidyMedium,
+                            SubsidyOther = x.SubsidyOther
+                        }).FirstOrDefault(),
+                        SmeEconomicDevelopResult = resultsheet2.TSmeEconomicDevelopResults?.Select(x => new SmeEconomicDevelopResultModels
+                        {
+                            BusinessExpansion = x.BusinessExpansion,
+                            Franchise = x.Franchise,
+                            BusinessInvestment = x.BusinessInvestment,
+                            BusinessSameSize = x.BusinessSameSize,
+                            MicroToSmall = x.MicroToSmall,
+                            SmallToMedium = x.SmallToMedium,
+                            MediumToLarge = x.MediumToLarge,
+                            IncreaseEmployment = x.IncreaseEmployment,
+                            BusinessRegistration = x.BusinessRegistration,
+                            PvBusinessExpansion = x.PvBusinessExpansion,
+                            AmountFranchise = x.AmountFranchise,
+                            PvBusinessInvestment = x.PvBusinessInvestment,
+                            FieldBusinessSameSize = x.FieldBusinessSameSize,
+                            FieldMicroToSmall = x.FieldMicroToSmall,
+                            FieldSmallToMedium = x.FieldSmallToMedium,
+                            FieldMediumToLarge = x.FieldMediumToLarge,
+                            MaintainIncreaseEmployment = x.MaintainIncreaseEmployment,
+                            FieldBusinessRegistration = x.FieldBusinessRegistration,
+                            InvestmentBusinessExpansion = x.InvestmentBusinessExpansion,
+                            InvestmentFranchise = x.InvestmentFranchise,
+                            FieldBusinessInvestment = x.FieldBusinessInvestment
+                        }).FirstOrDefault()
+                    }
                 }).ToList();
 
                 xrerult.responseCode = 200;
@@ -310,7 +601,6 @@ public class EconomicValueService
             return xrerult;
         }
     }
-
     public Task AddEconomicValueAsync(MEconomicValueProject economicValue, List<TEconomicValue> tecom)
     {
         return _repository.AddAsync(economicValue, tecom);

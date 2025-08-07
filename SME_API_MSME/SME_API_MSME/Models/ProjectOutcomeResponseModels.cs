@@ -18,6 +18,6 @@ public class ProjectOutcomeItem
     public string? OutputOutComeName { get; set; }
     public string? YieldTypeName { get; set; }
     public string? MeasureResult { get; set; }
-    public int? Target { get; set; }
+    public double? Target { get; set; }
     public string? CountUnitName { get; set; }
 }

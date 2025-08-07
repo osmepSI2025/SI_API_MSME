@@ -47,9 +47,9 @@ public partial class TSmeEconomicFactor
 
     public int? SubsidyOther { get; set; }
 
-    public int? StoryDeveloped { get; set; }
+    public string? StoryDeveloped { get; set; }
 
-    public int? BusinessServiceProvider { get; set; }
+    public string? BusinessServiceProvider { get; set; }
 
     public virtual TEconomicValueSheets2? Sheet { get; set; }
 }

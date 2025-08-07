@@ -100,13 +100,13 @@ public class SmeEconomicFactorModels
     public int? PersonnelTrained { get; set; }
     public int? Bds { get; set; }
     public string? BusinessField { get; set; }
-    public int? SupportMoney { get; set; }
+    public double? SupportMoney { get; set; }
     public int? AmountMicro { get; set; }
     public int? AmountSmall { get; set; }
     public int? SubsidyMedium { get; set; }
     public int? SubsidyOther { get; set; }
-    public int? StoryDeveloped { get; set; }
-    public int? BusinessServiceProvider { get; set; }
+    public string? StoryDeveloped { get; set; }
+    public string? BusinessServiceProvider { get; set; }
 }
 
 public class SmeEconomicDevelopResultModels
@@ -120,15 +120,15 @@ public class SmeEconomicDevelopResultModels
     public int? MediumToLarge { get; set; }
     public int? IncreaseEmployment { get; set; }
     public int? BusinessRegistration { get; set; }
-    public int? PvBusinessExpansion { get; set; }
+    public string? PvBusinessExpansion { get; set; }
     public int? AmountFranchise { get; set; }
-    public int? PvBusinessInvestment { get; set; }
-    public int? FieldBusinessSameSize { get; set; }
-    public int? FieldMicroToSmall { get; set; }
-    public int? FieldSmallToMedium { get; set; }
-    public int? FieldMediumToLarge { get; set; }
+    public string? PvBusinessInvestment { get; set; }
+    public string? FieldBusinessSameSize { get; set; }
+    public string? FieldMicroToSmall { get; set; }
+    public string? FieldSmallToMedium { get; set; }
+    public string? FieldMediumToLarge { get; set; }
     public int? MaintainIncreaseEmployment { get; set; }
-    public int? FieldBusinessRegistration { get; set; }
+    public string? FieldBusinessRegistration { get; set; }
     public double? InvestmentBusinessExpansion { get; set; }
     public int? InvestmentFranchise { get; set; }
     public string? FieldBusinessInvestment { get; set; }
