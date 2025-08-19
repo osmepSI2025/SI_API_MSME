@@ -81,30 +81,34 @@ public class ProjectService
                     {
                         foreach (var item in apiResponse.result)
                         {
-                            var project = new MProject
+                            if (item.ProjectCode != 0 && item.OrgId!=null) 
                             {
-                                ProjectCode = item.ProjectCode,
-                                BudgetYear = item.BudgetYear,
-                                DateApprove = item.DateApprove,
-                                // Change this line in the mapping from ProjectModels to MProject
-                                OrgId = item.OrgId??null,
-                                OrgName = item.OrgName,
-                                ProjectBudget = item.ProjectBudget,
-                                ProjectOffBudget = item.ProjectOffBudget,
-                                ProjectSumBudget = item.ProjectSumBudget,
-                                SmeProjectStatusName = item.SmeProjectStatusName,
-                                LegalGroupName = item.LegalGroupName,
-                                ProjectName = item.ProjectName,
-                                ProjectNameInitials = item.ProjectNameInitials,
-                                ProjectReason = item.ProjectReason,
-                                ProjectPurpose = item.ProjectPurpose,
-                                TypeBudget = item.TypeBudget,
-                                TypeResultMsme = item.TypeResultMsme,
-                                PlanMessage = item.PlanMessage,
-                                EndDate = item.EndDate,
-                                StartDate = item.StartDate
-                            };
-                            await AddProjectAsync(project);
+                                var project = new MProject
+                                {
+                                    ProjectCode = item.ProjectCode,
+                                    BudgetYear = item.BudgetYear,
+                                    DateApprove = item.DateApprove,
+                                    // Change this line in the mapping from ProjectModels to MProject
+                                    OrgId = item.OrgId ?? null,
+                                    OrgName = item.OrgName,
+                                    ProjectBudget = item.ProjectBudget,
+                                    ProjectOffBudget = item.ProjectOffBudget,
+                                    ProjectSumBudget = item.ProjectSumBudget,
+                                    SmeProjectStatusName = item.SmeProjectStatusName,
+                                    LegalGroupName = item.LegalGroupName,
+                                    ProjectName = item.ProjectName,
+                                    ProjectNameInitials = item.ProjectNameInitials,
+                                    ProjectReason = item.ProjectReason,
+                                    ProjectPurpose = item.ProjectPurpose,
+                                    TypeBudget = item.TypeBudget,
+                                    TypeResultMsme = item.TypeResultMsme,
+                                    PlanMessage = item.PlanMessage,
+                                    EndDate = item.EndDate,
+                                    StartDate = item.StartDate
+                                };
+                                await AddProjectAsync(project);
+                            }
+                           
                         }
                     }
 
@@ -165,9 +169,9 @@ public class ProjectService
     {
         int currentYear = DateTime.Now.Year;
         int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear; // แปลงเป็น พ.ศ. ถ้ายังเป็น ค.ศ.
+        int currentYearTo = currentYearBE + 1;
 
-
-        for (int year = currentYearBE - 1; year <= currentYearBE; year++)
+        for (int year = currentYearBE - 2; year <= currentYearTo; year++)
         {
             //get projects by year  
             var Listprojects = await GetProjectByIdAsync(year.ToString());
@@ -197,63 +201,54 @@ public class ProjectService
                     UpdateDate = x.UpdateDate,
                     Bearer = x.Bearer,
                 }).FirstOrDefault(); // Use FirstOrDefault to handle empty lists
+                var apiResponse = await _serviceApi.GetDataApiAsync_Project(apiParam, year.ToString());
 
-                foreach (var item in Listprojects.result)
+                var apiProjects = apiResponse.result.Where(x => x.ProjectCode != 0 && x.OrgId != null).ToList();
+                // Check if the number of projects from the API matches the number in the database
+
+                if (Listprojects.result.Count != apiProjects.Count)
                 {
-                    var apiResponse = await _serviceApi.GetDataApiAsync_Project(apiParam, item.BudgetYear);
-                    if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count == 0)
+                    var missingProjects = apiProjects
+    .Where(x => !Listprojects.result.Any(db => db.ProjectCode == x.ProjectCode))
+    .ToList();
+                    foreach (var subitem in missingProjects)
                     {
-                        continue; // Skip to the next project if no data found
-                    }
-                    else
-                    {
-                        foreach (var Subitem in apiResponse.result)
+                        // Check if project exists by ProjectCode and BudgetYear
+                        var existing = (await _repository.GetByProjectCodeAsync(subitem.BudgetYear, subitem.ProjectCode));
+                         
+
+                        var project = new MProject
                         {
-                            // Check if existing budget plan for the project
-                            var resultPA = await _repository.GetByIdAsync(Subitem.BudgetYear);
+                            ProjectCode = subitem.ProjectCode,
+                            BudgetYear = subitem.BudgetYear,
+                            DateApprove = subitem.DateApprove,
+                            OrgId = subitem.OrgId,
+                            OrgName = subitem.OrgName,
+                            ProjectBudget = subitem.ProjectBudget,
+                            ProjectOffBudget = subitem.ProjectOffBudget,
+                            ProjectSumBudget = subitem.ProjectSumBudget,
+                            SmeProjectStatusName = subitem.SmeProjectStatusName,
+                            LegalGroupName = subitem.LegalGroupName,
+                            ProjectName = subitem.ProjectName,
+                            ProjectNameInitials = subitem.ProjectNameInitials,
+                            ProjectReason = subitem.ProjectReason,
+                            ProjectPurpose = subitem.ProjectPurpose,
+                            TypeBudget = subitem.TypeBudget,
+                            TypeResultMsme = subitem.TypeResultMsme,
+                            PlanMessage = subitem.PlanMessage,
+                            EndDate = subitem.EndDate,
+                            StartDate = subitem.StartDate
+                        };
 
-                            var project = new MProject
-                            {
-                                ProjectCode = item.ProjectCode,
-                                BudgetYear = item.BudgetYear,
-                                DateApprove = item.DateApprove,
-                                // Change this line in the mapping from ProjectModels to MProject
-                                OrgId = item.OrgId,
-                                OrgName = item.OrgName,
-                                ProjectBudget = item.ProjectBudget,
-                                ProjectOffBudget = item.ProjectOffBudget,
-                                ProjectSumBudget = item.ProjectSumBudget,
-                                SmeProjectStatusName = item.SmeProjectStatusName,
-                                LegalGroupName = item.LegalGroupName,
-                                ProjectName = item.ProjectName,
-                                ProjectNameInitials = item.ProjectNameInitials,
-                                ProjectReason = item.ProjectReason,
-                                ProjectPurpose = item.ProjectPurpose,
-                                TypeBudget = item.TypeBudget,
-                                TypeResultMsme = item.TypeResultMsme,
-                                PlanMessage = item.PlanMessage,
-                                EndDate = item.EndDate,
-                                StartDate = item.StartDate
-                            };
-
-                            if (resultPA == null)
-                            {
-                                await AddProjectAsync(project);
-                            }
-                            else
-                            {
-                                await UpdateProjectAsync(project);
-                            }
-                        }
-
+                        if (existing == null || !existing.Any())
+                            await AddProjectAsync(project);
+                        else
+                            await UpdateProjectAsync(project);
                     }
-
                 }
-
-
             }
 
-            return "Batch end of day process completed successfully.";
+           // return "Batch end of day process completed successfully.";
         }
 
         return "Success";

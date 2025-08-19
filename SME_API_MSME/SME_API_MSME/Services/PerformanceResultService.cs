@@ -199,8 +199,8 @@ public class PerformanceResultService
         int currentYear = DateTime.Now.Year;
         int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear; // แปลงเป็น พ.ศ. ถ้ายังเป็น ค.ศ.
 
-
-        for (int year = currentYearBE - 4; year <= currentYearBE; year++)
+        int currentYearTo = currentYearBE + 1;
+        for (int year = currentYearBE - 2; year <= currentYearTo; year++)
         {
             //get projects by year  
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
@@ -288,7 +288,7 @@ public class PerformanceResultService
 
             }
 
-            return "Batch end of day process completed successfully.";
+         
         }
 
         return "Success";

@@ -152,8 +152,8 @@ public class ProjectAreaService
         int currentYear = DateTime.Now.Year;
         int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear; // แปลงเป็น พ.ศ. ถ้ายังเป็น ค.ศ.
 
-
-        for (int year = currentYearBE - 4; year <= currentYearBE; year++)
+        int currentYearTo = currentYearBE + 1;
+        for (int year = currentYearBE - 2; year <= currentYearTo; year++)
         {
             //get projects by year  
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
@@ -186,7 +186,7 @@ public class ProjectAreaService
 
                 foreach (var item in Listprojects.result)
                 {
-                    var apiResponse = await _serviceApi.GetDataApiAsync_ProjectArea(apiParam, item.ProjectCode, year.ToString());
+                    var apiResponse = await _serviceApi.GetDataApiAsync_ProjectArea(apiParam, item.ProjectCode, item.BudgetYear.ToString());
                     if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count == 0)
                     {
                         continue; // Skip to the next project if no data found
@@ -196,13 +196,14 @@ public class ProjectAreaService
                         foreach (var Subitem in apiResponse.result)
                         {
                             // Check if existing budget plan for the project
-                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode,null);
+                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode, item.BudgetYear.ToString());
 
                             var proArea = new MProjectArea
                             {
                                 ProjectId = resultPA?.ProjectId ?? 0, // Assuming ProjectId is available in the item
                                 ProjectCode = item.ProjectCode,
                                 ProjectName = item.ProjectName,
+                                Year = item.BudgetYear.ToString(),
                                 TProjectAreas = Subitem.Items.Select(i => new TProjectArea
                                 {
                                     ProvinceId = i.ProvinceId,
@@ -228,7 +229,7 @@ public class ProjectAreaService
 
             }
 
-            return "Batch end of day process completed successfully.";
+         //   return "Batch end of day process completed successfully.";
         }
 
         return "Success";
@@ -237,16 +238,45 @@ public class ProjectAreaService
 
     public Task AddProjectAreaAsync(MProjectArea projectArea)
     {
-        return _repository.AddAsync(projectArea);
-    }
+        try
+        {
+            return _repository.AddAsync(projectArea);
+        }
+        catch (Exception ex)
+        {
+            // Log exception if needed
+            throw new Exception("Error adding project area", ex);
 
+        }
+    }
     public Task UpdateProjectAreaAsync(MProjectArea projectArea)
     {
-        return _repository.UpdateAsync(projectArea);
+        try 
+        { 
+            if (projectArea == null)
+            {
+                throw new ArgumentNullException(nameof(projectArea), "Project area cannot be null");
+            }
+            return _repository.UpdateAsync(projectArea);
+        }
+        catch (Exception ex)
+        {
+            // Log exception if needed
+            throw new Exception("Error updating project area", ex);
+        }
+       
     }
 
     public Task DeleteProjectAreaAsync(int projectId)
     {
-        return _repository.DeleteAsync(projectId);
+        try {
+            return _repository.DeleteAsync(projectId);
+        }
+        catch (Exception ex)
+        {
+            // Log exception if needed
+            throw new Exception("Error deleting project area", ex);
+        }
+      
     }
 }

@@ -94,9 +94,6 @@ public partial class MSMEDBContext : DbContext
     public virtual DbSet<TSmeEconomicDevelopResult> TSmeEconomicDevelopResults { get; set; }
 
     public virtual DbSet<TSmeEconomicFactor> TSmeEconomicFactors { get; set; }
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Server=192.168.9.155;Database=bluecarg_SME_API_MSME;User Id=sa;Password=Osmep@2025;TrustServerCertificate=True;");
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -133,7 +130,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.HasIndex(e => e.ProjectCode, "UQ__M_Budget__2F3A4948E3F1D639").IsUnique();
 
-            entity.Property(e => e.ProjectName).HasMaxLength(255);
             entity.Property(e => e.Year).HasMaxLength(50);
         });
 
@@ -145,7 +141,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.HasIndex(e => e.ProjectCode, "UQ__M_Disbur__2F3A49480981E1B8").IsUnique();
 
-            entity.Property(e => e.ProjectName).HasMaxLength(255);
             entity.Property(e => e.Year).HasMaxLength(50);
         });
 
@@ -154,8 +149,6 @@ public partial class MSMEDBContext : DbContext
             entity.HasKey(e => new { e.ProjectCode, e.BudgetYear }).HasName("PK__M_Econom__2F3A494928A6812E");
 
             entity.ToTable("M_EconomicValueProject", "SI_MSME");
-
-            entity.Property(e => e.ProjectName).HasMaxLength(255);
         });
 
         modelBuilder.Entity<MExpectedOutcome>(entity =>
@@ -180,7 +173,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.HasIndex(e => e.ProjectCode, "UQ__M_Expect__2F3A4948C6FE4FE2").IsUnique();
 
-            entity.Property(e => e.ProjectName).HasMaxLength(255);
             entity.Property(e => e.Year).HasMaxLength(50);
         });
 
@@ -192,7 +184,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.HasIndex(e => e.ProjectCode, "UQ__M_Outcom__2F3A4948A0ECDDD8").IsUnique();
 
-            entity.Property(e => e.ProjectName).HasMaxLength(255);
             entity.Property(e => e.Year).HasMaxLength(50);
         });
 
@@ -204,7 +195,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.HasIndex(e => e.ProjectCode, "UQ__M_Perfor__2F3A4948F1B01384").IsUnique();
 
-            entity.Property(e => e.ProjectName).HasMaxLength(255);
             entity.Property(e => e.Year).HasMaxLength(50);
         });
 
@@ -216,7 +206,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.HasIndex(e => e.ProjectCode, "UQ__M_Produc__2F3A4948368576E1").IsUnique();
 
-            entity.Property(e => e.ProjectName).HasMaxLength(255);
             entity.Property(e => e.Year).HasMaxLength(50);
         });
 
@@ -260,9 +249,7 @@ public partial class MSMEDBContext : DbContext
                 .HasColumnType("decimal(18, 0)")
                 .HasColumnName("projectBudget");
             entity.Property(e => e.ProjectCode).HasColumnName("projectCode");
-            entity.Property(e => e.ProjectName)
-                .HasMaxLength(250)
-                .HasColumnName("projectName");
+            entity.Property(e => e.ProjectName).HasColumnName("projectName");
             entity.Property(e => e.ProjectNameInitials)
                 .HasMaxLength(250)
                 .HasColumnName("projectNameInitials");
@@ -298,7 +285,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("M_ProjectArea", "SI_MSME");
 
-            entity.Property(e => e.ProjectName).HasMaxLength(200);
             entity.Property(e => e.Year)
                 .HasMaxLength(50)
                 .HasColumnName("year");
@@ -412,11 +398,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_EconomicPromoted", "SI_MSME");
 
-            entity.Property(e => e.AgribusinessBranch).HasMaxLength(500);
-            entity.Property(e => e.ProductionBranch).HasMaxLength(500);
-            entity.Property(e => e.ServeBranch).HasMaxLength(500);
-            entity.Property(e => e.TradeBranch).HasMaxLength(500);
-
             entity.HasOne(d => d.Sheet).WithMany(p => p.TEconomicPromoteds)
                 .HasForeignKey(d => d.SheetId)
                 .HasConstraintName("FK__T_Economi__Sheet__45544755");
@@ -438,8 +419,6 @@ public partial class MSMEDBContext : DbContext
             entity.HasKey(e => e.SheetId).HasName("PK__T_Econom__30B273E8BCF8BCE6");
 
             entity.ToTable("T_EconomicValueSheets2", "SI_MSME");
-
-            entity.Property(e => e.Province).HasMaxLength(255);
         });
 
         modelBuilder.Entity<TExpectedFinalOutcome>(entity =>
@@ -475,8 +454,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_ExpectedOutcomeResult", "SI_MSME");
 
-            entity.Property(e => e.ResultFinalOutcome).HasMaxLength(500);
-
             entity.HasOne(d => d.Project).WithMany(p => p.TExpectedOutcomeResults)
                 .HasForeignKey(d => d.ProjectId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -504,7 +481,6 @@ public partial class MSMEDBContext : DbContext
             entity.ToTable("T_OutcomeResult", "SI_MSME");
 
             entity.Property(e => e.UnitName).HasMaxLength(100);
-            entity.Property(e => e.YieldTypeName).HasMaxLength(100);
 
             entity.HasOne(d => d.Project).WithMany(p => p.TOutcomeResults)
                 .HasForeignKey(d => d.ProjectId)
@@ -532,9 +508,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_PerformanceResult", "SI_MSME");
 
-            entity.Property(e => e.ExpenseTypeName).HasMaxLength(100);
-            entity.Property(e => e.UnitName).HasMaxLength(100);
-
             entity.HasOne(d => d.Project).WithMany(p => p.TPerformanceResults)
                 .HasForeignKey(d => d.ProjectId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -560,10 +533,6 @@ public partial class MSMEDBContext : DbContext
             entity.HasKey(e => e.OutputId).HasName("PK__T_Produc__CE7609665830B325");
 
             entity.ToTable("T_ProductResultOutputs", "SI_MSME");
-
-            entity.Property(e => e.OutputOutcomeName).HasMaxLength(500);
-            entity.Property(e => e.UnitName).HasMaxLength(100);
-            entity.Property(e => e.YieldTypeName).HasMaxLength(100);
 
             entity.HasOne(d => d.Project).WithMany(p => p.TProductResultOutputs)
                 .HasForeignKey(d => d.ProjectId)
@@ -665,9 +634,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_SmeEconomicDevelops", "SI_MSME");
 
-            entity.Property(e => e.BusinessBranch).HasMaxLength(255);
-            entity.Property(e => e.Cluster).HasMaxLength(255);
-
             entity.HasOne(d => d.Sheet).WithMany(p => p.TSmeEconomicDevelops)
                 .HasForeignKey(d => d.SheetId)
                 .HasConstraintName("FK__T_SmeEcon__Sheet__4830B400");
@@ -679,8 +645,6 @@ public partial class MSMEDBContext : DbContext
 
             entity.ToTable("T_SmeEconomicDevelopResults", "SI_MSME");
 
-            entity.Property(e => e.FieldBusinessInvestment).HasMaxLength(500);
-
             entity.HasOne(d => d.Sheet).WithMany(p => p.TSmeEconomicDevelopResults)
                 .HasForeignKey(d => d.SheetId)
                 .HasConstraintName("FK__T_SmeEcon__Sheet__4DE98D56");
@@ -691,12 +655,6 @@ public partial class MSMEDBContext : DbContext
             entity.HasKey(e => e.FactorId).HasName("PK__T_SmeEco__E733AADDFD12C5CD");
 
             entity.ToTable("T_SmeEconomicFactors", "SI_MSME");
-
-            entity.Property(e => e.BusinessField).HasMaxLength(255);
-            entity.Property(e => e.BusinessPlan).HasMaxLength(255);
-            entity.Property(e => e.CourseName).HasMaxLength(255);
-            entity.Property(e => e.TrainingCourse).HasMaxLength(255);
-            entity.Property(e => e.UpdatedLaw).HasMaxLength(255);
 
             entity.HasOne(d => d.Sheet).WithMany(p => p.TSmeEconomicFactors)
                 .HasForeignKey(d => d.SheetId)

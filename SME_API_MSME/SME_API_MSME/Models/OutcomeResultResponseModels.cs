@@ -27,7 +27,7 @@ public class OutcomeResultDetail
     public string? MonthName { get; set; }
     public int? Year { get; set; }
     public double? ResultOfYear { get; set; }
-    public double? ResultOffEffect { get; set; }
+    public double? ResultOfEffect { get; set; }
     public string? Detail { get; set; }
     public string? Problem { get; set; }
     public string? Solution { get; set; }

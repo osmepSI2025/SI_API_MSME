@@ -19,5 +19,5 @@ public class ProjectProductItem
     public string? YieldTypeName { get; set; }
     public string? MeasureResult { get; set; }
     public double? Target { get; set; }
-    public string? CountUnitName { get; set; }
+    public string? UnitName { get; set; }
 }

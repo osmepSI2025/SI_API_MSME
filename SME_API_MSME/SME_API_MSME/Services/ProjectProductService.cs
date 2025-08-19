@@ -102,7 +102,7 @@ public class ProjectProductService
                                     YieldTypeName = i.YieldTypeName,
                                     MeasureResult = i.MeasureResult,
                                     Target = i.Target,
-                                    CountUnitName = i.CountUnitName,
+                                    CountUnitName = i.UnitName,
                                 }).ToList()
 
                             };
@@ -133,7 +133,7 @@ public class ProjectProductService
                         YieldTypeName = item.YieldTypeName,
                         MeasureResult = item.MeasureResult,
                         Target = item.Target.HasValue ? Math.Round(item.Target.Value, 1) : (double?)null,
-                        CountUnitName = item.CountUnitName
+                        UnitName = item.CountUnitName
                     }).ToList()
                 }).ToList());
 
@@ -163,8 +163,8 @@ public class ProjectProductService
         int currentYear = DateTime.Now.Year;
         int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear; // แปลงเป็น พ.ศ. ถ้ายังเป็น ค.ศ.
 
-
-        for (int year = currentYearBE - 4; year <= currentYearBE; year++)
+        int currentYearTo = currentYearBE + 1;
+        for (int year = currentYearBE - 1; year <= currentYearTo; year++)
         {
             //get projects by year  
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
@@ -197,7 +197,7 @@ public class ProjectProductService
 
                 foreach (var item in Listprojects.result)
                 {
-                    var apiResponse = await _serviceApi.GetDataApiAsync_ProjectProduct(apiParam, item.ProjectCode,year.ToString());
+                    var apiResponse = await _serviceApi.GetDataApiAsync_ProjectProduct(apiParam, item.ProjectCode, item.BudgetYear.ToString());
                     if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count == 0)
                     {
                         continue; // Skip to the next project if no data found
@@ -207,7 +207,7 @@ public class ProjectProductService
                         foreach (var Subitem in apiResponse.result)
                         {
                             // Check if existing budget plan for the project
-                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode, year.ToString());
+                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode, item.BudgetYear.ToString());
 
                             var proProduct = new MProjectsProduct
                             {
@@ -215,6 +215,7 @@ public class ProjectProductService
 
                                 ProjectCode = item.ProjectCode,
                                 ProjectName = item.ProjectName,
+                                Year = item.BudgetYear.ToString(),
                                 TProjectsProducts = Subitem.items.Select(i => new TProjectsProduct
                                 {
                                     OrderIndex = i.OrderIndex,
@@ -222,7 +223,7 @@ public class ProjectProductService
                                     YieldTypeName = i.YieldTypeName,
                                     MeasureResult = i.MeasureResult,
                                     Target = i.Target,
-                                    CountUnitName = i.CountUnitName,
+                                    CountUnitName = i.UnitName,
                                 }).ToList()
 
                             };
@@ -244,7 +245,7 @@ public class ProjectProductService
 
             }
 
-            return "Batch end of day process completed successfully.";
+          //  return "Batch end of day process completed successfully.";
         }
 
         return "Success";

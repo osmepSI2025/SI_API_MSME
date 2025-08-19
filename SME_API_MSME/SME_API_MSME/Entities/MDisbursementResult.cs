@@ -7,9 +7,9 @@ public partial class MDisbursementResult
 {
     public int ProjectId { get; set; }
 
-    public long ProjectCode { get; set; }
+    public long? ProjectCode { get; set; }
 
-    public string ProjectName { get; set; } = null!;
+    public string? ProjectName { get; set; }
 
     public string? Year { get; set; }
 

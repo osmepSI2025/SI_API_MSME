@@ -71,6 +71,10 @@ namespace SME_API_MSME.Models
             {
                 return reader.GetInt64();
             }
+            if (reader.TokenType == JsonTokenType.Null)
+            {
+                return 0; // or throw, or handle as needed
+            }
             throw new JsonException("Invalid token type for long.");
         }
 

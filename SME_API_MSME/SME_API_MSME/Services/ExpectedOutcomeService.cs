@@ -184,9 +184,9 @@ public class ExpectedOutcomeService
     {
         int currentYear = DateTime.Now.Year;
         int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear; // แปลงเป็น พ.ศ. ถ้ายังเป็น ค.ศ.
+        int currentYearTo = currentYearBE + 1;
 
-
-        for (int year = currentYearBE - 4; year <= currentYearBE; year++)
+        for (int year = currentYearBE - 2; year <= currentYearTo; year++)
         {
             //get projects by year  
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
@@ -236,6 +236,7 @@ public class ExpectedOutcomeService
                                 ProjectId = resultPA?.ProjectId ?? 0, // Assuming ProjectId is available in the item
                                 ProjectCode = Subitem.ProjectCode,
                                 ProjectName = Subitem.ProjectName,
+                                Year = year.ToString(),
                                 TExpectedFinalOutcomes = Subitem.Items?.Select(i => new TExpectedFinalOutcome
                                 {
                                     OrderIndex = i.OrderIndex,
@@ -267,7 +268,7 @@ public class ExpectedOutcomeService
 
             }
 
-            return "Batch end of day process completed successfully.";
+        //    return "Batch end of day process completed successfully.";
         }
 
         return "Success";

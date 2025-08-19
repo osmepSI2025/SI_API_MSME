@@ -163,9 +163,17 @@ public class ExpectedOutcomeResultService
         }
 
     }
-    public Task AddExpectedOutcomeResultAsync(MExpectedOutcomeResult expectedOutcomeResult)
+    public async Task AddExpectedOutcomeResultAsync(MExpectedOutcomeResult expectedOutcomeResult)
     {
-        return _repository.AddAsync(expectedOutcomeResult);
+        try
+        {
+            await _repository.AddAsync(expectedOutcomeResult);
+        }
+        catch (Exception ex)
+        {
+            // Optionally log the exception here
+            throw; // Rethrow to let the caller handle the error, or handle as needed
+        }
     }
 
     public Task UpdateExpectedOutcomeResultAsync(MExpectedOutcomeResult expectedOutcomeResult)
@@ -181,9 +189,9 @@ public class ExpectedOutcomeResultService
     {
         int currentYear = DateTime.Now.Year;
         int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear; // แปลงเป็น พ.ศ. ถ้ายังเป็น ค.ศ.
+        int currentYearTo = currentYearBE + 1;
 
-
-        for (int year = currentYearBE - 4; year <= currentYearBE; year++)
+        for (int year = currentYearBE - 2; year <= currentYearTo; year++)
         {
             //get projects by year  
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
@@ -265,7 +273,7 @@ public class ExpectedOutcomeResultService
 
             }
 
-            return "Batch end of day process completed successfully.";
+          //  return "Batch end of day process completed successfully.";
         }
 
         return "Success";

@@ -106,7 +106,7 @@ public class ProductResultService
                                         MonthName = x.MonthName,
                                         Year = x.Year??0, // Corrected to match the type
                                         ResultOfYear = x.ResultOfYear, // Corrected property name
-                                        ResultOffEffect = x.ResultOffEffect, // Corrected property name
+                                        ResultOffEffect = x.resultOfEffect, // Corrected property name
                                         Detail = x.Detail,
                                         Problem = x.Problem,
                                         Solution = x.Solution,
@@ -149,7 +149,7 @@ public class ProductResultService
                             MonthName = x.MonthName,
                             Year = x.Year ??0, // Handle null Year by providing a default value
                             ResultOfYear = x.ResultOfYear ?? 0, // Corrected property name and type
-                            ResultOffEffect = x.ResultOffEffect ?? 0, // Corrected property name and type
+                            resultOfEffect = x.ResultOffEffect ?? 0, // Corrected property name and type
                             Detail = x.Detail,
                             Problem = x.Problem,
                             Solution = x.Solution
@@ -186,8 +186,8 @@ public class ProductResultService
         int currentYear = DateTime.Now.Year;
         int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear; // แปลงเป็น พ.ศ. ถ้ายังเป็น ค.ศ.
 
-
-        for (int year = currentYearBE - 4; year <= currentYearBE; year++)
+        int currentYearTo = currentYearBE + 1;
+        for (int year = currentYearBE - 2; year <= currentYearBE; year++)
         {
             //get projects by year  
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
@@ -250,7 +250,7 @@ public class ProductResultService
                                         MonthName = x.MonthName,
                                         Year = x.Year, // Corrected to match the type
                                         ResultOfYear = x.ResultOfYear, // Corrected property name
-                                        ResultOffEffect = x.ResultOffEffect, // Corrected property name
+                                        ResultOffEffect = x.resultOfEffect, // Corrected property name
                                         Detail = x.Detail,
                                         Problem = x.Problem,
                                         Solution = x.Solution
@@ -275,7 +275,7 @@ public class ProductResultService
 
             }
 
-            return "Batch end of day process completed successfully.";
+            //return "Batch end of day process completed successfully.";
         }
 
         return "Success";

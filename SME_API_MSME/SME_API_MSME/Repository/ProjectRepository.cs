@@ -20,7 +20,11 @@ public class ProjectRepository
        
         return await _context.MProjects.Where(e => e.BudgetYear == year).ToListAsync();
     }
+    public async Task<IEnumerable<MProject>?> GetByProjectCodeAsync(string year, long projrctCode)
+    {
 
+        return await _context.MProjects.Where(e => e.BudgetYear == year && e.ProjectCode == projrctCode).ToListAsync();
+    }
     public async Task AddAsync(MProject project)
     {
         try

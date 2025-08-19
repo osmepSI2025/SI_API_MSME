@@ -22,11 +22,11 @@ public class ProjectOutcomeController : ControllerBase
     }
 
 
-    //[HttpGet("project-outcome-Batch")]
-    //public async Task<IActionResult> GetBatchEndDay()
-    //{
-    //    var result = await _service.batchEndOfday();
-    //    return Ok();
-    //}
+    [HttpGet("project-outcome-Batch")]
+    public async Task<IActionResult> GetBatchEndDay()
+    {
+        var result = await _service.batchEndOfday();
+        return Ok();
+    }
 
 }

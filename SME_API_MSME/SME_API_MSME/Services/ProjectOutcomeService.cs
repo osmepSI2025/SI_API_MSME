@@ -103,7 +103,7 @@ public class ProjectOutcomeService
                                     YieldTypeName = i.YieldTypeName,
                                     MeasureResult = i.MeasureResult,
                                     Target = i.Target,
-                                    CountUnitName = i.CountUnitName,
+                                    CountUnitName = i.UnitName,
                                 }).ToList()
 
                             };
@@ -134,7 +134,7 @@ public class ProjectOutcomeService
                         YieldTypeName = item.YieldTypeName,
                         MeasureResult = item.MeasureResult,
                         Target = item.Target,
-                        CountUnitName = item.CountUnitName
+                        UnitName = item.CountUnitName
                     }).ToList()
                 }).ToList());
 
@@ -164,9 +164,9 @@ public class ProjectOutcomeService
     {
         int currentYear = DateTime.Now.Year;
         int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear; // แปลงเป็น พ.ศ. ถ้ายังเป็น ค.ศ.
+        int currentYearTo = currentYearBE + 1;
 
-
-        for (int year = currentYearBE - 4; year <= currentYearBE; year++)
+        for (int year = currentYearBE - 2; year <= currentYearBE; year++)
         {
             //get projects by year  
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
@@ -217,6 +217,7 @@ public class ProjectOutcomeService
 
                                 ProjectCode = item.ProjectCode,
                                 ProjectName = item.ProjectName,
+                                Year = year.ToString(), // Assuming year is the year for the project
                                 TProjectsOutComes = Subitem.Items.Select(i => new TProjectsOutCome
                                 {
                                     OrderIndex = i.OrderIndex,
@@ -224,7 +225,7 @@ public class ProjectOutcomeService
                                     YieldTypeName = i.YieldTypeName,
                                     MeasureResult = i.MeasureResult,
                                     Target = i.Target,
-                                    CountUnitName = i.CountUnitName,
+                                    CountUnitName = i.UnitName,
                                 }).ToList()
 
                             };
@@ -246,7 +247,7 @@ public class ProjectOutcomeService
 
             }
 
-            return "Batch end of day process completed successfully.";
+           // return "Batch end of day process completed successfully.";
         }
 
         return "Success";

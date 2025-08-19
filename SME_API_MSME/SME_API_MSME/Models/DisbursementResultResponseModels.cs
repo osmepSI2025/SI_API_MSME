@@ -7,7 +7,7 @@ public class ResultDisbursementResultResponse
 
 public class DisbursementResultProject
 {
-    public long ProjectCode { get; set; }
+    public long? ProjectCode { get; set; }
     public string ProjectName { get; set; }
     public List<DisbursementResultItem> Items { get; set; }
 }

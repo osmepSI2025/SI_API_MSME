@@ -9,7 +9,7 @@ public partial class MExpectedOutcomeResult
 
     public long ProjectCode { get; set; }
 
-    public string ProjectName { get; set; } = null!;
+    public string? ProjectName { get; set; }
 
     public string? Year { get; set; }
 

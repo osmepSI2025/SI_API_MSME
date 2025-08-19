@@ -28,8 +28,21 @@ public class DisbursementResultRepository
 
     public async Task AddAsync(MDisbursementResult disbursementResult)
     {
-        _context.MDisbursementResults.Add(disbursementResult);
-        await _context.SaveChangesAsync();
+        try
+        {
+            // Ensure child collection is not null
+            if (disbursementResult.TDisbursementResults == null)
+            {
+                disbursementResult.TDisbursementResults = new List<TDisbursementResult>();
+            }
+
+            _context.MDisbursementResults.Add(disbursementResult);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            // Consider logging the exception here
+        }
     }
 
     public async Task UpdateAsync(MDisbursementResult disbursementResult)

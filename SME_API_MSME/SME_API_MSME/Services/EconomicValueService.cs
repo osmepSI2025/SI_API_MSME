@@ -648,7 +648,8 @@ public class EconomicValueService
             Bearer = x.Bearer,
         }).FirstOrDefault();
 
-        for (int year = currentYearBE - 5; year <= currentYearBE; year++)
+        int currentYearTo = currentYearBE + 1;
+        for (int year = currentYearBE - 2; year <= currentYearTo; year++)
         {
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
             if (Listprojects == null || Listprojects.result.Count == 0)
