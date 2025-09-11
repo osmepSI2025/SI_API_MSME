@@ -27,7 +27,6 @@
     <Compile Include="Services\ExpectedOutcomeResultService.cs" />
     <Compile Include="Services\ExpectedOutcomeService.cs" />
     <Compile Include="Services\ICallAPIService.cs" />
-    <Compile Include="Services\JobSchedulerService.cs" />
     <Compile Include="Services\OutcomeResultService.cs" />
     <Compile Include="Services\PerformanceResultService.cs" />
     <Compile Include="Services\ProductResultService.cs" />
@@ -36,6 +35,7 @@
     <Compile Include="Services\ProjectOutcomeService.cs" />
     <Compile Include="Services\ProjectProductService.cs" />
     <Compile Include="Services\ProjectService.cs" />
+    <Compile Include="Services\ScheduledJobPuller.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,8 +48,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.20.0" />
     <PackageReference Include="NSwag.Core" Version="13.20.0" />
-    <PackageReference Include="Quartz" Version="3.14.0" />
-    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.6.1" />
+    <PackageReference Include="Quartz" Version="3.9.0" />
+    <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.9.0" />
+    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.9.0" />
+    <PackageReference Include="Quartz.Serialization.Json" Version="3.9.0" />
     <PackageReference Include="Serilog" Version="4.3.0" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="7.0.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />

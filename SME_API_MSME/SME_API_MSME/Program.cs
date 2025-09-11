@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSwag;
+using Quartz;
 using Serilog;
 using Serilog.Events;
 using SME_API_MSME.Entities;
 using SME_API_MSME.Repository;
 using SME_API_MSME.Services;
+using static ScheduledJobPuller;
 
 try
 {
@@ -66,8 +68,17 @@ try
     builder.Services.AddScoped<ICallAPIService, CallAPIService>(); // Register ICallAPIService with CallAPIService
     builder.Services.AddHttpClient<CallAPIService>();
 
-    builder.Services.AddHostedService<JobSchedulerService>();
+    // Add Quartz.NET services
+    builder.Services.AddQuartz(q =>
+    {
+        //  q.UseMicrosoftDependencyInjectionScopedJobFactory();
+        q.AddJob<ScheduledJobPuller>(j => j.WithIdentity("ScheduledJobPuller").StoreDurably());
+    });
 
+    builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+
+    // Register your IHostedService to manage jobs
+    builder.Services.AddHostedService<JobSchedulerService>();
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.

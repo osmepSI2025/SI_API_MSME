@@ -171,7 +171,7 @@ public class ProjectService
         int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear; // แปลงเป็น พ.ศ. ถ้ายังเป็น ค.ศ.
         int currentYearTo = currentYearBE + 1;
 
-        for (int year = currentYearBE - 2; year <= currentYearTo; year++)
+        for (int year = currentYearBE - 0; year <= currentYearTo; year++)
         {
             //get projects by year  
             var Listprojects = await GetProjectByIdAsync(year.ToString());
@@ -254,6 +254,96 @@ public class ProjectService
         return "Success";
     }
 
+    public async Task<string> batchEndOfdayxxx()
+    {
+        int currentYear = DateTime.Now.Year;
+        int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear; // แปลงเป็น พ.ศ. ถ้ายังเป็น ค.ศ.
+        int currentYearTo = currentYearBE + 1;
+
+        for (int year = currentYearBE - 0; year <= currentYearTo; year++)
+        {
+
+
+            //get projects by year  
+            var Listprojects = await GetProjectByIdAsync(year.ToString());
+            if (Listprojects == null || Listprojects.result.Count == 0)
+            {
+                continue; // Skip to the next year if no projects found
+            }
+            else if (Listprojects.responseCode == 200)
+            {
+
+
+                var LApi = await _repositoryApi.GetAllAsync(new MapiInformationModels { ServiceNameCode = "project" });
+                var apiParam = LApi.Select(x => new MapiInformationModels
+                {
+                    ServiceNameCode = x.ServiceNameCode,
+                    ApiKey = x.ApiKey,
+                    AuthorizationType = x.AuthorizationType,
+                    ContentType = x.ContentType,
+                    CreateDate = x.CreateDate,
+                    Id = x.Id,
+                    MethodType = x.MethodType,
+                    ServiceNameTh = x.ServiceNameTh,
+                    Urldevelopment = x.Urldevelopment,
+                    Urlproduction = x.Urlproduction,
+                    Username = x.Username,
+                    Password = x.Password,
+                    UpdateDate = x.UpdateDate,
+                    Bearer = x.Bearer,
+                }).FirstOrDefault(); // Use FirstOrDefault to handle empty lists
+                var apiResponse = await _serviceApi.GetDataApiAsync_Project(apiParam, year.ToString());
+
+                var apiProjects = apiResponse.result.Where(x => x.ProjectCode != 0).ToList();
+                // Check if the number of projects from the API matches the number in the database
+
+                if (Listprojects.result.Count != apiProjects.Count)
+                {
+                    var missingProjects = apiProjects
+    .Where(x => !Listprojects.result.Any(db => db.ProjectCode == x.ProjectCode))
+    .ToList();
+                    foreach (var subitem in missingProjects)
+                    {
+                        // Check if project exists by ProjectCode and BudgetYear
+                        var existing = (await _repository.GetByProjectCodeAsync(subitem.BudgetYear, subitem.ProjectCode));
+
+
+                        var project = new MProject
+                        {
+                            ProjectCode = subitem.ProjectCode,
+                            BudgetYear = subitem.BudgetYear,
+                            DateApprove = subitem.DateApprove,
+                            OrgId = subitem.OrgId,
+                            OrgName = subitem.OrgName,
+                            ProjectBudget = subitem.ProjectBudget,
+                            ProjectOffBudget = subitem.ProjectOffBudget,
+                            ProjectSumBudget = subitem.ProjectSumBudget,
+                            SmeProjectStatusName = subitem.SmeProjectStatusName,
+                            LegalGroupName = subitem.LegalGroupName,
+                            ProjectName = subitem.ProjectName,
+                            ProjectNameInitials = subitem.ProjectNameInitials,
+                            ProjectReason = subitem.ProjectReason,
+                            ProjectPurpose = subitem.ProjectPurpose,
+                            TypeBudget = subitem.TypeBudget,
+                            TypeResultMsme = subitem.TypeResultMsme,
+                            PlanMessage = subitem.PlanMessage,
+                            EndDate = subitem.EndDate,
+                            StartDate = subitem.StartDate
+                        };
+
+                        if (existing == null || !existing.Any())
+                            await AddProjectAsync(project);
+                        else
+                            await UpdateProjectAsync(project);
+                    }
+                }
+            }
+
+            // return "Batch end of day process completed successfully.";
+        }
+
+        return "Success";
+    }
 
     public Task AddProjectAsync(MProject project)
     {
