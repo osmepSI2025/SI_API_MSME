@@ -13,8 +13,7 @@ public class ProjectAreaController : ControllerBase
         _service = service;
     }
 
-    //[HttpGet("project-area/{projectCode}/{year}")]
-    //public async Task<IActionResult> GetById(long? projectCode, string year)
+
     [HttpGet("project-area")]
     public async Task<IActionResult> GetById([FromQuery] long? projectCode, [FromQuery] string year)
     {

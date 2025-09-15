@@ -25,8 +25,8 @@ public class ProjectController : ControllerBase
     [HttpGet("project-Batch")]
     public async Task<IActionResult> GetBatchEndDay()
     {
-      //  var result = await _service.batchEndOfday();
-        var result = await _service.batchEndOfdayxxx();
+        var result = await _service.batchEndOfday();
+        //var result = await _service.batchEndOfdayxxx();
         
         return Ok();
     }
