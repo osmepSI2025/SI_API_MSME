@@ -40,11 +40,7 @@ public class BudgetPlanRepository
         await _context.SaveChangesAsync();
     }
 
-    //public async Task UpdateAsync(MBudgetPlan budgetPlan)
-    //{
-    //    _context.MBudgetPlans.Update(budgetPlan);
-    //    await _context.SaveChangesAsync();
-    //}
+   
     public async Task UpdateAsync(MBudgetPlan budgetPlan)
     {
         try {

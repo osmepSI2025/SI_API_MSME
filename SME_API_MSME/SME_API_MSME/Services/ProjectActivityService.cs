@@ -24,10 +24,6 @@ public class ProjectActivityService
         return _repository.GetAllAsync();
     }
 
-    //public Task<MProjectsActivity?> GetProjectActivityByIdAsync(int projectId)
-    //{
-    //    return _repository.GetByIdAsync(projectId);
-    //}
     public async Task<ResultProjectActivityResponse?> GetProjectActivityByIdAsync(long? pProjectCode,string pyear)
     {
         var xrerult = new ResultProjectActivityResponse();

@@ -24,10 +24,6 @@ public class ExpectedOutcomeService
         return _repository.GetAllAsync();
     }
 
-    //public Task<MExpectedOutcome?> GetExpectedOutcomeByIdAsync(int projectId)
-    //{
-    //    return _repository.GetByIdAsync(projectId);
-    //}
     public async Task<ResultExpectOutcomeResponse?> GetExpectedOutcomeByIdAsync(long? pProjectCode,string pyear)
     {
         var xrerult = new ResultExpectOutcomeResponse();

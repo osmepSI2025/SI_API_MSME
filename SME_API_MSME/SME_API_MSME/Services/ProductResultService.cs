@@ -23,10 +23,6 @@ public class ProductResultService
         return _repository.GetAllAsync();
     }
 
-    //public Task<MProductResult?> GetProductResultByIdAsync(int projectId)
-    //{
-    //    return _repository.GetByIdAsync(projectId);
-    //}
     public async Task<ResultProductResultResponse?> GetProductResultByIdAsync(long? pProjectCode, string pYear)
     {
         var xrerult = new ResultProductResultResponse();

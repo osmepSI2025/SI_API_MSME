@@ -22,11 +22,6 @@ public class DisbursementResultService
     {
         return _repository.GetAllAsync();
     }
-
-    //public Task<MDisbursementResult?> GetDisbursementResultByIdAsync(int projectId)
-    //{
-    //    return _repository.GetByIdAsync(projectId);
-    //}
     public async Task<ResultDisbursementResultResponse?> GetDisbursementResultByIdAsync(long? pProjectCode,string pYear)
     {
         var xrerult = new ResultDisbursementResultResponse();

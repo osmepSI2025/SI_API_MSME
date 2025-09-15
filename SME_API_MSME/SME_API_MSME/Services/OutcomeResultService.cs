@@ -22,11 +22,6 @@ public class OutcomeResultService
     {
         return _repository.GetAllAsync();
     }
-
-    //public Task<MOutcomeResult?> GetOutcomeResultByIdAsync(int projectId)
-    //{
-    //    return _repository.GetByIdAsync(projectId);
-    //}
     public async Task<ResultOutcomeResultResponse?> GetOutcomeResultByIdAsync(long? pProjectCode,string pYear)
     {
         var xrerult = new ResultOutcomeResultResponse();

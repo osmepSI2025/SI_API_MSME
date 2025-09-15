@@ -23,10 +23,6 @@ public class PerformanceResultService
         return _repository.GetAllAsync();
     }
 
-    //public Task<MPerformanceResult?> GetPerformanceResultByIdAsync(int projectId)
-    //{
-    //    return _repository.GetByIdAsync(projectId);
-    //}
     public async Task<ResultPerformanceResultResponse?> GetPerformanceResultByIdAsync(long? pProjectCode,string pYear)
     {
         var xrerult = new ResultPerformanceResultResponse();

@@ -14,8 +14,7 @@ public class EconomicValueRepository
     public async Task<IEnumerable<MEconomicValueProject>> GetAllAsync()
     {
         return await _context.MEconomicValueProjects
-            //  .Include(p => p.TEconomicValues)
-            //.Include(p => p.TEconomicValueSheets2s)
+       
             .ToListAsync();
     }
 
@@ -24,15 +23,7 @@ public class EconomicValueRepository
         try
         {
             return await _context.MEconomicValueProjects
-                // .Include(p => p.TEconomicValues) // <-- Remove or comment out this line
-                //.Include(p => p.TEconomicValueSheets2s)
-                //    .ThenInclude(s => s.TEconomicPromoteds)
-                //.Include(p => p.TEconomicValueSheets2s)
-                //    .ThenInclude(s => s.TSmeEconomicDevelops)
-                //.Include(p => p.TEconomicValueSheets2s)
-                //    .ThenInclude(s => s.TSmeEconomicFactors)
-                //.Include(p => p.TEconomicValueSheets2s)
-                //    .ThenInclude(s => s.TSmeEconomicDevelopResults)
+               
                 .FirstOrDefaultAsync(e => e.BudgetYear == year && e.ProjectCode == pProjectCode);
         }
         catch (Exception ex)
