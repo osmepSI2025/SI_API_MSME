@@ -113,7 +113,7 @@ public class ScheduledJobPuller : IJob
                         await _projectActivityService.batchEndOfday();
                         break;
                     case "economic-value":
-                        await _economicValueService.batchEndOfday();
+                        await _economicValueService.batchEndOfdayEconomicValue();
                         break;
                     case "product-result":
                         await _productResultService.batchEndOfday();

@@ -327,7 +327,7 @@ public class EconomicValueService
         return _repository.DeleteAsync(projectCode);
     }
 
-    public async Task<string> batchEndOfday()
+    public async Task<string> batchEndOfdayEconomicValue()
     {
         int currentYear = DateTime.Now.Year;
         int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear;
@@ -351,8 +351,9 @@ public class EconomicValueService
         }).FirstOrDefault();
 
         int currentYearTo = currentYearBE + 1;
-        for (int year = currentYearBE - 2; year <= currentYearTo; year++)
+        for (int year = currentYearBE - 3; year <= currentYearTo; year++)
         {
+           // int year = 2566;
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
             if (Listprojects == null || Listprojects.result.Count == 0)
             {
@@ -362,7 +363,10 @@ public class EconomicValueService
             {
                 foreach (var itemPro in Listprojects.result)
                 {
+                //if (itemPro.ProjectCode.ToString()== "66020610")
+                //{
                     var apiResponse = await _serviceApi.GetDataApiAsync_EconomicValue(apiParam, itemPro.ProjectCode, year);
+
                     if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count == 0)
                     {
                         continue;
@@ -371,7 +375,7 @@ public class EconomicValueService
                     {
                         foreach (var Subitem in apiResponse.result)
                         {
-                            var resultPA = await _repository.GetCheckByIdAsync(itemPro.ProjectCode, Subitem.BudgetYear??0);
+                            var resultPA = await _repository.GetCheckByIdAsync(itemPro.ProjectCode, Subitem.BudgetYear ?? 0);
 
                             if (resultPA == null)
                             {
@@ -584,7 +588,9 @@ public class EconomicValueService
                             }
                         }
                     }
-                }
+                //}
+            }
+                
             }
 
 

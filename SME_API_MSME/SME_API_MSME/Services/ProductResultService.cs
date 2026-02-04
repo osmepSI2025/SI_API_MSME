@@ -183,7 +183,7 @@ public class ProductResultService
         int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear; // แปลงเป็น พ.ศ. ถ้ายังเป็น ค.ศ.
 
         int currentYearTo = currentYearBE + 1;
-        for (int year = currentYearBE - 2; year <= currentYearBE; year++)
+        for (int year = currentYearBE - 1; year <= currentYearBE; year++)
         {
             //get projects by year  
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());

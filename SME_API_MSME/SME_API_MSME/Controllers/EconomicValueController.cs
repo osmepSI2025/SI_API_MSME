@@ -26,7 +26,7 @@ public class EconomicValueController : ControllerBase
     [HttpGet("economic-value-Batch")]
     public async Task<IActionResult> GetBatchEndDay()
     {
-        var result = await _service.batchEndOfday();
+        var result = await _service.batchEndOfdayEconomicValue();
         return Ok();
     }
 }

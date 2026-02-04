@@ -179,24 +179,23 @@ public class DisbursementResultService
         return _repository.DeleteAsync(projectId);
     }
 
+    // แก้ไขส่วน batchEndOfday - ลบ logic manual update ที่ซับซ้อน
     public async Task<string> batchEndOfday()
     {
         int currentYear = DateTime.Now.Year;
-        int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear; // แปลงเป็น พ.ศ. ถ้ายังเป็น ค.ศ.
-
+        int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear;
         int currentYearTo = currentYearBE + 1;
-        for (int year = currentYearBE - 2; year <= currentYearTo; year++)
+
+        for (int year = currentYearBE - 3; year <= currentYearTo; year++)
         {
-            //get projects by year  
+           // string year ="2566";
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
             if (Listprojects == null || Listprojects.result.Count == 0)
             {
-                continue; // Skip to the next year if no projects found
+              continue;
             }
             else if (Listprojects.responseCode == 200)
             {
-
-
                 var LApi = await _repositoryApi.GetAllAsync(new MapiInformationModels { ServiceNameCode = "disbursement-result" });
                 var apiParam = LApi.Select(x => new MapiInformationModels
                 {
@@ -216,141 +215,56 @@ public class DisbursementResultService
                     Bearer = x.Bearer,
                 }).FirstOrDefault(); // Use FirstOrDefault to handle empty lists
 
+
                 foreach (var item in Listprojects.result)
                 {
-                    var apiResponse = await _serviceApi.GetDataApiAsync_DisbursementResult(apiParam, item.ProjectCode,year.ToString());
+                    var apiResponse = await _serviceApi.GetDataApiAsync_DisbursementResult(apiParam, item.ProjectCode, year.ToString());
                     if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count == 0)
                     {
-                        continue; // Skip to the next project if no data found
+                        continue;
                     }
                     else
                     {
                         foreach (var Subitem in apiResponse.result)
                         {
-                            // Check if existing budget plan for the project
-                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode,year.ToString());
+                            // Check if existing record
+                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode, year.ToString());
+
+                            var proProduct = new MDisbursementResult
+                            {
+                                ProjectId = resultPA?.ProjectId ?? 0,
+                                ProjectCode = Subitem.ProjectCode,
+                                ProjectName = Subitem.ProjectName,
+                                Year = year.ToString(),
+                                TDisbursementResults = Subitem.Items.Select(i => new TDisbursementResult
+                                {
+                                    OrderIndex = i.OrderIndex ?? 0,
+                                    ItemActivityDetail = i.ItemActivityDetail,
+                                    ActivityBudget = i.ActivityBudget ?? 0,
+                                    ExpenseTypeName = i.ExpenseTypeName,
+                                    SumEffectValue = i.SumEffectValue ?? 0,
+                                    TDisbursementResultDetails = i.ActionResultDetail.Select(x => new TDisbursementResultDetail
+                                    {
+                                        MonthName = x.MonthName,
+                                        Year = x.Year,
+                                        TempValue = x.TempValue ?? 0,
+                                        EffectValue = x.EffectValue ?? 0
+                                    }).ToList()
+                                }).ToList()
+                            };
 
                             if (resultPA == null)
                             {
-                                var proProduct = new MDisbursementResult
-                                {
-                                    ProjectCode = Subitem.ProjectCode, // Corrected from 'project.ProjectCode' to 'item.ProjectCode'
-                                    ProjectName = Subitem.ProjectName,
-                                    Year = year.ToString(),// Corrected from 'project.ProjectName' to 'item.ProjectName'
-                                    TDisbursementResults = Subitem.Items.Select(i => new TDisbursementResult
-                                    {
-                                        OrderIndex = i.OrderIndex ?? 0, // Handle nullable OrderIndex
-                                        ItemActivityDetail = i.ItemActivityDetail,
-                                        ActivityBudget = i.ActivityBudget ?? 0, // Corrected property name
-                                        ExpenseTypeName = i.ExpenseTypeName, // Corrected property name
-                                        SumEffectValue = i.SumEffectValue ?? 0, // Handle nullable SumEffectValue
-                                        TDisbursementResultDetails = i.ActionResultDetail.Select(x => new TDisbursementResultDetail
-                                        {
-                                            MonthName = x.MonthName,
-                                            Year = x.Year, // Corrected to match the type
-                                            TempValue = x.TempValue ?? 0, // Handle nullable TempValue
-                                            EffectValue = x.EffectValue ?? 0 // Handle nullable EffectValue
-                                        }).ToList()
-                                    }).ToList()
-                                };
-
                                 await AddDisbursementResultAsync(proProduct);
                             }
                             else
                             {
-                                // Update existing MDisbursementResult
-                                resultPA.ProjectName = Subitem.ProjectName;
-
-                                // Remove orphaned TDisbursementResults
-                                var incomingActivityIds = Subitem.Items.Select(i => i.OrderIndex ?? 0).ToHashSet();
-                                var toRemove = resultPA.TDisbursementResults
-                                    .Where(x => !incomingActivityIds.Contains(x.OrderIndex ?? 0))
-                                    .ToList();
-                                foreach (var child in toRemove)
-                                {
-                                    resultPA.TDisbursementResults.Remove(child);
-                                }
-
-                                // Update or add TDisbursementResults
-                                foreach (var i in Subitem.Items)
-                                {
-                                    var existingActivity = resultPA.TDisbursementResults
-                                        .FirstOrDefault(x => x.OrderIndex == (i.OrderIndex ?? 0));
-                                    if (existingActivity != null)
-                                    {
-                                        existingActivity.ItemActivityDetail = i.ItemActivityDetail;
-                                        existingActivity.ActivityBudget = i.ActivityBudget ?? 0;
-                                        existingActivity.ExpenseTypeName = i.ExpenseTypeName;
-                                        existingActivity.SumEffectValue = i.SumEffectValue ?? 0;
-
-                                        // Remove orphaned details
-                                        var incomingDetailKeys = i.ActionResultDetail
-                                            .Select(x => (x.MonthName, x.Year)).ToHashSet();
-                                        var toRemoveDetails = existingActivity.TDisbursementResultDetails
-                                            .Where(x => !incomingDetailKeys.Contains((x.MonthName, x.Year)))
-                                            .ToList();
-                                        foreach (var detail in toRemoveDetails)
-                                        {
-                                            existingActivity.TDisbursementResultDetails.Remove(detail);
-                                        }
-
-                                        // Update or add details
-                                        foreach (var x in i.ActionResultDetail)
-                                        {
-                                            var existingDetail = existingActivity.TDisbursementResultDetails
-                                                .FirstOrDefault(d => d.MonthName == x.MonthName && d.Year == x.Year);
-                                            if (existingDetail != null)
-                                            {
-                                                existingDetail.TempValue = x.TempValue ?? 0;
-                                                existingDetail.EffectValue = x.EffectValue ?? 0;
-                                            }
-                                            else
-                                            {
-                                                existingActivity.TDisbursementResultDetails.Add(new TDisbursementResultDetail
-                                                {
-                                                    MonthName = x.MonthName,
-                                                    Year = x.Year,
-                                                    TempValue = x.TempValue ?? 0,
-                                                    EffectValue = x.EffectValue ?? 0
-                                                });
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // Add new TDisbursementResult
-                                        var newActivity = new TDisbursementResult
-                                        {
-                                            OrderIndex = i.OrderIndex ?? 0,
-                                            ItemActivityDetail = i.ItemActivityDetail,
-                                            ActivityBudget = i.ActivityBudget ?? 0,
-                                            ExpenseTypeName = i.ExpenseTypeName,
-                                            SumEffectValue = i.SumEffectValue ?? 0,
-                                            TDisbursementResultDetails = i.ActionResultDetail.Select(x => new TDisbursementResultDetail
-                                            {
-                                                MonthName = x.MonthName,
-                                                Year = x.Year,
-                                                TempValue = x.TempValue ?? 0,
-                                                EffectValue = x.EffectValue ?? 0
-                                            }).ToList()
-                                        };
-                                        resultPA.TDisbursementResults.Add(newActivity);
-                                    }
-                                }
-
-                                await UpdateDisbursementResultAsync(resultPA);
+                                await UpdateDisbursementResultAsync(proProduct);
                             }
-
                         }
-
                     }
-
                 }
-
-
             }
-
-          
         }
 
         return "Success";

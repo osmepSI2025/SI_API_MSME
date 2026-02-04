@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SME_API_MSME.Entities;
 
 public class BudgetPlanRepository
@@ -18,7 +18,7 @@ public class BudgetPlanRepository
             .ToListAsync();
     }
 
-    public async Task<MBudgetPlan?> GetByIdAsync(long? pProjectCode,string pYear)
+    public async Task<MBudgetPlan?> GetByIdAsync(long? pProjectCode, string pYear)
     {
         try
         {
@@ -31,7 +31,6 @@ public class BudgetPlanRepository
         {
             return null;
         }
-
     }
 
     public async Task AddAsync(MBudgetPlan budgetPlan)
@@ -40,53 +39,108 @@ public class BudgetPlanRepository
         await _context.SaveChangesAsync();
     }
 
-   
     public async Task UpdateAsync(MBudgetPlan budgetPlan)
     {
-        try {
-            var existing = await _context.MBudgetPlans
-         .Include(x => x.TBudgetPlans)
-         .ThenInclude(x => x.TBudgeMonthlyPlanDetails)
-         .FirstOrDefaultAsync(x => x.ProjectCode == budgetPlan.ProjectCode);
-
-            if (existing != null)
+        try
+        {
+            // Detach any tracked entities
+            var trackedEntity = _context.MBudgetPlans.Local
+                .FirstOrDefault(e => e.ProjectCode == budgetPlan.ProjectCode);
+            if (trackedEntity != null)
             {
-                // Remove orphaned TBudgetPlans
-                var toRemove = existing.TBudgetPlans
-                    .Where(x => !budgetPlan.TBudgetPlans.Any(y => y.BudgetPlanId == x.BudgetPlanId))
+                _context.Entry(trackedEntity).State = EntityState.Detached;
+            }
+
+            var projectId = budgetPlan.ProjectId;
+
+            // Get existing entity with all child and grandchild records
+            var existingEntity = await _context.MBudgetPlans
+                .Include(p => p.TBudgetPlans)
+                .ThenInclude(b => b.TBudgeMonthlyPlanDetails)
+                .FirstOrDefaultAsync(p => p.ProjectId == projectId);
+
+            if (existingEntity != null)
+            {
+                // นับจำนวน Child และ GrandChild
+                int existingPlanCount = existingEntity.TBudgetPlans.Count;
+                int newPlanCount = budgetPlan.TBudgetPlans?.Count ?? 0;
+
+                int existingDetailCount = existingEntity.TBudgetPlans
+                    .Sum(b => b.TBudgeMonthlyPlanDetails.Count);
+                int newDetailCount = budgetPlan.TBudgetPlans?
+                    .Sum(b => b.TBudgeMonthlyPlanDetails?.Count ?? 0) ?? 0;
+
+                // ⚠️ เช็คจำนวน: ถ้าเท่ากันทั้ง Plan และ Detail ไม่ต้อง update
+                if (existingPlanCount == newPlanCount && existingDetailCount == newDetailCount)
+                {
+                    // Update เฉพาะ Master properties
+                    existingEntity.ProjectCode = budgetPlan.ProjectCode;
+                    existingEntity.ProjectName = budgetPlan.ProjectName;
+                    existingEntity.Year = budgetPlan.Year;
+
+                    await _context.SaveChangesAsync();
+                    return; // ไม่ต้องลบ/เพิ่ม Child
+                }
+
+                // ถ้าจำนวนไม่เท่ากัน ให้ลบและ Insert ใหม่
+                // ✅ ดึง BudgetPlanIds ก่อน แล้วใช้ ExecuteDelete โดยตรง (ไม่มี JOIN)
+                var budgetPlanIds = existingEntity.TBudgetPlans
+                    .Select(b => b.BudgetPlanId)
                     .ToList();
-                foreach (var child in toRemove)
+
+                if (budgetPlanIds.Any())
                 {
-                    _context.TBudgetPlans.Remove(child);
+                    // ลบ GrandChild โดยใช้ BudgetPlanIds (ไม่มี JOIN)
+                    await _context.TBudgeMonthlyPlanDetails
+                        .Where(d => budgetPlanIds.Contains(d.BudgetPlanId))
+                        .ExecuteDeleteAsync();
                 }
 
-                // Update or add TBudgetPlans
-                foreach (var plan in budgetPlan.TBudgetPlans)
-                {
-                    var existingPlan = existing.TBudgetPlans.FirstOrDefault(x => x.BudgetPlanId == plan.BudgetPlanId);
-                    if (existingPlan != null)
-                    {
-                        // Update properties
-                        _context.Entry(existingPlan).CurrentValues.SetValues(plan);
+                // ลบ Child (ใช้ ProjectId โดยตรง - ไม่มี JOIN)
+                await _context.TBudgetPlans
+                    .Where(b => b.ProjectId == projectId)
+                    .ExecuteDeleteAsync();
 
-                        // Handle TBudgeMonthlyPlanDetails similarly if needed
-                    }
-                    else
+                // ⚠️ สำคัญ: Reload entity หลัง ExecuteDelete เพื่อ sync กับ database
+                await _context.Entry(existingEntity).Collection(e => e.TBudgetPlans).LoadAsync();
+
+                // Update master properties
+                existingEntity.ProjectCode = budgetPlan.ProjectCode;
+                existingEntity.ProjectName = budgetPlan.ProjectName;
+                existingEntity.Year = budgetPlan.Year;
+
+                // เพิ่ม Child และ GrandChild ใหม่ทั้งหมด
+                if (budgetPlan.TBudgetPlans != null && budgetPlan.TBudgetPlans.Any())
+                {
+                    foreach (var plan in budgetPlan.TBudgetPlans)
                     {
-                        existing.TBudgetPlans.Add(plan);
+                        // ⚠️ สำคัญ: Reset Identity columns เป็น 0
+                        plan.BudgetPlanId = 0;
+                        plan.ProjectId = projectId;
+                        
+                        // Reset GrandChild Identity columns
+                        if (plan.TBudgeMonthlyPlanDetails != null && plan.TBudgeMonthlyPlanDetails.Any())
+                        {
+                            foreach (var detail in plan.TBudgeMonthlyPlanDetails)
+                            {
+                                detail.MonthlyDetailId = 0;
+                                detail.BudgetPlanId = 0; // จะถูก set อัตโนมัติหลัง SaveChanges
+                            }
+                        }
+                        
+                        // ✅ เพิ่มผ่าน Navigation Property
+                        existingEntity.TBudgetPlans.Add(plan);
                     }
                 }
-
-                // Update parent properties
-                _context.Entry(existing).CurrentValues.SetValues(budgetPlan);
 
                 await _context.SaveChangesAsync();
             }
-        } catch (Exception ex) 
-        {
-        
         }
- 
+        catch (Exception ex)
+        {
+            // Log exception if needed
+            throw;
+        }
     }
 
     public async Task DeleteAsync(int projectId)

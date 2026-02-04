@@ -187,21 +187,18 @@ public class BudgetPlanService
     public async Task<string> batchEndOfday()
     {
         int currentYear = DateTime.Now.Year;
-        int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear; // แปลงเป็น พ.ศ. ถ้ายังเป็น ค.ศ.
-
+        int currentYearBE = currentYear < 2500 ? currentYear + 543 : currentYear;
         int currentYearTo = currentYearBE + 1;
-        for (int year = currentYearBE - 2; year <= currentYearTo; year++)
+
+        for (int year = currentYearBE - 3; year <= currentYearTo; year++)
         {
-            //get projects by year  
             var Listprojects = await _projectService.GetProjectByIdAsync(year.ToString());
             if (Listprojects == null || Listprojects.result.Count == 0)
             {
-                continue; // Skip to the next year if no projects found
+                continue;
             }
             else if (Listprojects.responseCode == 200)
             {
-
-
                 var LApi = await _repositoryApi.GetAllAsync(new MapiInformationModels { ServiceNameCode = "budget-plan" });
                 var apiParam = LApi.Select(x => new MapiInformationModels
                 {
@@ -223,72 +220,52 @@ public class BudgetPlanService
 
                 foreach (var item in Listprojects.result)
                 {
-                    var apiResponse = await _serviceApi.GetDataApiAsync_BudgetPlan(apiParam, item.ProjectCode,year.ToString());
+                    var apiResponse = await _serviceApi.GetDataApiAsync_BudgetPlan(apiParam, item.ProjectCode, year.ToString());
                     if (apiResponse == null || apiResponse.responseCode == 0 || apiResponse.result.Count == 0)
                     {
-                        continue; // Skip to the next project if no data found
+                        continue;
                     }
                     else
                     {
                         foreach (var Subitem in apiResponse.result)
                         {
                             // Check if existing budget plan for the project
-                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode,year.ToString());
+                            var resultPA = await _repository.GetByIdAsync(Subitem.ProjectCode, year.ToString());
 
-                            if (resultPA == null)
+                            var proProduct = new MBudgetPlan
                             {
-                                var proProduct = new MBudgetPlan
+                                ProjectId = resultPA?.ProjectId ?? 0,
+                                ProjectCode = Subitem.ProjectCode,
+                                ProjectName = Subitem.ProjectName,
+                                Year = year.ToString(),
+                                TBudgetPlans = Subitem.Items.Select(i => new TBudgetPlan
                                 {
-                                    ProjectCode = Subitem.ProjectCode, // Corrected from 'project.ProjectCode' to 'item.ProjectCode'
-                                    ProjectName = Subitem.ProjectName,
-                                    Year = year.ToString(), // Corrected from 'project.ProjectName' to 'item.ProjectName'
-                                    TBudgetPlans = Subitem.Items.Select(i => new TBudgetPlan
-                                    {
-                                        OrderIndex = i.OrderIndex ?? 0, // Handle nullable OrderIndex
-                                        ItemActivityDetail = i.ItemActivityDetail,
-                                        ActivityBudget = i.ActivityBudget ?? 0, // Handle nullable ActivityBudget
-                                        ExpenseTypeName = i.ExpenseTypeName,
-                                        TBudgeMonthlyPlanDetails = i.ActionResultDetail.Select(x => new TBudgeMonthlyPlanDetail
-                                        {
-                                            MonthName = x.MonthName,
-                                            Year = x.Year, // Handle nullable Year
-                                            ResultValue = x.ResultValue ?? 0 // Handle nullable ResultValue
-                                        }).ToList()
-                                    }).ToList()
-                                };
-
-                                await AddBudgetPlanAsync(proProduct);
-                            }
-                            else
-                            {
-                                // If it exists, update the existing budget plan
-                                resultPA.ProjectName = Subitem.ProjectName; // Update project name if needed
-                                resultPA.TBudgetPlans = Subitem.Items.Select(i => new TBudgetPlan
-                                {
-                                    OrderIndex = i.OrderIndex ?? 0, // Handle nullable OrderIndex
+                                    OrderIndex = i.OrderIndex ?? 0,
                                     ItemActivityDetail = i.ItemActivityDetail,
-                                    ActivityBudget = i.ActivityBudget ?? 0, // Handle nullable ActivityBudget
+                                    ActivityBudget = i.ActivityBudget ?? 0,
                                     ExpenseTypeName = i.ExpenseTypeName,
                                     TBudgeMonthlyPlanDetails = i.ActionResultDetail.Select(x => new TBudgeMonthlyPlanDetail
                                     {
                                         MonthName = x.MonthName,
-                                        Year = x.Year, // Handle nullable Year
-                                        ResultValue = x.ResultValue ?? 0 // Handle nullable ResultValue
+                                        Year = x.Year,
+                                        ResultValue = x.ResultValue ?? 0,
+                                        TempValue = x.TempValue
                                     }).ToList()
-                                }).ToList();
-                                await UpdateBudgetPlanAsync(resultPA);
+                                }).ToList()
+                            };
+
+                            if (resultPA == null)
+                            {
+                                await AddBudgetPlanAsync(proProduct);
                             }
-                         
+                            else
+                            {
+                                await UpdateBudgetPlanAsync(proProduct);
+                            }
                         }
-
                     }
-
                 }
-
-
             }
-
-            //return "Batch end of day process completed successfully.";
         }
 
         return "Success";
